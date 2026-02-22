@@ -17,15 +17,37 @@ export interface Product {
   discount?: number;
   image: string;
   colors: string[];
+  defaultVariantId?: string | number | null; // Added this field
   isNew?: boolean;
   isSale?: boolean;
+  salePrice?: number | null; // Sale price from variant
+  isOnSale?: boolean; // Whether this variant is on sale
   isClearance?: boolean;
 }
 
 export default function ProductCard({ product }: { product: Product }) {
-  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
   const [isHovered, setIsHovered] = useState(false);
   const { addToCart } = useCart();
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    try {
+      // Use sale price if on sale, otherwise use regular price
+      const cartPrice = product.isOnSale && product.salePrice ? product.salePrice : product.price;
+      
+      addToCart(
+        {
+          ...product,
+          price: cartPrice
+        },
+        product.defaultVariantId
+      );
+    } catch (error: any) {
+      alert(error.message || "Failed to add item to cart. Please try again.");
+    }
+  };
 
   return (
     <div 
@@ -75,9 +97,9 @@ export default function ProductCard({ product }: { product: Product }) {
                         NEW ARRIVAL
                     </Badge>
                 )}
-                {product.discount && (
-                    <Badge className="bg-white/10 border border-white/30 text-white text-[9px] font-bold px-2 py-1 backdrop-blur-md shadow-[inset_0_0_5px_rgba(255,255,255,0.1)]">
-                        -{product.discount}%
+                {product.isOnSale && product.salePrice && (
+                    <Badge className="bg-red-500/20 border border-red-500/50 text-red-400 text-[9px] font-black tracking-widest px-2 py-1 rounded-sm shadow-[0_2px_10px_rgba(239,68,68,0.3)]">
+                        SALE
                     </Badge>
                 )}
             </div>
@@ -116,22 +138,18 @@ export default function ProductCard({ product }: { product: Product }) {
 
             <div className="flex items-center justify-between">
                 <div className="flex flex-col leading-none gap-1">
-                    {product.originalPrice && (
-                        <span className="text-[11px] text-white/50 line-through">Rs. {product.originalPrice.toLocaleString()}</span>
+                    {product.isOnSale && product.salePrice && (
+                        <span className="text-[11px] text-white/50 line-through">Rs. {product.price.toLocaleString()}</span>
                     )}
                     <span className="text-xl font-bold text-white drop-shadow-md leading-none">
-                        Rs. {product.price.toLocaleString()}
+                        Rs. {(product.isOnSale && product.salePrice ? product.salePrice : product.price).toLocaleString()}
                     </span>
                 </div>
 
                 {/* ADD TO CART BUTTON (Z-30, Clickable) */}
                 <Button 
                     size="icon"
-                    onClick={(e) => {
-                       e.preventDefault();
-                       e.stopPropagation(); 
-                       addToCart(product, selectedColor); 
-                    }}
+                    onClick={handleAddToCart}
                     className="h-11 w-11 rounded-full overflow-hidden relative z-30 pointer-events-auto transition-all duration-300 group/cart bg-white/10 border border-white/20 hover:bg-[#BF953F] hover:border-[#BF953F] hover:shadow-[0_0_20px_rgba(191,149,63,0.6)]"
                 >
                     <ShoppingBag className="relative z-10 w-4 h-4 text-white transition-colors duration-300 group-hover/cart:text-black" />

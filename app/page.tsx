@@ -10,17 +10,16 @@ import {
   ChevronLeft,
   ShieldCheck,
   Star,
-  Facebook,
-  Instagram,
-  Twitter
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
 import { supabase } from "@/lib/supabase";
 
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import ProductCard from "@/components/ProductCard";
 import CollectionsSection from "../components/CollectionsSection";
+import MarqueeBar from "@/components/GoldMarquee";
+import PremiumNewsletter from "@/components/PremiumNewsLetter";
+import SpotlightSection from "@/components/SpotlightSection";
 
 // =========================================
 // DATA CONSTANTS
@@ -59,56 +58,21 @@ const HERO_ITEMS = [
   }
 ];
 
-const FEATURED_PRODUCTS = [
-  { id: "1", name: "Royal Oak", brand: "Luxury", category: "Classic", price: 3500, image: "/watch-1.png", colors: ["#000"] },
-  { id: "2", name: "Sauvage Oil", brand: "Scents", category: "Perfume", price: 1800, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "3", name: "Nautilus", brand: "Luxury", category: "Classic", price: 4200, image: "/watch-2.png", colors: ["#000"] },
-  { id: "4", name: "Hublot Style", brand: "Sport", category: "Sport", price: 2900, image: "/watch-1.png", colors: ["#000"] },
-  { id: "5", name: "Creed Aventus", brand: "Scents", category: "Perfume", price: 2200, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "6", name: "Daytona", brand: "Luxury", category: "Classic", price: 4500, image: "/watch-2.png", colors: ["#000"] },
-  { id: "7", name: "Bleu de Chanel", brand: "Scents", category: "Perfume", price: 1950, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "8", name: "G-Shock Style", brand: "Sport", category: "Sport", price: 1500, image: "/watch-1.png", colors: ["#000"] },
-  { id: "9", name: "Datejust", brand: "Luxury", category: "Classic", price: 3800, image: "/watch-2.png", colors: ["#000"] },
-  { id: "10", name: "Tom Ford Oud", brand: "Scents", category: "Perfume", price: 2500, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "11", name: "Richard Mille", brand: "Luxury", category: "Sport", price: 5500, image: "/watch-1.png", colors: ["#000"] },
-  { id: "12", name: "Baccarat Rouge", brand: "Scents", category: "Perfume", price: 3000, image: "/perfume-1.png", colors: ["#000"] },
-];
+// const FEATURED_PRODUCTS = [
+//   { id: "1", name: "Royal Oak", brand: "Luxury", category: "Classic", price: 3500, image: "/watch-1.png", colors: ["#000"] },
+//   { id: "2", name: "Sauvage Oil", brand: "Scents", category: "Perfume", price: 1800, image: "/perfume-1.png", colors: ["#000"] },
+//   { id: "3", name: "Nautilus", brand: "Luxury", category: "Classic", price: 4200, image: "/watch-2.png", colors: ["#000"] },
+//   { id: "4", name: "Hublot Style", brand: "Sport", category: "Sport", price: 2900, image: "/watch-1.png", colors: ["#000"] },
+//   { id: "5", name: "Creed Aventus", brand: "Scents", category: "Perfume", price: 2200, image: "/perfume-1.png", colors: ["#000"] },
+//   { id: "6", name: "Daytona", brand: "Luxury", category: "Classic", price: 4500, image: "/watch-2.png", colors: ["#000"] },
+//   { id: "7", name: "Bleu de Chanel", brand: "Scents", category: "Perfume", price: 1950, image: "/perfume-1.png", colors: ["#000"] },
+//   { id: "8", name: "G-Shock Style", brand: "Sport", category: "Sport", price: 1500, image: "/watch-1.png", colors: ["#000"] },
+//   { id: "9", name: "Datejust", brand: "Luxury", category: "Classic", price: 3800, image: "/watch-2.png", colors: ["#000"] },
+//   { id: "10", name: "Tom Ford Oud", brand: "Scents", category: "Perfume", price: 2500, image: "/perfume-1.png", colors: ["#000"] },
+//   { id: "11", name: "Richard Mille", brand: "Luxury", category: "Sport", price: 5500, image: "/watch-1.png", colors: ["#000"] },
+//   { id: "12", name: "Baccarat Rouge", brand: "Scents", category: "Perfume", price: 3000, image: "/perfume-1.png", colors: ["#000"] },
+// ];
 
-const SPOTLIGHT_ITEMS = [
-  {
-    id: 1,
-    tag: "Limited Edition Drop",
-    title: "MIDNIGHT",
-    highlight: "GOLD",
-    highlightColor: "from-yellow-300 to-yellow-600",
-    desc: "Designed for the nightlife. Watches that catch every light in the room and fragrances that last until the sun comes up.",
-    image: "/watch-2.png",
-    link: "/shop/midnight",
-    shadowClass: "drop-shadow-[0_20px_60px_rgba(234,179,8,0.5)]"
-  },
-  {
-    id: 2,
-    tag: "Summer Essentials",
-    title: "OCEAN",
-    highlight: "NOIR",
-    highlightColor: "from-blue-400 to-blue-700",
-    desc: "Fresh, aquatic scents paired with silver-tone timepieces. Perfect for the Karachi heat.",
-    image: "/perfume-1.png",
-    link: "/shop/summer",
-    shadowClass: "drop-shadow-[0_20px_60px_rgba(59,130,246,0.5)]"
-  },
-  {
-    id: 3,
-    tag: "Executive Series",
-    title: "URBAN",
-    highlight: "ONYX",
-    highlightColor: "from-gray-200 to-white",
-    desc: "Understated dominance. Matte black finishes and woody notes for the modern professional.",
-    image: "/watch-1.png",
-    link: "/shop/urban",
-    shadowClass: "drop-shadow-[0_20px_60px_rgba(255,255,255,0.3)]"
-  }
-];
 export interface Product {
   id: string;
   name: string;
@@ -270,280 +234,10 @@ const HeroSection = () => {
       </div>
     </section>
   );
-};
-
-// --- COMPONENT: GOLD MARQUEE ---
-const MarqueeBar = () => {
-  return (
-    <div className="relative w-full bg-yellow-500 text-black py-3 overflow-hidden border-y-4 border-black z-20 transform -rotate-1 origin-left scale-105">
-      <motion.div className="flex whitespace-nowrap gap-12 text-sm font-black uppercase tracking-widest items-center" animate={{ x: ["0%", "-50%"] }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }}>
-        {[...Array(10)].map((_, i) => (
-          <span key={i} className="flex items-center gap-12">
-            OFFICIAL ROLEX & PATEK IMPRESSIONS <Star className="w-4 h-4 fill-black" />
-            FAST SHIPPING KARACHI • LAHORE • ISLAMABAD <Star className="w-4 h-4 fill-black" />
-          </span>
-        ))}
-      </motion.div>
-    </div>
-  );
-};
-
-// --- COMPONENT: SPOTLIGHT SECTION ---
-const SpotlightSection = () => {
-  const [index, setIndex] = useState(0);
-  const [dir, setDir] = useState(1);
-
-  const nextSlide = () => {
-    setDir(1);
-    setIndex((prev) => (prev + 1) % SPOTLIGHT_ITEMS.length);
-  };
-
-  const prevSlide = () => {
-    setDir(-1);
-    setIndex((prev) => (prev - 1 + SPOTLIGHT_ITEMS.length) % SPOTLIGHT_ITEMS.length);
-  };
-
-  useEffect(() => {
-    const timer = setInterval(nextSlide, 6000);
-    return () => clearInterval(timer);
-  }, [index]);
-
-  const current = SPOTLIGHT_ITEMS[index];
-
-  return (
-    <section className="py-16 md:py-32 px-4 md:px-6 max-w-7xl mx-auto relative overflow-hidden">
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
-
-      {/* ========================================= */}
-      {/* 1. DEDICATED MOBILE INTERFACE (Image FIRST) */}
-      {/* ========================================= */}
-      <div className="md:hidden relative flex flex-col gap-8 bg-white/5 border border-white/10 rounded-[2rem] p-6 py-8 z-10 backdrop-blur-md overflow-hidden group">
-
-        {/* MOBILE: VISUAL CONTENT TOP */}
-        <div className="relative h-[280px] w-full flex items-center justify-center">
-
-          {/* Arrows overlapping image */}
-          <button onClick={prevSlide} className="absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition z-30">
-            <ChevronLeft className="w-6 h-6" />
-          </button>
-          <button onClick={nextSlide} className="absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition z-30">
-            <ChevronRight className="w-6 h-6" />
-          </button>
-
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, scale: 0.8, rotate: dir === 1 ? 10 : -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotate: dir === 1 ? -10 : 10 }}
-              transition={{ duration: 0.5, type: "spring" }}
-              className="relative z-10 w-full h-full px-8"
-            >
-              <Image src={current.image} alt={current.title} fill className={`object-contain transition-all duration-500 ${current.shadowClass}`} priority />
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* MOBILE: TEXT CONTENT BELOW */}
-        <div className="space-y-6 relative z-20 text-left w-full">
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, x: dir === 1 ? 50 : -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: dir === 1 ? -50 : 50 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-4"
-            >
-              <div className="inline-block px-3 py-1.5 rounded-full border border-yellow-500/50 bg-yellow-500/10 text-yellow-400 text-[10px] font-bold uppercase tracking-wider">
-                {current.tag}
-              </div>
-              <h2 className="text-5xl font-black italic leading-[0.9]">
-                {current.title} <br /> <span className={`text-transparent bg-clip-text bg-gradient-to-r ${current.highlightColor}`}>{current.highlight}</span>
-              </h2>
-              <p className="text-gray-400 text-sm leading-relaxed">
-                {current.desc}
-              </p>
-              <div className="pt-2 w-full">
-                <Link href={current.link} className="w-full block">
-                  <button className="w-full h-14 bg-white text-black text-sm font-bold rounded-full hover:bg-gray-200 transition shadow-[0_10px_40px_rgba(255,255,255,0.2)]">
-                    Shop The Look
-                  </button>
-                </Link>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-      </div>
-
-      {/* ========================================= */}
-      {/* 2. DEDICATED DESKTOP INTERFACE */}
-      {/* ========================================= */}
-      <div className="hidden md:grid relative grid-cols-2 gap-16 items-center bg-white/5 border border-white/10 rounded-[2rem] p-16 z-10 backdrop-blur-md overflow-hidden group">
-
-        {/* DESKTOP: TEXT CONTENT LEFT */}
-        <div className="space-y-8 relative z-20 px-8 text-left">
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, x: dir === 1 ? 50 : -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: dir === 1 ? -50 : 50 }}
-              transition={{ duration: 0.4 }}
-              className="space-y-8"
-            >
-              <div className="inline-block px-4 py-1.5 rounded-full border border-yellow-500/50 bg-yellow-500/10 text-yellow-400 text-xs font-bold uppercase tracking-wider">
-                {current.tag}
-              </div>
-              <h2 className="text-7xl font-black italic leading-[0.9]">
-                {current.title} <br /> <span className={`text-transparent bg-clip-text bg-gradient-to-r ${current.highlightColor}`}>{current.highlight}</span>
-              </h2>
-              <p className="text-gray-400 text-lg max-w-md leading-relaxed">
-                {current.desc}
-              </p>
-              <div className="flex justify-start gap-4 pt-2">
-                <Link href={current.link}>
-                  <button className="px-10 py-4 bg-white text-black text-base font-bold rounded-full hover:bg-gray-200 transition transform hover:-translate-y-1 shadow-[0_10px_40px_rgba(255,255,255,0.2)]">
-                    Shop The Look
-                  </button>
-                </Link>
-              </div>
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* DESKTOP: VISUAL CONTENT RIGHT */}
-        <div className="relative h-[500px] flex items-center justify-center w-full">
-          <button onClick={prevSlide} className="absolute -left-8 top-1/2 -translate-y-1/2 w-15 h-15 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition z-30">
-            <ChevronLeft className="w-10 h-10" />
-          </button>
-          <button onClick={nextSlide} className="absolute -right-8 top-1/2 -translate-y-1/2 w-15 h-15 rounded-full bg-black/60 border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition z-30">
-            <ChevronRight className="w-10 h-10" />
-          </button>
-
-          <AnimatePresence mode="wait" custom={dir}>
-            <motion.div
-              key={current.id}
-              initial={{ opacity: 0, scale: 0.8, rotate: dir === 1 ? 10 : -10 }}
-              animate={{ opacity: 1, scale: 1, rotate: 0 }}
-              exit={{ opacity: 0, scale: 0.8, rotate: dir === 1 ? -10 : 10 }}
-              transition={{ duration: 0.5, type: "spring" }}
-              className="relative z-10 w-full h-full"
-            >
-              <Image src={current.image} alt={current.title} fill className={`object-contain transition-all duration-500 ${current.shadowClass}`} priority />
-            </motion.div>
-          </AnimatePresence>
-
-          <div className="absolute inset-0 border border-white/5 rounded-full scale-75 animate-[pulse_3s_ease-in-out_infinite]" />
-          <div className="absolute inset-0 border border-white/5 rounded-full scale-50" />
-        </div>
-
-      </div>
-    </section>
-  );
-};
-
-// --- COMPONENT: NEWSLETTER ---
-const PremiumNewsletter = () => {
-  return (
-    <section className="relative z-10 pb-12 md:pb-24 bg-[#050505] px-4 md:px-6">
-      <div className="max-w-5xl mx-auto">
-        <div className="relative rounded-[2rem] overflow-hidden border border-white/10 px-4 py-12 md:px-6 md:py-24 text-center group">
-
-          <div className="absolute inset-0 bg-gradient-to-b from-[#111] to-black z-0" />
-          <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-0" />
-          <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-600/20 rounded-full blur-[80px] group-hover:bg-yellow-600/30 transition-all duration-1000" />
-          <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] group-hover:bg-blue-600/20 transition-all duration-1000" />
-
-          <div className="relative z-10 space-y-8 md:space-y-10">
-            <div className="space-y-4">
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-yellow-500/30 bg-yellow-500/10 text-yellow-500 text-[10px] font-bold uppercase tracking-widest mb-2 md:mb-4">
-                <Star className="w-3 h-3 fill-current" /> Members Only Access
-              </div>
-              <h2 className="text-4xl md:text-7xl font-serif font-black text-white tracking-tighter uppercase leading-[0.9]">
-                Join The <br />
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728]">Vibe Club</span>
-              </h2>
-              <p className="text-gray-400 max-w-lg mx-auto text-sm md:text-lg font-light">
-                Unlock early access to limited drops, secret sales, and priority shipping.
-              </p>
-            </div>
-
-            <div className="flex flex-col md:flex-row gap-4 max-w-2xl mx-auto px-2">
-              <div className="flex-1 relative">
-                <input
-                  type="email"
-                  placeholder="EMAIL ADDRESS"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 md:px-6 py-4 md:py-5 text-xs md:text-sm font-bold tracking-wider text-white placeholder:text-gray-600 focus:outline-none focus:border-yellow-500 focus:bg-black transition-all uppercase"
-                />
-              </div>
-              <div className="flex-1 relative">
-                <input
-                  type="tel"
-                  placeholder="PHONE (WHATSAPP)"
-                  className="w-full bg-white/5 border border-white/10 rounded-xl px-4 md:px-6 py-4 md:py-5 text-xs md:text-sm font-bold tracking-wider text-white placeholder:text-gray-600 focus:outline-none focus:border-yellow-500 focus:bg-black transition-all uppercase"
-                />
-              </div>
-              <Button className="h-auto rounded-xl px-8 py-4 md:py-5 bg-gradient-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(191,149,63,0.3)]">
-                JOIN CLUB
-              </Button>
-            </div>
-
-            <p className="text-[9px] md:text-[10px] text-gray-600 uppercase tracking-widest pt-2 md:pt-4">
-              By joining, you agree to our terms. No spam, just vibe.
-            </p>
-
-            <div className="mt-8 md:mt-10 pt-8 border-t border-white/10">
-              <p className="text-xs md:text-sm font-bold text-gray-400 mb-6 md:mb-10 uppercase tracking-widest">Or Follow Us On</p>
-              <div className="flex justify-center gap-4 md:gap-6">
-                <Link href="https://facebook.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-blue-500 transition">
-                  <div className="p-3 bg-white/5 rounded-full group-hover:bg-blue-500/20 transition">
-                    <Facebook className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <span className="hidden md:block text-sm font-medium">Facebook</span>
-                </Link>
-
-                <Link href="https://instagram.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-pink-500 transition">
-                  <div className="p-3 bg-white/5 rounded-full group-hover:bg-pink-500/20 transition">
-                    <Instagram className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <span className="hidden md:block text-sm font-medium">Instagram</span>
-                </Link>
-
-                <Link href="https://twitter.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-white transition">
-                  <div className="p-3 bg-white/5 rounded-full group-hover:bg-white/20 transition">
-                    <Twitter className="w-4 h-4 md:w-5 md:h-5" />
-                  </div>
-                  <span className="hidden md:block text-sm font-medium">X / Twitter</span>
-                </Link>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-    </section>
-  )
 }
 
 // --- MAIN PAGE COMPONENT ---
 export default function Home() {
-  //   const [trendingPage, setTrendingPage] = useState(0);
-  //   const itemsPerPage = 4;
-  //   const totalTrendingPages = Math.ceil(FEATURED_PRODUCTS.length / itemsPerPage);
-
-  // const nextTrending = () => {
-  //   setTrendingPage((prev) => (prev + 1) % totalTrendingPages);
-  // };
-
-  // const prevTrending = () => {
-  //   setTrendingPage((prev) => (prev - 1 + totalTrendingPages) % totalTrendingPages);
-  // };
-
-  // const currentTrendingProducts = FEATURED_PRODUCTS.slice(
-  //     trendingPage * itemsPerPage, 
-  //     (trendingPage + 1) * itemsPerPage
-  // );
   const [trendingPage, setTrendingPage] = useState(0);
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -557,42 +251,52 @@ export default function Home() {
       try {
         setIsLoading(true);
 
-        // Query products, joining categories, primary images, and variants (for colors)
+        // Fetch products with variants, pricing, and sale info
         const { data, error } = await supabase
           .from("products")
           .select(`
             id,
             title,
+            brand,
             base_price,
             categories ( name ),
             product_images ( image_url ),
-            product_variants ( color )
+            product_variants ( id, color, is_primary, price, sale_price, is_on_sale ) 
           `)
           .eq("is_active", true)
           .eq("product_images.is_primary", true)
-          .limit(12); // Fetch top 12 for the trending section
+          .limit(12);
 
         if (error) throw error;
-        console.log("Raw product data from Supabase:", data); 
-        // Map database schema to your frontend Product interface
-        const mappedProducts: Product[] = data.map((item: any) => ({
-          id: item.id.toString(),
-          name: item.title,
-          brand: "VibeCart", // Not in schema, keeping static for now
-          category: item.categories?.name || "Classic",
-          price: item.base_price,
-          // Grab the first primary image, or fallback to a placeholder
-          image: item.product_images?.[0]?.image_url || "/watch-1.png",
-          // Extract unique colors from variants, fallback to black if none
-          colors: item.product_variants?.length
-            ? [...new Set(item.product_variants.map((v: any) => v.color).filter(Boolean))]
-            : ["#000"],
+        console.log("Raw product data from Supabase:", data);
 
-          // Defaults for missing fields
-          isNew: false,
-          isSale: false,
-          isClearance: false,
-        }));
+        // Map the data and apply sale pricing logic
+        const mappedProducts = data.map((item: any) => {
+          // Find the variant marked as primary, or fallback to the first available variant
+          const primaryVariant = item.product_variants?.find((v: any) => v.is_primary === true);
+          const defaultVariantId = primaryVariant?.id || item.product_variants?.[0]?.id || null;
+          // Use primary variant price, fallback to base_price
+          const variantPrice = primaryVariant?.price || item.base_price;
+          const salePrice = primaryVariant?.sale_price || null;
+          const isOnSale = primaryVariant?.is_on_sale || false;
+
+          return {
+            id: item.id.toString(),
+            name: item.title,
+            brand: item.brand || "VibeCart",
+            category: item.categories?.name || "Classic",
+            price: variantPrice,
+            salePrice: salePrice,
+            isOnSale: isOnSale,
+            image: item.product_images?.[0]?.image_url || "/watch-1.png",
+            colors: item.product_variants?.length
+              ? [...new Set(item.product_variants.map((v: any) => v.color).filter(Boolean))]
+              : ["#000"],
+            defaultVariantId: defaultVariantId,
+            isNew: false,
+            isSale: isOnSale,
+          };
+        });
 
         setFeaturedProducts(mappedProducts);
       } catch (error) {
