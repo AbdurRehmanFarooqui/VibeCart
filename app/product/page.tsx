@@ -75,15 +75,15 @@ const HeroSplit = ({ onEnter }: HeroSplitProps) => {
   const GOLD_TEXT = "bg-clip-text text-transparent bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728]";
 
   return (
-    <section className="relative w-full h-screen bg-[#050505] overflow-hidden flex flex-col items-center justify-center z-50">
+    <section className="relative w-full h-[calc(100vh-80px)] bg-[#050505] overflow-hidden flex flex-col items-center justify-center z-50">
 
       {/* Background */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-yellow-900/10 via-[#050505] to-[#050505]" />
 
-      <div><p className={`py-2 text-base font-bold ${GOLD_TEXT}`}>Select Category</p></div>
+      <div className="md:hidden"><p className={`py-2 text-base font-bold ${GOLD_TEXT}`}>Select Category</p></div>
 
       {/* --- DESKTOP VIEW --- */}
-      <div className="flex w-full max-w-7xl mx-auto h-full justify-center relative z-10">
+      <div className="flex w-full max-w-7xl mx-auto h-full md:items-center justify-center relative z-10">
 
 
         {/* Left Text */}

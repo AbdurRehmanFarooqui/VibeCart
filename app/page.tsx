@@ -126,7 +126,7 @@ const HeroSection = () => {
   };
 
   return (
-    <section className="relative w-full bg-[#050505] text-white overflow-hidden pt-20 pb-12 md:pt-0 md:pb-0 md:min-h-screen flex items-center">
+    <section className="relative w-full bg-[#050505] text-white overflow-hidden pt-50 pb-12 md:pt-0 md:pb-0 md:min-h-screen flex items-center ">
       <div className={`absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[150px] transition-colors duration-1000 pointer-events-none ${currentItem.bgGlow}`} />
 
       {/* ========================================= */}
@@ -186,7 +186,7 @@ const HeroSection = () => {
       <div className="hidden md:grid max-w-7xl mx-auto px-12 w-full grid-cols-2 gap-12 items-center relative z-10">
 
         {/* DESKTOP: TEXT ON LEFT */}
-        <div className="flex flex-col items-start space-y-6 z-20 justify-center">
+        <div className="flex items-start space-y-6 z-20 justify-center">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div key={currentIndex} custom={direction} variants={textVariants} animate="visible" exit="exit" className="space-y-4">
               <div className="inline-flex items-center gap-2 px-3 py-1 border border-white/10 bg-white/5 rounded-full backdrop-blur-md">
