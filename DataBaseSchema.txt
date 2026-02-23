@@ -95,8 +95,8 @@ create table public.orders (
       status = any (
         array[
           'pending'::text,
-          'paid'::text,
-          'shipped'::text,
+          'confirmed'::text,
+          'on route'::text,
           'delivered'::text,
           'cancelled'::text
         ]

@@ -41,7 +41,7 @@ const NAV_ITEMS = [
     hasSubmenu: false 
   },
   {
-    title: "Product",
+    title: "Products",
     href: "/product",
     hasSubmenu: false,
     content: [
@@ -284,7 +284,7 @@ export default function Navbar() {
           )}
         </button>
 
-        <div className="flex items-center">
+        {/* <div className="flex items-center">
           <SignedOut>
             <SignInButton mode="modal">
               <button className="bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black text-xs font-black px-2 md:px-6 py-2 rounded-full transition-all duration-300 shadow-[0_0_20px_rgba(191,149,63,0.4)] hover:shadow-[0_0_30px_rgba(252,246,186,0.6)] hover:scale-105 uppercase tracking-widest font-serif">
@@ -295,7 +295,7 @@ export default function Navbar() {
           <SignedIn>
             <UserButton afterSignOutUrl="/" appearance={{ elements: { avatarBox: "w-8 h-8 border-2 border-blue-500" } }} />
           </SignedIn>
-        </div>
+        </div> */}
       </div>
 
       <CartSidebar />

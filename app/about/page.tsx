@@ -23,7 +23,7 @@ const staggerContainer = {
 // --- MOBILE COMPONENTS ---
 
 const MobileHero = () => (
-  <section className="md:hidden relative w-full py-20 px-6 flex flex-col items-center justify-center text-center border-b border-white/10 pt-32">
+  <section className="md:hidden relative w-full py-20 px-6 flex flex-col items-center justify-center text-center border-b border-white/10 pt-16">
      {/* Gold Glow for Mobile */}
      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[300px] h-[300px] bg-yellow-900/20 rounded-full blur-[80px] pointer-events-none" />
      

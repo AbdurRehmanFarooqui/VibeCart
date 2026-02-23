@@ -47,7 +47,7 @@ interface MappedProduct {
 const FormatName = ({ name }: { name: string }) => {
     const parts = name.split(" ");
     return (
-        <h1 className="text-5xl md:text-7xl font-serif font-black uppercase tracking-tighter leading-[0.9] relative z-0">
+        <h1 className="text-4xl md:text-7xl font-serif font-black uppercase tracking-tighter leading-[0.9] relative z-0">
             {parts.map((word, i) => {
                 const isGold = i === parts.length - 1 || /\d/.test(word);
                 return (
@@ -118,7 +118,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             const variantImages = productData.product_images
                                 ?.filter((img: any) => img.variant_id === v.id)
                                 .map((img: any) => img.image_url) || [];
-                            
+
                             // Fallback to primary image if no variant-specific images
                             const imagesForVariant = variantImages.length > 0 ? variantImages : [primaryImg];
                             const mainImg = imagesForVariant[0] || primaryImg;
@@ -140,9 +140,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 let mappedColors = Array.from(uniqueColorsMap.values());
                 // Fallback if no specific colors exist in DB
                 if (mappedColors.length === 0) {
-                    mappedColors = [{ 
-                        name: "Standard", 
-                        hex: "#e2e8f0", 
+                    mappedColors = [{
+                        name: "Standard",
+                        hex: "#e2e8f0",
                         img: primaryImg,
                         images: [primaryImg],
                         variantId: productData.product_variants?.[0]?.id || 0,
@@ -189,7 +189,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         const salePrice = primaryVariant?.sale_price || null;
                         const isOnSale = primaryVariant?.is_on_sale || false;
                         const defaultVariantId = primaryVariant?.id || item.product_variants?.[0]?.id;
-                        
+
                         return {
                             id: item.id.toString(),
                             name: item.title,
@@ -244,8 +244,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         }
         const currentColor = product.colors[activeColorIndex];
         // Use sale price if available and on sale, otherwise use regular price
-        return currentColor.isOnSale && currentColor.salePrice 
-            ? currentColor.salePrice 
+        return currentColor.isOnSale && currentColor.salePrice
+            ? currentColor.salePrice
             : currentColor.price;
     };
 
@@ -384,24 +384,30 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 )}
 
                 {/* DETAILS & CART */}
-                <div className="space-y-6 pt-5 pb-24">
-                    <div className="text-yellow-500 font-bold tracking-[0.4em] text-sm uppercase">{product.brand}</div>
-                    <div className="flex justify-between items-start">
-                        <div className="space-y-1"><FormatName name={product.name} /></div>
-                        <div className="text-right space-y-2 pt-1">
-                            <div className="flex items-center justify-end gap-2">
+                <div className="space-y-2 pt-5 pb-24">
+
+                    <div className="text-yellow-500 font-bold tracking-[0.4em] text-sm uppercase text-center">{product.brand}</div>
+
+                    <div className="flex-col justify-between items-start ">
+
+                        <div className="text-center"><FormatName name={product.name} /></div>
+
+                        <div className=" space-y-1 pt-4">
+                            <div className="flex justify-center items-center gap-2">
                                 <div className="text-gray-400 font-bold tracking-widest uppercase text-[10px]">{product.collection}</div>
                                 {product.colors[activeColorIndex]?.isOnSale && (
                                     <span className="text-[10px] font-black tracking-widest px-2 py-1 rounded-sm bg-red-500/20 text-red-400 border border-red-500/50">SALE</span>
                                 )}
                             </div>
-                            <div className="flex flex-col items-end gap-1">
+
+                            <div className="flex flex-col gap-1">
                                 {getOriginalPrice() && (
                                     <span className="text-sm text-gray-400 line-through">Rs. {getOriginalPrice()?.toLocaleString()}</span>
                                 )}
-                                <div className="text-3xl font-serif font-black tracking-tight text-white">Rs. {getCurrentPrice().toLocaleString()}</div>
+                                <div className="text-2xl font-serif font-black tracking-tight text-white">Rs. {getCurrentPrice().toLocaleString()}</div>
                             </div>
                         </div>
+
                     </div>
 
                     <Button
@@ -538,17 +544,17 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 {/* RIGHT EDGE (Color Palette) */}
                 {!product.collection.toLowerCase().includes("fragrance") && product.colors.length > 1 && (
                     <div className={`fixed right-0 top-1/2 -translate-y-1/2 z-40 transition-transform duration-500 ${isDrawerOpen ? "translate-x-full" : "translate-x-0"}`}>
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-72 bg-white/5 backdrop-blur-xl border-l border-white/10 rounded-l-3xl shadow-xl" />
-                    <div className="relative h-72 flex flex-col items-center justify-center gap-8 pr-6">
-                    
-                        {product.colors.map((color, index) => (
-                            <div key={index} className="relative group">
-                                <button onClick={() => handleColorChange(index)} className={`w-8 h-8 rounded-full shadow-lg transition-all duration-300 ${index === activeColorIndex ? "scale-125 ring-2 ring-yellow-500 ring-offset-2 ring-offset-black" : "scale-100 opacity-50 hover:opacity-100"}`} style={{ backgroundColor: color.hex }} />
-                            </div>
-                        ))}
+                        <div className="absolute right-0 top-1/2 -translate-y-1/2 w-24 h-72 bg-white/5 backdrop-blur-xl border-l border-white/10 rounded-l-3xl shadow-xl" />
+                        <div className="relative h-72 flex flex-col items-center justify-center gap-8 pr-6">
 
+                            {product.colors.map((color, index) => (
+                                <div key={index} className="relative group">
+                                    <button onClick={() => handleColorChange(index)} className={`w-8 h-8 rounded-full shadow-lg transition-all duration-300 ${index === activeColorIndex ? "scale-125 ring-2 ring-yellow-500 ring-offset-2 ring-offset-black" : "scale-100 opacity-50 hover:opacity-100"}`} style={{ backgroundColor: color.hex }} />
+                                </div>
+                            ))}
+
+                        </div>
                     </div>
-                </div>
                 )}
             </div>
 

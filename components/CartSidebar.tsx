@@ -155,7 +155,7 @@ export default function CartSidebar() {
             <div className="h-full flex flex-col items-center justify-center space-y-4 text-gray-500 mt-20">
                <ShoppingBag className="w-16 h-16 opacity-20" />
                <p>Your vault is empty.</p>
-               <Button variant="outline" onClick={toggleCart} className="border-white/10 text-white hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all rounded-full">
+               <Button variant="outline" onClick={toggleCart} className="border-white/10 text-gray-900 hover:bg-yellow-500 hover:text-black hover:border-yellow-500 transition-all rounded-full">
                  Start Shopping
                </Button>
             </div>

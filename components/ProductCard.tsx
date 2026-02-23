@@ -51,7 +51,7 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <div 
-      className="group relative h-[450px] w-full rounded-3xl transition-all duration-500 
+      className="group relative h-92 md:h-[450px] w-full rounded-2xl md:rounded-3xl transition-all duration-500 
       hover:-translate-y-2 
       border border-white/5 hover:border-[#BF953F]
       hover:shadow-[0_0_30px_rgba(191,149,63,0.5)]" 
@@ -66,9 +66,9 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* ============================================================== */}
       {/* GLASS ARCHITECTURE (Z-0) */}
       {/* ============================================================== */}
-      <div className="absolute inset-0 rounded-3xl overflow-hidden z-0">
+      <div className="absolute inset-0 rounded-2xl md:rounded-3xl overflow-hidden z-0">
           {/* Base Structure */}
-          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.1] via-white/[0.02] to-black/20 backdrop-blur-2xl border-[1.5px] border-t-white/40 border-l-white/30 border-r-white/10 border-b-white/5 rounded-3xl shadow-[inset_0_0_30px_rgba(255,255,255,0.05)]"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-white/[0.1] via-white/[0.02] to-black/20 backdrop-blur-2xl border-[1.5px] border-t-white/40 border-l-white/30 border-r-white/10 border-b-white/5 rounded-2xl md:rounded-3xl shadow-[inset_0_0_30px_rgba(255,255,255,0.05)]"></div>
 
           {/* Noise Texture */}
           <div className="absolute inset-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')] pointer-events-none mix-blend-overlay" />
@@ -77,7 +77,7 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className={`absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.2] to-transparent -rotate-[25deg] scale-[2] pointer-events-none transition-transform duration-[1500ms] ease-in-out ${isHovered ? 'translate-x-[100%]' : '-translate-x-[100%]'}`} />
 
           {/* Inner Highlight */}
-          <div className="absolute inset-[1.5px] rounded-3xl shadow-[inset_1px_1px_2px_rgba(255,255,255,0.3)] pointer-events-none"></div>
+          <div className="absolute inset-[1.5px] rounded-2xl md:rounded-3xl shadow-[inset_1px_1px_2px_rgba(255,255,255,0.3)] pointer-events-none"></div>
 
           {/* Gold Tint on Hover */}
           <div className={`absolute inset-0 bg-[#BF953F] mix-blend-overlay transition-opacity duration-500 ${isHovered ? 'opacity-20' : 'opacity-0'}`} />
@@ -87,7 +87,7 @@ export default function ProductCard({ product }: { product: Product }) {
       {/* ============================================================== */}
       {/* CONTENT LAYER (Z-20) */}
       {/* ============================================================== */}
-      <div className="relative h-full flex flex-col z-20 p-6 pointer-events-none">
+      <div className="relative h-full flex flex-col z-20 p-4 md:p-6 pointer-events-none">
         
         {/* TOP ROW */}
         <div className="flex justify-between items-start">
@@ -105,13 +105,13 @@ export default function ProductCard({ product }: { product: Product }) {
             </div>
             
             {/* WISHLIST BUTTON (Z-30, Clickable) */}
-            <button className="relative p-2.5 rounded-full overflow-hidden transition-all duration-300 z-30 pointer-events-auto group/btn bg-white/10 border border-white/30 hover:bg-[#BF953F] hover:border-[#BF953F] hover:shadow-[0_0_15px_#BF953F]">
+            {/* <button className="relative p-2.5 rounded-full overflow-hidden transition-all duration-300 z-30 pointer-events-auto group/btn bg-white/10 border border-white/30 hover:bg-[#BF953F] hover:border-[#BF953F] hover:shadow-[0_0_15px_#BF953F]">
                 <Heart className="relative z-10 w-4 h-4 text-white/80 group-hover/btn:text-black transition-colors" />
-            </button>
+            </button> */}
         </div>
 
         {/* IMAGE AREA */}
-        <div className="flex-1 relative flex items-center justify-center py-8">
+        <div className="flex-1 relative flex items-center justify-center py-4 md:py-8">
             <div className={`absolute w-40 h-40 bg-[#BF953F] rounded-full blur-[80px] mix-blend-screen transition-all duration-700 ease-in-out ${isHovered ? "opacity-40 scale-150" : "opacity-0 scale-50"}`} />
             
             <div className={`relative w-full h-full transition-transform duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) ${isHovered ? "scale-120 -translate-y-4 rotate-3" : "scale-110"}`}>
@@ -126,10 +126,10 @@ export default function ProductCard({ product }: { product: Product }) {
         </div>
 
         {/* BOTTOM ROW */}
-        <div className="mt-auto space-y-5">
+        <div className="mt-auto space-y-3 md:space-y-5 mb-1">
             <div>
-                <p className="text-[#BF953F] text-[10px] font-bold tracking-[0.3em] uppercase mb-2 opacity-90">{product.brand}</p>
-                <h3 className="text-white font-serif text-2xl leading-none tracking-tight group-hover:text-[#F3E5AB] transition-colors line-clamp-1 drop-shadow-sm">
+                <p className="text-[#BF953F] text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase mb-1 md:mb-2 opacity-90">{product.brand}</p>
+                <h3 className="text-white font-serif text-xl md:text-2xl leading-none tracking-tight group-hover:text-[#F3E5AB] transition-colors line-clamp-1 drop-shadow-sm">
                     {product.name}
                 </h3>
             </div>
@@ -139,9 +139,9 @@ export default function ProductCard({ product }: { product: Product }) {
             <div className="flex items-center justify-between">
                 <div className="flex flex-col leading-none gap-1">
                     {product.isOnSale && product.salePrice && (
-                        <span className="text-[11px] text-white/50 line-through">Rs. {product.price.toLocaleString()}</span>
+                        <span className="text-[10px] md:text-[11px] text-white/50 line-through">Rs. {product.price.toLocaleString()}</span>
                     )}
-                    <span className="text-xl font-bold text-white drop-shadow-md leading-none">
+                    <span className="text-base md:text-xl font-bold text-white drop-shadow-md leading-none">
                         Rs. {(product.isOnSale && product.salePrice ? product.salePrice : product.price).toLocaleString()}
                     </span>
                 </div>
@@ -150,7 +150,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <Button 
                     size="icon"
                     onClick={handleAddToCart}
-                    className="h-11 w-11 rounded-full overflow-hidden relative z-30 pointer-events-auto transition-all duration-300 group/cart bg-white/10 border border-white/20 hover:bg-[#BF953F] hover:border-[#BF953F] hover:shadow-[0_0_20px_rgba(191,149,63,0.6)]"
+                    className="h-8 w-8 md:h-11 md:w-11 rounded-full overflow-hidden relative z-30 pointer-events-auto transition-all duration-300 group/cart bg-white/10 border border-white/20 hover:bg-[#BF953F] hover:border-[#BF953F] hover:shadow-[0_0_20px_rgba(191,149,63,0.6)]"
                 >
                     <ShoppingBag className="relative z-10 w-4 h-4 text-white transition-colors duration-300 group-hover/cart:text-black" />
                 </Button>

@@ -7,11 +7,12 @@ import { CartProvider } from "@/context/CartContext";
 import { Suspense } from "react"; 
 import WelcomePopup from "@/components/WelcomePopup";
 
+<meta name="apple-mobile-web-app-title" content="Vibe Cart" />
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Sole Vault | The 3D Sneaker Universe",
-  description: "Experience the latest footwear in immersive 3D.",
+  title: "Vibe Cart | Catch the Vibe",
+  description: "VibeCart is your go-to online store for stylish and affordable accessories. From watches and fragrances to wallets, jewelry, and everyday essentials, we bring trendy, quality products that match your vibe without breaking your budget.",
 };
 
 export default function RootLayout({

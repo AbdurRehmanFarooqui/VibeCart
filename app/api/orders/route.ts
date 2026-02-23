@@ -25,7 +25,7 @@ interface OrderRequest {
   phone: string;
   city: string;
   address: string;
-  postalCode: string;
+  // postalCode: string;
   cartItems: OrderItem[];
   cartTotal: number;
   userId?: string | null;
@@ -54,7 +54,7 @@ function validateOrderData(data: OrderRequest): string | null {
   if (!data.city?.trim()) return "City is required";
   if (!data.address?.trim()) return "Address is required";
   if (data.address.trim().length < 5) return "Address must be at least 5 characters";
-  if (!data.postalCode?.trim()) return "Postal code is required";
+  // if (!data.postalCode?.trim()) return "Postal code is required";
 
   // Validate cart
   if (!data.cartItems || data.cartItems.length === 0) return "Cart is empty";
@@ -194,7 +194,7 @@ export async function POST(request: NextRequest) {
         customer_email: orderData.email.trim(),
         customer_phone: orderData.phone.trim(),
         city: orderData.city.trim(),
-        postal_code: orderData.postalCode.trim(),
+        // postal_code: orderData.postalCode.trim(),
         shipping_address: { street: orderData.address.trim() },
         total_amount: calculatedTotal, // Use database-calculated total
         status: 'pending'

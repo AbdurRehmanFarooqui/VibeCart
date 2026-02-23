@@ -19,8 +19,10 @@ import { supabase } from "@/lib/supabase";
 
 // --- MOCK AREA DATA FOR AUTO-SUGGEST ---
 const CITY_AREAS: Record<string, string[]> = {
-  Karachi: ["DHA Phase 1-8", "Clifton", "Bahria Town", "Gulshan-e-Iqbal", "North Nazimabad", "PECHS", "Malir", "Tariq Road", "Korangi", "Saddar"],
+  Karachi: ["DHA Phase 1-8", "Clifton", "Bahria Town", "Gulshan-e-Iqbal", "Gulistan-e-Jouhar", "North Nazimabad", "PECHS", "Malir", "Tariq Road", "Korangi", "Saddar"],
+
   Lahore: ["DHA Phase 1-8", "Gulberg", "Johar Town", "Bahria Town", "Model Town", "Wapda Town", "Cantonment", "Iqbal Town", "Askari"],
+
   Islamabad: ["F-6", "F-7", "F-8", "F-11", "E-7", "G-11", "G-13", "DHA Phase 1-5", "Bahria Town", "Blue Area", "I-8"],
 };
 
@@ -39,9 +41,9 @@ export default function CheckoutPage() {
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
-  const [postalCode, setPostalCode] = useState("");
+  const [area, setArea] = useState("");
   const [phone, setPhone] = useState("");
-  
+
   // --- AUTO-SUGGEST STATES ---
   const [filteredAreas, setFilteredAreas] = useState<string[]>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
@@ -57,16 +59,16 @@ export default function CheckoutPage() {
 
   // Handle Address Auto-Suggest Logic
   useEffect(() => {
-    if (!city || !address) {
+    if (!city || !area) {
       setFilteredAreas([]);
       return;
     }
     const areas = CITY_AREAS[city] || [];
-    const matches = areas.filter(area => 
-      area.toLowerCase().includes(address.toLowerCase())
+    const matches = areas.filter(areas =>
+      areas.toLowerCase().includes(area.toLowerCase())
     );
     setFilteredAreas(matches);
-  }, [address, city]);
+  }, [area, city]);
 
   // Close suggestions when clicking outside
   useEffect(() => {
@@ -80,7 +82,7 @@ export default function CheckoutPage() {
   }, []);
 
   const selectArea = (area: string) => {
-    setAddress(area + ", ");
+    setArea(area + ", ");
     setShowSuggestions(false);
   };
 
@@ -112,10 +114,6 @@ export default function CheckoutPage() {
     // Validate address
     if (!address.trim()) return "Street address is required";
     if (address.trim().length < 5) return "Please enter a complete street address";
-
-    // Validate postal code
-    if (!postalCode.trim()) return "Postal code is required";
-    if (postalCode.trim().length < 3) return "Please enter a valid postal code";
 
     return null;
   };
@@ -150,6 +148,8 @@ export default function CheckoutPage() {
       if (formError) {
         setError(formError);
         setIsProcessing(false);
+        // scroll to top of form to show error
+        document.getElementById("shipping-info")?.scrollIntoView({ behavior: "smooth" });
         return;
       }
 
@@ -157,6 +157,7 @@ export default function CheckoutPage() {
       const cartError = validateCart();
       if (cartError) {
         setError(cartError);
+        document.getElementById("shipping-info")?.scrollIntoView({ behavior: "smooth" });
         setIsProcessing(false);
         return;
       }
@@ -178,7 +179,10 @@ export default function CheckoutPage() {
         price: item.price
       }));
 
-      // 5. Send order data to backend API
+      // 5. Concatenate address with area
+      const fullAddress = `${address.trim()}, ${area.trim()}`;
+
+      // 6. Send order data to backend API
       const response = await fetch('/api/orders', {
         method: 'POST',
         headers: {
@@ -190,8 +194,7 @@ export default function CheckoutPage() {
           email: email.trim(),
           phone: phone.trim(),
           city: city,
-          address: address.trim(),
-          postalCode: postalCode.trim(),
+          address: fullAddress,
           cartItems: cartItems,
           cartTotal: cartTotal,
           userId: userId
@@ -200,21 +203,25 @@ export default function CheckoutPage() {
 
       const responseData = await response.json();
 
-      // 6. Handle API response
+      // 7. Handle API response
       if (!response.ok) {
         setError(responseData.error || "Failed to place order. Please try again.");
+        document.getElementById("shipping-info")?.scrollIntoView({ behavior: "smooth" });
         setIsProcessing(false);
         return;
       }
 
-      // 7. Success! Clear form and show success screen
+      // 8. Success! Clear form and show success screen
       setOrderId(responseData.orderId);
       setIsSuccess(true);
+      // document.getElementById("success-screen")?.scrollIntoView({ behavior: "smooth" });
+      window.scrollTo(0, 0)
       clearCart();
 
     } catch (error: any) {
       console.error("Checkout failed:", error);
       setError(error.message || "An unexpected error occurred. Please try again.");
+      document.getElementById("shipping-info")?.scrollIntoView({ behavior: "smooth" });
     } finally {
       setIsProcessing(false);
     }
@@ -225,24 +232,28 @@ export default function CheckoutPage() {
       <main className="min-h-screen bg-[#050505] text-white flex flex-col">
         <Navbar />
         <div className="flex-1 flex items-center justify-center p-6">
-          <motion.div 
+          <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             className="max-w-md w-full bg-[#0a0a0a] border border-white/10 rounded-2xl p-8 text-center space-y-6 shadow-2xl"
           >
-            <div className="w-20 h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
-              <CheckCircle className="w-10 h-10 text-green-500" />
+            <div className="w-16 h-16 md:w-20 md:h-20 bg-green-500/20 rounded-full flex items-center justify-center mx-auto">
+              <CheckCircle className="w-8 h-8 md:w-10 md:h-10 text-green-500" />
             </div>
-            <h1 className="text-3xl font-bold tracking-tighter">ORDER CONFIRMED!</h1>
+            <h1 className="text-2xl md:text-3xl font-bold tracking-tighter">ORDER CONFIRMED!</h1>
             <p className="text-gray-400">
               Thank you, <span className="text-yellow-500 font-semibold">{firstName}</span>! Your order has been successfully placed.
             </p>
+            {/* ORDER ID TEMPLATE - To be fetched from backend and displayed */}
             <div className="bg-yellow-500/10 border border-yellow-500/30 p-4 rounded-lg space-y-2">
-              <div className="text-sm text-yellow-500 font-mono">Order ID: <span className="font-bold">#{orderId.split('-')[0].toUpperCase()}</span></div>
+              {/* <div className="text-sm text-yellow-500 font-mono">Order ID: <span className="font-bold">#{orderId.split('-')[0].toUpperCase()}</span></div> */}
               <div className="text-sm text-gray-300">Status: <span className="text-green-400 font-semibold">PENDING</span></div>
             </div>
-            <div className="bg-white/5 p-4 rounded-lg text-sm text-gray-300">
-               Check your email at <span className="text-blue-400 font-semibold">{email}</span> for tracking details.
+            <div className="bg-white/5 p-4 rounded-lg text-sm text-gray-300 space-y-3">
+              <div>
+                {/* <p className="text-white font-semibold mb-1">Order #12345</p> */}
+                <p>Check your email at <span className="text-blue-400 font-semibold">{email}</span> for order details and tracking information.</p>
+              </div>
             </div>
             <Link href="/product">
               <Button className="w-full h-12 bg-white text-black hover:bg-yellow-500 font-bold rounded-full mt-4 transition-colors tracking-widest">
@@ -262,10 +273,10 @@ export default function CheckoutPage() {
       <main className="min-h-screen bg-[#050505] text-white flex flex-col">
         <Navbar />
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
-           <h2 className="text-2xl font-bold">Your vault is empty</h2>
-           <Link href="/product">
-             <Button className="bg-[#BF953F] hover:bg-[#B38728] text-black font-bold tracking-widest rounded-full">Browse Collection</Button>
-           </Link>
+          <h2 className="text-2xl font-bold">Your vault is empty</h2>
+          <Link href="/product">
+            <Button className="bg-[#BF953F] hover:bg-[#B38728] text-black font-bold tracking-widest rounded-full">Browse Collection</Button>
+          </Link>
         </div>
         <Footer />
       </main>
@@ -283,119 +294,124 @@ export default function CheckoutPage() {
         </h1>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-          
+
           {/* LEFT COLUMN: FORMS */}
           <div className="lg:col-span-2 space-y-8">
-            
+
             {/* 1. SHIPPING INFO */}
-            <Card className="bg-[#0a0a0a] border-white/10 text-white rounded-2xl overflow-hidden shadow-xl">
+            <Card id="shipping-info" className="bg-[#0a0a0a] border-white/10 text-white rounded-2xl overflow-hidden shadow-xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5">
                 <CardTitle className="flex items-center gap-2 text-lg uppercase tracking-widest text-yellow-500 font-bold">
-                   <MapPin className="w-5 h-5" /> Shipping Information
+                  <MapPin className="w-5 h-5" /> Shipping Information
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
                 <form id="checkout-form" onSubmit={handlePlaceOrder} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                   
-                   {/* Error Message Display */}
-                   {error && (
-                      <div className="md:col-span-2 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
-                         <p className="text-red-400 text-sm font-semibold">{error}</p>
-                      </div>
-                   )}
-                   
-                   {/* Name Fields */}
-                   <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">FIRST NAME *</label>
-                      <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
-                   </div>
-                   <div className="space-y-2">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">LAST NAME *</label>
-                      <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
-                   </div>
 
-                   {/* Email & Phone */}
-                   <div className="space-y-2 md:col-span-1">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">EMAIL ADDRESS *</label>
-                      <div className="relative">
-                        <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                        <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
-                      </div>
-                   </div>
-                   <div className="space-y-2 md:col-span-1">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
-                      <div className="relative">
-                        <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                        <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
-                      </div>
-                   </div>
+                  {/* Error Message Display */}
+                  {error && (
+                    <div className="md:col-span-2 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                      <p className="text-red-400 text-sm font-semibold">{error}</p>
+                    </div>
+                  )}
 
-                   {/* City Dropdown */}
-                   <div className="space-y-2 md:col-span-2">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">CITY *</label>
-                      <select 
-                        value={city} 
-                        onChange={(e) => { setCity(e.target.value); setAddress(""); }} 
-                        required 
-                        className="w-full h-12 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none"
-                      >
-                        <option value="" disabled>Select City</option>
-                        {Object.keys(CITY_AREAS).map(c => (
-                          <option key={c} value={c}>{c}</option>
-                        ))}
-                      </select>
-                   </div>
+                  {/* Name Fields */}
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">FIRST NAME *</label>
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">LAST NAME *</label>
+                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
+                  </div>
 
-                   {/* Address with Auto-Suggest */}
-                   <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}>
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">STREET ADDRESS *</label>
-                      <Input 
-                        value={address}
-                        onChange={(e) => {
-                          setAddress(e.target.value);
-                          setShowSuggestions(true);
-                        }}
-                        onFocus={() => setShowSuggestions(true)}
-                        placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"} 
-                        className="bg-white/5 border-white/10 text-white h-12" 
-                        required 
-                        disabled={!city}
-                      />
-                      
-                      {/* Suggestions Dropdown */}
-                      <AnimatePresence>
-                        {showSuggestions && filteredAreas.length > 0 && (
-                          <motion.div 
-                            initial={{ opacity: 0, y: -10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, y: -10 }}
-                            className="absolute z-50 w-full mt-1 bg-[#1a1a1a] border border-white/10 rounded-md shadow-2xl overflow-hidden max-h-48 overflow-y-auto"
-                          >
-                            {filteredAreas.map(area => (
-                              <div 
-                                key={area} 
-                                onClick={() => selectArea(area)}
-                                className="px-4 py-3 cursor-pointer hover:bg-yellow-500/20 hover:text-yellow-500 text-sm text-gray-300 transition-colors border-b border-white/5 last:border-0"
-                              >
-                                {area}, {city}
-                              </div>
-                            ))}
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                   </div>
+                  {/* Email & Phone */}
+                  <div className="space-y-2 md:col-span-1">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">EMAIL ADDRESS *</label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
+                    </div>
+                  </div>
+                  <div className="space-y-2 md:col-span-1">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
+                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
+                    </div>
+                  </div>
 
-                   {/* Postal Code */}
-                   <div className="space-y-2 md:col-span-1">
-                      <label className="text-xs font-bold text-gray-500 tracking-wider">POSTAL CODE *</label>
-                      <Input 
-                        value={postalCode}
-                        onChange={(e) => setPostalCode(e.target.value)}
-                        placeholder="e.g., 75500" 
-                        className="bg-white/5 border-white/10 text-white h-12" 
-                        required 
-                      />
-                   </div>
+                  {/* City Dropdown */}
+                  <div className="space-y-2 md:col-span-2">
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">CITY *</label>
+                    <select
+                      value={city}
+                      onChange={(e) => { setCity(e.target.value); setAddress(""); }}
+                      required
+                      className="w-full h-12 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none"
+                    >
+                      <option value="" disabled>Select City</option>
+                      {Object.keys(CITY_AREAS).map(c => (
+                        <option key={c} value={c}>{c}</option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}>
+                  <label className="text-xs font-bold text-gray-500 tracking-wider">STREET ADDRESS *</label>
+                  <Input
+                    value={address}
+                    onChange={(e) => {
+                      setAddress(e.target.value);
+
+                    }}
+                    // onFocus={() => setShowSuggestions(true)}
+                    placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"}
+                    className="bg-white/5 border-white/10 text-white h-12"
+                    required
+                    disabled={!city}
+                  />
+                  </div>
+
+                  {/* Address with Auto-Suggest */}
+                  <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}>
+
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">AREA *</label>
+                    <Input
+                      value={area}
+                      onChange={(e) => {
+                        setArea(e.target.value);
+                        setShowSuggestions(true);
+                      }}
+                      onFocus={() => setShowSuggestions(true)}
+                      placeholder={city ? `e.g. ${CITY_AREAS[city][0]}` : "Select a city first"}
+                      className="bg-white/5 border-white/10 text-white h-12"
+                      required
+                      disabled={!city}
+                    />
+                    {/* Suggestions Dropdown */}
+                    <AnimatePresence>
+                      {showSuggestions && filteredAreas.length > 0 && (
+                        <motion.div
+                          initial={{ opacity: 0, y: -10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -10 }}
+                          className="relative z-50 w-full mt-1 bg-[#1a1a1a] border border-white/10 rounded-md shadow-2xl overflow-hidden max-h-48 overflow-y-auto"
+                        >
+                          {filteredAreas.map(area => (
+                            <div
+                              key={area}
+                              onClick={() => selectArea(area)}
+                              className="px-4 py-3 cursor-pointer hover:bg-yellow-500/20 hover:text-yellow-500 text-sm text-gray-300 transition-colors border-b border-white/5 last:border-0"
+                            >
+                              {area}, {city}
+                            </div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </div>
+
+
 
                 </form>
               </CardContent>
@@ -405,22 +421,22 @@ export default function CheckoutPage() {
             <Card className="bg-[#0a0a0a] border-white/10 text-white rounded-2xl overflow-hidden shadow-xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5">
                 <CardTitle className="flex items-center gap-2 text-lg uppercase tracking-widest text-yellow-500 font-bold">
-                   <ShieldCheck className="w-5 h-5" /> Payment Method
+                  <ShieldCheck className="w-5 h-5" /> Payment Method
                 </CardTitle>
               </CardHeader>
               <CardContent className="pt-6">
-                 <div className="p-4 border-2 border-yellow-500 bg-yellow-500/10 rounded-xl flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                       <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500">
-                          <Banknote className="w-6 h-6" />
-                       </div>
-                       <div>
-                          <h4 className="font-bold text-white text-lg">Cash on Delivery (COD)</h4>
-                          <p className="text-sm text-gray-400">Pay securely upon receiving your package.</p>
-                       </div>
+                <div className="p-4 border-2 border-yellow-500 bg-yellow-500/10 rounded-xl flex items-center justify-between">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500">
+                      <Banknote className="w-6 h-6" />
                     </div>
-                    <div className="w-6 h-6 rounded-full border-4 border-yellow-500 bg-black" />
-                 </div>
+                    <div>
+                      <h4 className="font-bold text-white text-lg">Cash on Delivery (COD)</h4>
+                      <p className="text-sm text-gray-400">Pay securely upon receiving your package.</p>
+                    </div>
+                  </div>
+                  <div className="w-6 h-6 rounded-full border-4 border-yellow-500 bg-black" />
+                </div>
               </CardContent>
             </Card>
 
@@ -428,65 +444,65 @@ export default function CheckoutPage() {
 
           {/* RIGHT COLUMN: SUMMARY */}
           <div className="lg:col-span-1">
-             <div className="sticky top-24 bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 space-y-6 shadow-2xl">
-                <h3 className="font-serif font-bold text-xl uppercase tracking-widest text-white border-b border-white/10 pb-4">Order Summary</h3>
-                
-                <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10">
-                   {cart.map((item) => (
-                      <div key={item.cartId} className="flex gap-4 group">
-                         <div className="relative w-16 h-16 bg-white/5 rounded-lg border border-white/10 flex-shrink-0 group-hover:border-yellow-500/50 transition-colors">
-                            <Image src={item.image} alt={item.name} fill className="object-contain p-2" />
-                         </div>
-                         <div className="flex-1 flex flex-col justify-center">
-                            <h4 className="text-sm font-bold line-clamp-1 text-white">{item.name}</h4>
-                            <p className="text-xs text-gray-500 uppercase tracking-widest">{item.brand}</p>
-                            <div className="flex justify-between mt-2 text-sm items-center">
-                               <span className="text-gray-400 bg-white/5 px-2 py-0.5 rounded text-[10px]">Qty: {item.quantity}</span>
-                               <span className="font-bold text-yellow-500">Rs. {(item.price * item.quantity).toLocaleString()}</span>
-                            </div>
-                         </div>
+            <div className="sticky top-24 bg-[#0a0a0a] border border-white/10 rounded-2xl p-6 space-y-6 shadow-2xl">
+              <h3 className="font-serif font-bold text-xl uppercase tracking-widest text-white border-b border-white/10 pb-4">Order Summary</h3>
+
+              <div className="space-y-4 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/10">
+                {cart.map((item) => (
+                  <div key={item.cartId} className="flex gap-4 group">
+                    <div className="relative w-16 h-16 bg-white/5 rounded-lg border border-white/10 flex-shrink-0 group-hover:border-yellow-500/50 transition-colors">
+                      <Image src={item.image} alt={item.name} fill className="object-contain p-2" />
+                    </div>
+                    <div className="flex-1 flex flex-col justify-center">
+                      <h4 className="text-sm font-bold line-clamp-1 text-white">{item.name}</h4>
+                      <p className="text-xs text-gray-500 uppercase tracking-widest">{item.brand}</p>
+                      <div className="flex justify-between mt-2 text-sm items-center">
+                        <span className="text-gray-400 bg-white/5 px-2 py-0.5 rounded text-[10px]">Qty: {item.quantity}</span>
+                        <span className="font-bold text-yellow-500">Rs. {(item.price * item.quantity).toLocaleString()}</span>
                       </div>
-                   ))}
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              <Separator className="bg-white/10" />
+
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between text-gray-400">
+                  <span>Subtotal</span>
+                  <span className="text-white">Rs. {cartTotal.toLocaleString()}</span>
                 </div>
-
-                <Separator className="bg-white/10" />
-
-                <div className="space-y-3 text-sm">
-                   <div className="flex justify-between text-gray-400">
-                      <span>Subtotal</span>
-                      <span className="text-white">Rs. {cartTotal.toLocaleString()}</span>
-                   </div>
-                   <div className="flex justify-between text-gray-400">
-                      <span>Delivery (Nationwide)</span>
-                      <span className="text-green-400 font-bold uppercase tracking-widest text-xs">Free</span>
-                   </div>
+                <div className="flex justify-between text-gray-400">
+                  <span>Delivery (Nationwide)</span>
+                  <span className="text-green-400 font-bold uppercase tracking-widest text-xs">Free</span>
                 </div>
+              </div>
 
-                <Separator className="bg-white/10" />
+              <Separator className="bg-white/10" />
 
-                <div className="flex justify-between items-center">
-                   <span className="text-gray-400 uppercase tracking-widest text-sm">Total</span>
-                   <span className="text-3xl font-serif font-black text-white">Rs. {cartTotal.toLocaleString()}</span>
-                </div>
+              <div className="flex justify-between items-center">
+                <span className="text-gray-400 uppercase tracking-widest text-sm">Total</span>
+                <span className="text-3xl font-serif font-black text-white">Rs. {cartTotal.toLocaleString()}</span>
+              </div>
 
-                {/* THE SUBMIT BUTTON - LINKED TO THE FORM ID */}
-                <Button 
-                  type="submit" 
-                  form="checkout-form"
-                  disabled={isProcessing}
-                  className="w-full h-14 bg-gradient-to-r from-[#BF953F] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black font-black uppercase tracking-[0.2em] rounded-full transition-all shadow-[0_0_20px_rgba(191,149,63,0.3)] hover:scale-105"
-                >
-                   {isProcessing ? (
-                     <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> PROCESSING...</>
-                   ) : (
-                     "CONFIRM ORDER"
-                   )}
-                </Button>
+              {/* THE SUBMIT BUTTON - LINKED TO THE FORM ID */}
+              <Button
+                type="submit"
+                form="checkout-form"
+                disabled={isProcessing}
+                className="w-full h-14 bg-gradient-to-r from-[#BF953F] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black font-black uppercase tracking-[0.2em] rounded-full transition-all shadow-[0_0_20px_rgba(191,149,63,0.3)] hover:scale-105"
+              >
+                {isProcessing ? (
+                  <><Loader2 className="w-5 h-5 mr-2 animate-spin" /> PROCESSING...</>
+                ) : (
+                  "CONFIRM ORDER"
+                )}
+              </Button>
 
-                <p className="text-[10px] text-center text-gray-600 uppercase tracking-widest">
-                   By confirming, you agree to our Terms & Return Policy.
-                </p>
-             </div>
+              <p className="text-[10px] text-center text-gray-600 uppercase tracking-widest">
+                By confirming, you agree to our Terms & Return Policy.
+              </p>
+            </div>
           </div>
 
         </div>
