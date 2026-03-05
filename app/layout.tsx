@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { ClerkProvider } from '@clerk/nextjs';
 import "./globals.css";
 import SmoothScroll from "@/components/SmoothScroll";
 import { CartProvider } from "@/context/CartContext";
@@ -23,7 +22,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <ClerkProvider publishableKey="pk_test_cnVsaW5nLW1hbW1vdGgtMzIuY2xlcmsuYWNjb3VudHMuZGV2JA">
       <html lang="en" className="scroll-smooth ">
         <body className={`${inter.className} bg-[#050505] text-white min-h-screen`}>
 
@@ -39,6 +37,5 @@ export default function RootLayout({
           </CartProvider>
         </body>
       </html>
-    </ClerkProvider>
   );
 }
