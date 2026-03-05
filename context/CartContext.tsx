@@ -5,9 +5,10 @@ import { Product } from "@/components/ProductCard"; // Adjust the import path as
 
 // 1. Updated CartItem to use variantId instead of selectedColor
 export interface CartItem extends Product {
-  cartId: string | number; 
+  cartId: string | number;
   quantity: number;
-  variantId: string | number; 
+  variantId: string | number;
+  selectedColor?: string;
 }
 
 interface CartContextType {
@@ -60,25 +61,25 @@ export function CartProvider({ children }: { children: ReactNode }) {
 
       if (existing) {
         return prev.map((item) =>
-          item.variantId === effectiveVariantId 
-            ? { ...item, quantity: item.quantity + 1 } 
+          item.variantId === effectiveVariantId
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       }
-      
+
       // Add new item using variantId
       return [
-        ...prev, 
-        { 
-          ...product, 
+        ...prev,
+        {
+          ...product,
           cartId: effectiveVariantId, // Using variantId as the cart entry key
-          variantId: effectiveVariantId, 
-          quantity: 1 
+          variantId: effectiveVariantId,
+          quantity: 1
         }
       ];
     });
-    
-    setIsCartOpen(true); 
+
+    setIsCartOpen(true);
   };
 
   const removeFromCart = (cartId: string | number) => {

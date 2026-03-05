@@ -173,7 +173,7 @@ export default function CartSidebar() {
                     <h4 className="font-bold text-sm line-clamp-1">{item.name}</h4>
                     <p className="text-[10px] uppercase tracking-widest text-gray-400">{item.brand}</p>
                     <div className="flex items-center gap-2 mt-2">
-                       <div className="w-4 h-4 rounded-full border border-white/20 shadow-sm" style={{ backgroundColor: item.selectedColor }} />
+                       {/* <div className="w-4 h-4 rounded-full border border-white/20 shadow-sm" style={{ backgroundColor: item.selectedColor }} /> */}
                        <span className="text-xs text-gray-500">Qty: {item.quantity}</span>
                     </div>
                   </div>

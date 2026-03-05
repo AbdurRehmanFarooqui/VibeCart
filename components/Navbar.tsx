@@ -47,11 +47,11 @@ const NAV_ITEMS = [
     content: [
       {
         section: "Collections",
-        // items: ["Classic", "Sports", "Office", "New Arrival", "Best Selling"]
+        items: ["Classic", "Sports", "Office", "New Arrival", "Best Selling"]
       },
       {
         section: "Brands",
-        // items: ["Nike", "Adidas", "Puma", "New Balance", "Dior"]
+        items: ["Nike", "Adidas", "Puma", "New Balance", "Dior"]
       }
     ]
   },
@@ -160,7 +160,7 @@ export default function Navbar() {
                                       {subSection.section}
                                     </AccordionTrigger>
                                     <AccordionContent className="flex flex-col gap-2 pl-4">
-                                      {subSection.items.map((subItem, j) => (
+                                      {subSection.items && subSection.items.map((subItem:string, j:number) => (
                                         <Link 
                                           key={j} 
                                           href={getHref(item.title, subSection.section, subItem)}
@@ -233,7 +233,7 @@ export default function Navbar() {
                                {section.section}
                              </h4>
                              <ul className="space-y-2">
-                               {section.items.map((subItem, j) => (
+                               {section.items && section.items.map((subItem:string, j:number) => (
                                  <li key={j}>
                                    <Link 
                                       href={getHref(item.title, section.section, subItem)}
