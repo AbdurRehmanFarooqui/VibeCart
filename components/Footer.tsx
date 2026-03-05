@@ -22,13 +22,13 @@ export default function Footer() {
               VIBE <span className="text-yellow-500">CART</span>
             </span>
           </div>
-          <p className="text-gray-500 text-sm leading-relaxed font-light">
+          {/* <p className="text-gray-500 text-sm leading-relaxed font-light">
             To set the right expectations: We specialize in selling high-quality <strong className="text-white">copies of original watches</strong> and premium <strong className="text-white">branded perfume impressions</strong>.
-          </p>
+          </p> */}
 
           {/* PAYMENT & TRUST */}
           <div className="pt-6">
-            <p className="text-[10px] text-gray-500 font-bold mb-4 tracking-[0.2em] uppercase">Secure Transactions</p>
+            <p className="text-[10px] text-gray-500 font-bold mb-4 tracking-[0.2em] uppercase">Securely Pay at your doorstep</p>
             <div className="flex flex-wrap gap-3 items-center opacity-80">
 
               {/* Cash On Delivery Badge */}
@@ -38,21 +38,21 @@ export default function Footer() {
               </div>
 
               {/* VISA (Visual Only) */}
-              <div className="bg-white/5 p-1 rounded w-10 h-7 flex items-center justify-center border border-white/10">
+              {/* <div className="bg-white/5 p-1 rounded w-10 h-7 flex items-center justify-center border border-white/10">
                 <svg viewBox="0 0 48 48" className="w-full h-full fill-gray-400">
                   <path d="M18.8 30.6l3-18.4h-4.9l-2.3 11.5c-0.3 1.1-1.1 1.7-2.1 1.7h-7.8l-0.1 0.4 4.8 11.2c1.1 2.5 3.1 4.6 6.5 4.6h12.8l-0.6-2.9h-8.8c-0.3 0-0.6-0.3-0.5-0.6z" />
                   <path d="M33.4 12.2h-3.7c-1.1 0-2 0.8-2.3 1.9l-6.6 15.7h5l1.1-2.9h6.1l0.6 2.9h4.4l-4.6-17.6z m-4.8 11l2.3-6.5c0-0.1 0.1-0.2 0.2-0.2h0.1l1.1 6.7h-3.7z" />
                   <path d="M42.2 12.2h-3.8c-1 0-1.8 0.6-2.1 1.6l-6.8 16.8h4.9l1-3.2h6.1l0.6 3.2h4.3l-4.2-18.4z" />
                 </svg>
-              </div>
+              </div> */}
               {/* MASTERCARD (Visual Only) */}
-              <div className="bg-white/5 p-1 rounded w-10 h-7 flex items-center justify-center border border-white/10">
+              {/* <div className="bg-white/5 p-1 rounded w-10 h-7 flex items-center justify-center border border-white/10">
                 <svg viewBox="0 0 24 24" className="w-full h-full" fill="none">
                   <circle cx="7" cy="12" r="7" fill="#666" fillOpacity="0.8" />
                   <circle cx="17" cy="12" r="7" fill="#888" fillOpacity="0.8" />
                   <path d="M12 16.8C10.8 16.8 9.7 16.4 8.8 15.6C8 14.7 7.5 13.4 7.5 12C7.5 10.6 8 9.3 8.8 8.4C9.7 7.6 10.8 7.2 12 7.2C13.2 7.2 14.3 7.6 15.2 8.4C16 9.3 16.5 10.6 16.5 12C16.5 13.4 16 14.7 15.2 15.6C14.3 16.4 13.2 16.8 12 16.8Z" fill="#999" />
                 </svg>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

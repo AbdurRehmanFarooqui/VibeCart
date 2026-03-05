@@ -26,8 +26,9 @@ export default function WelcomePopup() {
     
     setIsOpen(false);
   };
+  
 
-  const cities = ["Karachi", "Lahore", "Islamabad"];
+  const cities = ["Karachi"];
 
   return (
     <AnimatePresence>
@@ -61,14 +62,14 @@ export default function WelcomePopup() {
                   </span>
                 </h2>
                 
-                <div className="bg-white/[0.03] border border-white/10 p-5 rounded-xl space-y-3">
+                {/* <div className="bg-white/[0.03] border border-white/10 p-5 rounded-xl space-y-3">
                   <div className="flex items-center gap-2 text-yellow-500 font-bold uppercase tracking-widest text-xs">
                     <Info className="w-4 h-4" /> Our Transparency Promise
                   </div>
                   <p className="text-gray-400 text-sm md:text-base leading-relaxed">
                     To set the right expectations: We specialize in selling high-quality <strong className="text-white">copies of original watches</strong> and premium <strong className="text-white">branded perfume impressions</strong>. 
                   </p>
-                </div>
+                </div> */}
               </div>
             </div>
 

@@ -228,7 +228,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     });
                     setRelatedProducts(mappedRelated);
                 }
-
+                console.log("Fetched Product:", productData);
             } catch (error) {
                 console.error("Error fetching product details:", error);
             } finally {
@@ -360,9 +360,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         <ArrowRight className="w-5 h-5" />
                     </button>
 
-                    <button onClick={() => setIsVideoOpen(true)} className="absolute bottom-4 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-yellow-500/50 text-yellow-500 text-xs font-bold uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
+                    {/* <button onClick={() => setIsVideoOpen(true)} className="absolute bottom-4 z-20 flex items-center gap-2 px-4 py-2 rounded-full bg-black/60 backdrop-blur-md border border-yellow-500/50 text-yellow-500 text-xs font-bold uppercase tracking-widest hover:bg-yellow-500 hover:text-black transition-all">
                         <Play className="w-3 h-3 fill-current" /> Watch Film
-                    </button>
+                    </button> */}
 
                     <AnimatePresence mode="wait">
                         <motion.div
@@ -522,7 +522,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         <h1 className="text-[250px] font-black italic text-white/2 tracking-tighter">VIBE</h1>
                     </div>
 
-                    <motion.button
+                    {/* <motion.button
                         onClick={() => setIsVideoOpen(true)}
                         whileHover={{ scale: 1.05 }}
                         className="absolute top-0 right-1.5/4 z-30 flex items-center gap-3 px-6 py-3 rounded-full bg-black/40 backdrop-blur-md border border-white/20 hover:border-yellow-500 hover:bg-black/60 transition-all group"
@@ -531,7 +531,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             <Play className="w-3 h-3 fill-current" />
                         </div>
                         <span className="text-xs font-bold uppercase tracking-widest text-white group-hover:text-yellow-500">Watch Cinematic</span>
-                    </motion.button>
+                    </motion.button> */}
 
                     <div className="absolute inset-x-0 top-1/2 -translate-y-1/2 w-full flex justify-between px-12 z-30 pointer-events-none">
                         <button onClick={goToPreviousImage} className="pointer-events-auto p-4 rounded-full bg-white/5 border border-white/10 hover:bg-white hover:text-black transition-all text-white backdrop-blur-md">
@@ -597,7 +597,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             The Vibe
                         </h2>
                         <div className="w-24 h-1 bg-linear-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
-                        <p className="text-gray-400 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light italic">
+                        <p className="text-gray-400 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light italic whitespace-pre-line">
                             "{product.description}"
                         </p>
                     </div>
@@ -901,7 +901,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     Craftsmanship
                                 </h2>
                                 <div className="w-24 h-1 bg-linear-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
-                                <p className="text-gray-300 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light">
+                                <p className="text-gray-300 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light whitespace-pre-line">
                                     {product.description}
                                 </p>
                             </div>

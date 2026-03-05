@@ -12,9 +12,6 @@ import {
   Star,
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
 import ProductCard from "@/components/ProductCard";
 import CollectionsSection from "../components/CollectionsSection";
 import MarqueeBar from "@/components/GoldMarquee";
@@ -27,51 +24,37 @@ import SpotlightSection from "@/components/SpotlightSection";
 
 const HERO_ITEMS = [
   {
-    id: 1,
-    title: "ROYAL OAK",
-    subtitle: "SILVER EDITION",
-    description: "The definition of prestige. Stainless steel finish with a 3-day checking warranty.",
+    id: 14,
+    title: "IMPERIAL APEX",
+    subtitle: "EID SALE",
+    description: "A bold fruity-woody scent with smoky depth made for leaders and strong presence.",
     price: "Rs. 3,500",
-    image: "/watch-1.png",
-    accent: "from-gray-200 to-gray-500",
-    bgGlow: "bg-gray-500/20"
+    image: "/1.png",
+    accent: "from-yellow-500 to-yellow-900",
+    bgGlow: "bg-yellow-500/20"
   },
   {
     id: 2,
-    title: "SAUVAGE",
-    subtitle: "IMPRESSION OIL",
-    description: "Smells 100% identical to the original. Lasts 12+ hours in Karachi heat.",
+    title: "WILD INSTINCT",
+    subtitle: "EID SALE",
+    description: "A sharp spicy-fresh fragrance with powerful projection and bold masculine energy.",
     price: "Rs. 1,800",
-    image: "/perfume-1.png",
-    accent: "from-blue-400 to-blue-700",
-    bgGlow: "bg-blue-500/20"
+    image: "/2.png",
+    accent: "from-gray-500 to-gray-900",
+    bgGlow: "bg-white/20"
   },
   {
     id: 3,
-    title: "PATEK",
-    subtitle: "NAUTILUS STYLE",
-    description: "Automatic movement style. The most demanded watch in Pakistan right now.",
-    price: "Rs. 4,200",
-    image: "/watch-2.png",
-    accent: "from-yellow-400 to-yellow-700",
-    bgGlow: "bg-yellow-500/20"
+    title: "CRIMSON HEAT",
+    subtitle: "EID SALE",
+    description: "A warm sweet fragrance with spicy depth and a seductive masculine finish.",
+    price: "Rs. 1,680",
+    image: "/3.png",
+    accent: "from-orange-600 to-red-900",
+    bgGlow: "bg-red-500/20"
   }
 ];
 
-// const FEATURED_PRODUCTS = [
-//   { id: "1", name: "Royal Oak", brand: "Luxury", category: "Classic", price: 3500, image: "/watch-1.png", colors: ["#000"] },
-//   { id: "2", name: "Sauvage Oil", brand: "Scents", category: "Perfume", price: 1800, image: "/perfume-1.png", colors: ["#000"] },
-//   { id: "3", name: "Nautilus", brand: "Luxury", category: "Classic", price: 4200, image: "/watch-2.png", colors: ["#000"] },
-//   { id: "4", name: "Hublot Style", brand: "Sport", category: "Sport", price: 2900, image: "/watch-1.png", colors: ["#000"] },
-//   { id: "5", name: "Creed Aventus", brand: "Scents", category: "Perfume", price: 2200, image: "/perfume-1.png", colors: ["#000"] },
-//   { id: "6", name: "Daytona", brand: "Luxury", category: "Classic", price: 4500, image: "/watch-2.png", colors: ["#000"] },
-//   { id: "7", name: "Bleu de Chanel", brand: "Scents", category: "Perfume", price: 1950, image: "/perfume-1.png", colors: ["#000"] },
-//   { id: "8", name: "G-Shock Style", brand: "Sport", category: "Sport", price: 1500, image: "/watch-1.png", colors: ["#000"] },
-//   { id: "9", name: "Datejust", brand: "Luxury", category: "Classic", price: 3800, image: "/watch-2.png", colors: ["#000"] },
-//   { id: "10", name: "Tom Ford Oud", brand: "Scents", category: "Perfume", price: 2500, image: "/perfume-1.png", colors: ["#000"] },
-//   { id: "11", name: "Richard Mille", brand: "Luxury", category: "Sport", price: 5500, image: "/watch-1.png", colors: ["#000"] },
-//   { id: "12", name: "Baccarat Rouge", brand: "Scents", category: "Perfume", price: 3000, image: "/perfume-1.png", colors: ["#000"] },
-// ];
 
 export interface Product {
   id: string;
@@ -169,13 +152,13 @@ const HeroSection = () => {
     })
   };
   return (
-    <section className="relative w-full bg-[#050505] text-white overflow-hidden pt-50 pb-12 md:pt-0 md:pb-0 md:min-h-screen flex items-center ">
+    <section className="relative w-full bg-[#050505] text-white overflow-hidden pt-2 pb-12 md:pt-0 md:pb-0 md:min-h-screen flex items-center ">
       <div className={`absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[150px] transition-colors duration-1000 pointer-events-none ${currentItem.bgGlow}`} />
 
       {/* ========================================= */}
       {/* 1. DEDICATED MOBILE INTERFACE (Image FIRST) */}
       {/* ========================================= */}
-      <div className="md:hidden flex flex-col w-full px-6 gap-8 relative z-10">
+      <div className="md:hidden flex flex-col w-full px-6 gap-0 relative z-10">
 
         {/* MOBILE: IMAGE ON TOP */}
         <div className="relative w-full h-[350px] flex items-center justify-center">
@@ -209,7 +192,7 @@ const HeroSection = () => {
               <p className="text-gray-400 text-base leading-relaxed">{currentItem.description}</p>
 
               <div className="flex flex-col gap-4 pt-4 w-full">
-                <Link href="/product" className="w-full">
+                <Link href={`/product/${currentItem.id}`} className="w-full">
                   <button className="w-full h-14 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition active:scale-95 flex items-center justify-center gap-2 text-sm">
                     Buy Now - {currentItem.price} <ArrowRight className="w-4 h-4" />
                   </button>
@@ -245,7 +228,7 @@ const HeroSection = () => {
               <p className="text-gray-400 text-xl max-w-md leading-relaxed">{currentItem.description}</p>
 
               <div className="flex items-center gap-4 pt-4">
-                <Link href="/product">
+                <Link href={`/product/${currentItem.id}`}>
                   <button className="px-8 py-4 bg-white text-black font-bold rounded-full hover:bg-gray-200 transition active:scale-95 flex items-center justify-center gap-2 text-base">
                     Buy Now - {currentItem.price} <ArrowRight className="w-4 h-4" />
                   </button>
@@ -413,7 +396,7 @@ export default function Home() {
             {/* MOBILE VIEW */}
             <div className="md:hidden flex overflow-x-auto gap-4 snap-x snap-mandatory pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
               {featuredProducts.map((product) => (
-                <div key={product.id} className="min-w-[calc(50vw-20px)] shrink-0 snap-start">
+                <div key={product.id} className="min-w-[calc(50vw-20px)] flex-1 shrink-0 snap-start">
                   <ProductCard product={product} />
                 </div>
               ))}

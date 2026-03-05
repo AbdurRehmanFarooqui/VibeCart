@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Heart, ShoppingBag } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -129,7 +129,7 @@ export default function ProductCard({ product }: { product: Product }) {
         <div className="mt-auto space-y-3 md:space-y-5 mb-1">
             <div>
                 <p className="text-[#BF953F] text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase mb-1 md:mb-2 opacity-90">{product.brand}</p>
-                <h3 className="text-white font-serif text-xl md:text-2xl leading-none tracking-tight group-hover:text-[#F3E5AB] transition-colors line-clamp-1 drop-shadow-sm">
+                <h3 className="text-white font-serif text-xl md:text-2xl leading-none tracking-tight group-hover:text-[#F3E5AB] transition-colors max-w-content line-clamp-1 drop-shadow-sm">
                     {product.name}
                 </h3>
             </div>

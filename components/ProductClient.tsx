@@ -28,7 +28,7 @@ interface ProductWithType extends Product {
 // const PERFUME_BRANDS = ["LATTAFA", "ARMAF", "PENDORA", "J.", "BONANZA", "RASASI", "AJMAL", "DUNHILL IMPRESSIONS"];
 
 const WATCH_COLLECTIONS = ["The Executive", "Sport & Speed", "Mechanical", "Tactical", "French Signatures"];
-const PERFUME_COLLECTIONS = ["French Signatures", "Arabic Oud", "Night Mode", "Pakistani Edit", "Oud"];
+const PERFUME_COLLECTIONS = ["Vibe Signature", "Night Mode", "Pakistani Edit", "Oud"];
 
 // EXPANDED DATA TO PREVENT EMPTY FILTER RESULTS
 const WATCH_SLIDES = [
@@ -433,7 +433,6 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
           `)
           .eq("is_active", true);
 
-        console.log("Raw Supabase Data:", data);
         if (error) throw error;
 
         // Map the raw database data to match your UI's ProductWithType interface
@@ -460,7 +459,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
           // Get primary variant or first variant for pricing
           const primaryVariant = item.product_variants?.find((v: any) => v.is_primary === true);
           const variantPrice = primaryVariant?.price || item.base_price;
-          const salePrice = primaryVariant?.sale_price || null;
+          const salePrice = primaryVariant?.price || null;
           const isOnSale = primaryVariant?.is_on_sale || false;
           const defaultVariantId = primaryVariant?.id || item.product_variants?.[0]?.id;
 
