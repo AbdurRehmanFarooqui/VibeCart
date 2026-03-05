@@ -427,7 +427,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
             brand,
             base_price,
             product_images ( image_url, is_primary ),
-            product_variants ( id, color, is_on_sale, price, is_primary ),
+            product_variants ( id, color, is_on_sale, price, is_primary, sale_price ),
             collection_products ( collections ( title, type ) ),
             categories ( name )
           `)
@@ -459,7 +459,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
           // Get primary variant or first variant for pricing
           const primaryVariant = item.product_variants?.find((v: any) => v.is_primary === true);
           const variantPrice = primaryVariant?.price || item.base_price;
-          const salePrice = primaryVariant?.price || null;
+          const salePrice = primaryVariant?.sale_price || null;
           const isOnSale = primaryVariant?.is_on_sale || false;
           const defaultVariantId = primaryVariant?.id || item.product_variants?.[0]?.id;
 
