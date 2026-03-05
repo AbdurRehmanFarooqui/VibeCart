@@ -28,7 +28,32 @@ interface MappedColor {
     salePrice?: number | null;
     isOnSale?: boolean;
 }
-
+interface ProductData {
+    id: string;
+    title: string;
+    brand: string | null;
+    description: string | null;
+    base_price: number;
+    collection_products: Array<{
+        collections: Array<{
+            title: string
+        }> | null
+    }> | null;
+    product_images: Array<{
+        id: string;
+        variant_id: string | null;
+        image_url: string;
+        is_primary: boolean
+    }> | null;
+    product_variants: Array<{
+        id: string;
+        color: string | null;
+        size: string | null;
+        price: number | null;
+        sale_price: number | null;
+        is_on_sale: boolean | null
+    }> | null;
+}
 interface MappedProduct {
     id: string;
     brand: string;
@@ -81,7 +106,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 setIsLoading(true);
 
                 // 1. Fetch Main Product
-                const { data: productData, error: productError } = await supabase
+                const { data: data, error: productError } = await supabase
                     .from("products")
                     .select(`
             id,
@@ -97,7 +122,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     .single();
 
                 if (productError) throw productError;
-
+                const productData = data as ProductData;
                 // Process Images & Colors
                 const primaryImg = productData.product_images?.find((img: any) => img.is_primary)?.image_url || "/watch-1.png";
 
@@ -157,7 +182,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     id: productData.id.toString(),
                     brand: productData.brand || "VibeCart",
                     name: productData.title,
-                    collection: productData.collection_products?.[0]?.collections?.title || "Exclusive",
+                    collection: productData.collection_products?.[0]?.collections?.[0]?.title || "Exclusive",
                     price: productData.base_price,
                     description: productData.description || "The epitome of modern horology and luxury.",
                     videoSrc: "/watch-promo.mp4", // Kept static as DB doesn't have video column yet
@@ -278,7 +303,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* <Navbar /> */}
 
             {/* BACKGROUND AMBIANCE */}
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-yellow-900/10 via-[#050505] to-[#050505] pointer-events-none z-0" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,var(--tw-gradient-stops))] from-yellow-900/10 via-[#050505] to-[#050505] pointer-events-none z-0" />
 
             {/* ========================================================= */}
             {/* VIDEO OVERLAY */}
@@ -289,7 +314,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
-                        className="fixed inset-0 z-[100] bg-black flex flex-col items-center justify-center"
+                        className="fixed inset-0 z-100 bg-black flex flex-col items-center justify-center"
                     >
                         <button
                             onClick={() => setIsVideoOpen(false)}
@@ -320,7 +345,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <div className="flex items-center gap-2 text-[10px] text-gray-500 uppercase tracking-widest font-bold mb-4">
                     <Link href="/" className="hover:text-yellow-500">Home</Link> /
                     <Link href="/product" className="hover:text-yellow-500">{product.collection}</Link> /
-                    <span className="text-white truncate max-w-[100px]">{product.name}</span>
+                    <span className="text-white truncate max-w-25">{product.name}</span>
                 </div>
 
                 <div className="relative w-screen h-[50vh] mb-8 -mx-6 overflow-hidden flex flex-col justify-center items-center group">
@@ -429,7 +454,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 alert(error.message || "Failed to add item to cart. Please try again.");
                             }
                         }}
-                        className="w-full h-14 bg-gradient-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest text-lg rounded-full"
+                        className="w-full h-14 bg-linear-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest text-lg rounded-full"
                     >
                         ADD TO VAULT
                     </Button>
@@ -482,7 +507,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                         alert(error.message || "Failed to add item to cart. Please try again.");
                                     }
                                 }}
-                                className="h-14 px-10 rounded-full bg-gradient-to-r from-[#BF953F] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black font-black font-serif tracking-widest text-lg shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(252,246,186,0.4)] hover:scale-105 transition-all duration-300"
+                                className="h-14 px-10 rounded-full bg-linear-to-r from-[#BF953F] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black font-black font-serif tracking-widest text-lg shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(252,246,186,0.4)] hover:scale-105 transition-all duration-300"
                             >
                                 ADD TO VAULT <ShoppingBag className="ml-3 w-5 h-5" />
                             </Button>
@@ -494,7 +519,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 <div className={`relative w-[65%] -ml-12 h-[80vh] z-10 transition-opacity duration-300 flex flex-col items-center justify-center ${isDrawerOpen ? "opacity-0 pointer-events-none" : "opacity-100"}`}>
 
                     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none select-none z-0">
-                        <h1 className="text-[250px] font-black italic text-white/[0.02] tracking-tighter">VIBE</h1>
+                        <h1 className="text-[250px] font-black italic text-white/2 tracking-tighter">VIBE</h1>
                     </div>
 
                     <motion.button
@@ -568,10 +593,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                     {/* 1. HEADER & INTRO */}
                     <div className="text-center space-y-8">
-                        <h2 className="text-5xl md:text-8xl font-serif font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-700">
+                        <h2 className="text-5xl md:text-8xl font-serif font-black uppercase tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-white to-gray-700">
                             The Vibe
                         </h2>
-                        <div className="w-24 h-1 bg-gradient-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
+                        <div className="w-24 h-1 bg-linear-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
                         <p className="text-gray-400 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light italic">
                             "{product.description}"
                         </p>
@@ -581,7 +606,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
 
                         {/* Quality/Style Pillar */}
-                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-[#BF953F]/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-[#BF953F]/30 hover:bg-white/5 transition-all duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <Diamond className="w-8 h-8 text-[#BF953F]" />
                             </div>
@@ -592,7 +617,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         </div>
 
                         {/* Confidence Pillar */}
-                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-emerald-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-emerald-500/30 hover:bg-white/5 transition-all duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <PackageCheck className="w-8 h-8 text-emerald-400" />
                             </div>
@@ -603,7 +628,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         </div>
 
                         {/* Service Pillar */}
-                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/5 transition-all duration-500 group">
                             <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                 <Truck className="w-8 h-8 text-blue-400" />
                             </div>
@@ -649,7 +674,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 sub: "Quick Response Assistance"
                             }
                         ].map((item, i) => (
-                            <div key={i} className="p-2 py-4 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-yellow-500/30 hover:bg-white/[0.04] transition-all duration-300 group flex flex-col items-center text-center gap-2 md:gap-4 cursor-default">
+                            <div key={i} className="p-2 py-4 md:p-8 rounded-2xl bg-white/0.02 border border-white/5 hover:border-yellow-500/30 hover:bg-white/0.04 transition-all duration-300 group flex flex-col items-center text-center gap-2 md:gap-4 cursor-default">
                                 <div className="p-3 md:p-4 rounded-full bg-white/5 group-hover:bg-yellow-500/20 transition-colors duration-500">
                                     <item.icon className="w-6 h-6 text-gray-400 group-hover:text-yellow-500 transition-colors" />
                                 </div>
@@ -673,7 +698,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         <div className="space-y-2">
                             <h2 className="text-4xl md:text-6xl font-serif font-black text-white uppercase leading-none">
                                 Curated <span className="text-gray-700">&</span><br />
-                                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BF953F] to-[#B38728]">Calculated</span>
+                                <span className="text-transparent bg-clip-text bg-linear-to-r from-[#BF953F] to-[#B38728]">Calculated</span>
                             </h2>
                             <p className="text-gray-400 text-sm tracking-wide max-w-sm">
                                 Selections based on your impeccable taste. Pieces that don't just tell time, they tell your story.
@@ -723,7 +748,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 fill
                                 className="object-cover transition-transform duration-700 group-hover:scale-110 grayscale group-hover:grayscale-0"
                             />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-90" />
+                            <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-90" />
                             <div className="absolute bottom-8 left-8">
                                 <h3 className="text-3xl font-serif font-bold text-white mb-2">The Executive Standard</h3>
                                 <p className="text-gray-400 text-sm max-w-xs">Designed for the boardroom, the gala, and the drive home.</p>
@@ -760,9 +785,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* ========================================================= */}
             <section className="relative z-10 pb-24 bg-[#050505]">
                 <div className="max-w-5xl mx-auto px-6">
-                    <div className="relative rounded-[2rem] overflow-hidden border border-white/10 px-6 py-24 text-center group">
+                    <div className="relative rounded-4xl overflow-hidden border border-white/10 px-6 py-24 text-center group">
 
-                        <div className="absolute inset-0 bg-gradient-to-b from-[#111] to-black z-0" />
+                        <div className="absolute inset-0 bg-linear-to-b from-[#111] to-black z-0" />
                         <div className="absolute inset-0 bg-[url('https://grainy-gradients.vercel.app/noise.svg')] opacity-20 z-0" />
                         <div className="absolute -top-24 -right-24 w-64 h-64 bg-yellow-600/20 rounded-full blur-[80px] group-hover:bg-yellow-600/30 transition-all duration-1000" />
                         <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-blue-600/10 rounded-full blur-[80px] group-hover:bg-blue-600/20 transition-all duration-1000" />
@@ -774,7 +799,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 </div>
                                 <h2 className="text-5xl md:text-7xl font-serif font-black text-white tracking-tighter uppercase leading-[0.9]">
                                     Join The <br />
-                                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728]">Vibe Club</span>
+                                    <span className="text-transparent bg-clip-text bg-linear-to-r from-[#BF953F] via-[#FCF6BA] to-[#B38728]">Vibe Club</span>
                                 </h2>
                                 <p className="text-gray-400 max-w-lg mx-auto text-lg font-light">
                                     Unlock early access to limited drops, secret sales, and priority shipping.
@@ -788,7 +813,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 <div className="flex-1 relative">
                                     <input type="tel" placeholder="PHONE (WHATSAPP)" className="w-full bg-white/5 border border-white/10 rounded-xl px-6 py-5 text-sm font-bold tracking-wider text-white placeholder:text-gray-600 focus:outline-none focus:border-yellow-500 focus:bg-black transition-all uppercase" />
                                 </div>
-                                <Button className="h-auto rounded-xl px-8 py-5 bg-gradient-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(191,149,63,0.3)]">
+                                <Button className="h-auto rounded-xl px-8 py-5 bg-linear-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest hover:scale-105 transition-all shadow-[0_0_20px_rgba(191,149,63,0.3)]">
                                     JOIN CLUB
                                 </Button>
                             </div>
@@ -872,10 +897,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                             {/* 1. HEADER & INTRO */}
                             <div className="text-center space-y-8">
-                                <h2 className="text-5xl md:text-8xl font-serif font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-700">
+                                <h2 className="text-5xl md:text-8xl font-serif font-black uppercase tracking-tighter text-transparent bg-clip-text bg-linear-to-b from-white to-gray-700">
                                     Craftsmanship
                                 </h2>
-                                <div className="w-24 h-1 bg-gradient-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
+                                <div className="w-24 h-1 bg-linear-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
                                 <p className="text-gray-300 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light">
                                     {product.description}
                                 </p>
@@ -883,7 +908,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                             {/* 2. THE THREE PILLARS */}
                             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                                <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-yellow-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                                <div className="bg-white/5 border border-white/10 p-10 rounded-3xl text-center hover:border-yellow-500/30 hover:bg-white/5 transition-all duration-500 group">
                                     <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         <Clock className="w-8 h-8 text-yellow-500" />
                                     </div>
@@ -891,7 +916,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     <p className="text-sm text-gray-400 leading-relaxed">Automatic sweeping movement with a 48-hour power reserve.</p>
                                 </div>
 
-                                <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                                <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/5 transition-all duration-500 group">
                                     <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         <Droplet className="w-8 h-8 text-blue-400" />
                                     </div>
@@ -899,7 +924,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     <p className="text-sm text-gray-400 leading-relaxed">Water resistant up to 50 meters. Sapphire crystal glass.</p>
                                 </div>
 
-                                <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-green-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                                <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-green-500/30 hover:bg-white/5 transition-all duration-500 group">
                                     <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
                                         <ShieldCheck className="w-8 h-8 text-green-500" />
                                     </div>
@@ -908,20 +933,20 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 </div>
                             </div>
 
-                            <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                            <div className="w-full h-px bg-linear-to-r from-transparent via-white/10 to-transparent" />
 
                             {/* 3. THE MOVEMENT */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
                                 <div className="flex-1 relative group">
                                     <div className="absolute inset-0 bg-yellow-600/20 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                                    <div className="relative h-[400px] w-full rounded-2xl overflow-hidden border border-white/10">
+                                    <div className="relative h-100 w-full rounded-2xl overflow-hidden border border-white/10">
                                         <Image
                                             src="/mechanism.jpg"
                                             alt="Movement"
                                             fill
                                             className="object-cover hover:scale-105 transition-transform duration-700"
                                         />
-                                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
+                                        <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-60" />
                                         <div className="absolute bottom-8 left-8">
                                             <div className="text-xs font-bold text-yellow-500 uppercase tracking-widest mb-2">Internal Mechanism</div>
                                             <div className="text-3xl font-serif text-white">Swiss Engineering</div>
@@ -935,7 +960,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                             <span className="w-2 h-2 rounded-full bg-yellow-500 animate-pulse" /> The Heartbeat
                                         </div>
                                         <h3 className="text-4xl md:text-6xl font-serif font-black text-white leading-[0.9]">
-                                            CALIBER <br /> <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#BF953F] to-[#B38728]">3255</span>
+                                            CALIBER <br /> <span className="text-transparent bg-clip-text bg-linear-to-r from-[#BF953F] to-[#B38728]">3255</span>
                                         </h3>
                                         <p className="text-gray-400 text-lg font-light leading-relaxed">
                                             At its core lies a self-winding mechanical movement entirely developed and manufactured in-house. It offers a fundamental gain in terms of precision, power reserve, resistance to shocks and magnetism.
@@ -986,7 +1011,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
                                 <div className="flex-1 relative group">
                                     <div className="absolute inset-0 bg-white/10 blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                                    <div className="relative aspect-square md:aspect-[4/3] rounded-3xl overflow-hidden border border-white/10 bg-white/5 group shadow-2xl order-1 md:order-2">
+                                    <div className="relative aspect-square md:aspect-4/3 rounded-3xl overflow-hidden border border-white/10 bg-white/5 group shadow-2xl order-1 md:order-2">
                                         <Image
                                             src="/material.jpg"
                                             alt="Materials"
@@ -994,7 +1019,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                             className="object-cover group-hover:scale-105 transition-transform duration-1000"
                                         />
                                     </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-80" />
+                                    <div className="absolute inset-0 bg-linear-to-t from-black via-transparent to-transparent opacity-80" />
                                     <div className="absolute bottom-8 left-8">
                                         <div className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-2">Exterior Finish</div>
                                         <div className="text-3xl font-serif text-white">Rolesor Finish</div>

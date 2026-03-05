@@ -5,15 +5,13 @@ import { useSearchParams, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ProductCard, { Product } from "@/components/ProductCard";
 import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Search, Filter, X, ChevronLeft, ChevronRight, ArrowRightLeft, Pause, Star, ArrowUpRight, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
-
+import { supabase } from "@/lib/supabase";
 
 // ==========================================
 // 1. DATA & CONSTANTS
@@ -21,6 +19,7 @@ import { Button } from "@/components/ui/button";
 
 interface ProductWithType extends Product {
   type: "watch" | "perfume";
+  collection: string; // Add this property
 }
 
 
@@ -38,8 +37,8 @@ const WATCH_SLIDES = [
 ];
 
 const PERFUME_SLIDES = [
-  { id: 1, type: "image", src: "/perfume-hero.png", title: "MIDNIGHT OUD", subtitle: "Long Lasting • French Oil", link: "#" },
-  { id: 2, type: "video", src: "/perfume-promo.mp4", fallback: "/perfume-1.png", title: "OCEAN BREEZE", subtitle: "Citrus Notes • Summer Ready", link: "#" },
+  { id: 1, type: "image", src: "/perfume-hero.png", title: "Imperial Apex", subtitle: "Long Lasting • French Oil", link: "/product/1" },
+  { id: 2, type: "video", src: "/perfume-promo.mp4", fallback: "/perfume-1.png", title: "OCEAN BREEZE", subtitle: "Citrus Notes • Summer Ready", link: "/product/2" },
 ];
 
 // ==========================================
@@ -266,7 +265,7 @@ interface FilterProps {
 
 function ProductFilters({ searchQuery, setSearchQuery, selectedBrands, setSelectedBrands, selectedCategories, setSelectedCategories, context }: FilterProps) {
 
-  
+
   // const brandsToShow = context === "watch" ? WATCH_BRANDS : context === "perfume" ? PERFUME_BRANDS : [...WATCH_BRANDS, ...PERFUME_BRANDS];
   const collectionsToShow = context === "watch" ? WATCH_COLLECTIONS : context === "perfume" ? PERFUME_COLLECTIONS : [...WATCH_COLLECTIONS, ...PERFUME_COLLECTIONS];
 
@@ -324,10 +323,12 @@ export default function ProductPage() {
 
 
   useEffect(() => {
-    const urlContext = searchParams.get("context") as "watch" | "perfume" | null;
+    // const urlContext = searchParams.get("context") as "watch" | "perfume" | null;
+    const urlContext = "perfume";
 
     // If URL has context, force SHOP view. If not, go back to INTRO.
-    if (urlContext === "watch" || urlContext === "perfume") {
+    // if (urlContext === "watch" || urlContext === "perfume") {
+    if (urlContext === "perfume") {
       setContext(urlContext);
       setViewState("SHOP");
     } else {
@@ -338,8 +339,10 @@ export default function ProductPage() {
 
   // 4. CHECK URL ON MOUNT
   useEffect(() => {
-    const contextParam = searchParams.get("context");
-    if (contextParam === "watch" || contextParam === "perfume") {
+    // const contextParam = searchParams.get("context");
+    const contextParam = "perfume";
+    // if (contextParam === "watch" || contextParam === "perfume") {
+    if (contextParam === "perfume") {
       setContext(contextParam);
       setViewState("SHOP");
     }
@@ -362,11 +365,11 @@ export default function ProductPage() {
       {/* <Navbar /> */}
 
       <AnimatePresence mode="wait">
-        {viewState === "INTRO" && (
+        {/* {viewState === "INTRO" && (
           <motion.div key="intro" exit={{ opacity: 0, transition: { duration: 0.5 } }} className="relative z-10">
             <HeroSplit onEnter={handleEnterShop} />
           </motion.div>
-        )}
+        )} */}
 
         {viewState === "SHOP" && context && (
           <motion.div
@@ -390,7 +393,7 @@ export default function ProductPage() {
   );
 }
 
-import { supabase } from "@/lib/supabase"; // Make sure to add this import at the top!
+
 
 // ==========================================
 // 5. PRODUCT CONTENT (DYNAMIC SUPABASE FETCH)
@@ -429,7 +432,8 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
             categories ( name )
           `)
           .eq("is_active", true);
-        console.log("Raw Supabase Data:", data); // Debug log to inspect raw data
+
+        console.log("Raw Supabase Data:", data);
         if (error) throw error;
 
         // Map the raw database data to match your UI's ProductWithType interface
@@ -441,10 +445,17 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
           // Check if any variant of this product is on sale
           const isSale = item.product_variants?.some((v: any) => v.is_on_sale) || false;
 
-          // Get the collection data (Assuming it belongs to at least one)
+          // Get the collection data
           const collectionData = item.collection_products?.[0];
-          console.log("Collection Data for Product ID", item.id, ":", collectionData); // Debug log to inspect collection data
-          const categoryData = item.categories?.name.toLowerCase();
+
+          // Get category data and determine type
+          const categoryName = item.categories?.name || "";
+          const categoryLower = categoryName.toLowerCase();
+
+          // Determine type based on category
+          const productType = categoryLower.includes("watch") ? "watch" :
+            categoryLower.includes("perfume") ? "perfume" :
+              context || "watch";
 
           // Get primary variant or first variant for pricing
           const primaryVariant = item.product_variants?.find((v: any) => v.is_primary === true);
@@ -455,10 +466,8 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
 
           return {
             id: item.id.toString(),
-            category: categoryData,
             name: item.title,
-            brand: item.brand || "VibeCart", // Uses the new brand column
-            collection: collectionData?.collections?.title || "Uncategorized",
+            brand: item.brand || "VibeCart",
             price: variantPrice,
             salePrice: salePrice,
             isOnSale: isOnSale,
@@ -468,7 +477,11 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
               : ["#000"],
             defaultVariantId: defaultVariantId,
             isSale: isSale,
-            isNew: false // You can make this dynamic later based on created_at dates
+            isNew: false,
+            // Additional fields required by ProductWithType
+            type: productType,
+            category: categoryName,
+            collection: collectionData?.collections?.title || "Uncategorized"
           };
         });
 
@@ -481,7 +494,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
     };
 
     fetchProducts();
-  }, []);
+  }, [context]);
 
   // --- AUTOMATIC FILTER RESET LOGIC ---
   useEffect(() => {
@@ -500,11 +513,10 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
 
   // --- CLIENT-SIDE FILTERING ---
   const filteredProducts = allProducts.filter((product) => {
-    if (context && product.category !== context) return false;
+    if (context && product.type !== context) return false;
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.collection);
- // Debug log to check category matching
     return matchesSearch && matchesBrand && matchesCategory;
   });
 
@@ -515,14 +527,22 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
 
   const cardVariants = {
     hidden: { opacity: 0, y: 20 },
-    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 20 } }
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 20
+      }
+    }
   };
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-8 md:py-12 flex flex-col lg:flex-row gap-8 lg:gap-12 min-h-screen relative">
 
       {/* FLOATING SWITCH BUTTON */}
-      <motion.div
+      {/* <motion.div
         initial={{ opacity: 0, y: 50 }}
         animate={{ opacity: 1, y: 0 }}
         className="fixed bottom-6 right-4 md:bottom-10 md:right-6 z-[100]"
@@ -534,7 +554,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
           <ArrowRightLeft className="w-4 h-4 md:w-5 md:h-5" />
           SWITCH TO {context === "watch" ? "PERFUMES" : "WATCHES"}
         </Button>
-      </motion.div>
+      </motion.div> */}
 
       {/* MOBILE FILTER HEADER */}
       <div className="lg:hidden flex items-center justify-between sticky top-[0px] z-[60] bg-[#050505] p-4 border-b border-white/10 -mx-4 px-6 shadow-xl mb-6">

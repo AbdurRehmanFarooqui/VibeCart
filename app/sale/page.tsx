@@ -115,7 +115,7 @@ function SaleContent() {
             isNew: false,
             isSale: isOnSale,
           };
-        }).filter(Boolean)
+        }).filter(Boolean) as Product[]; 
 
         setFeaturedProducts(mappedProducts);
       } catch (error) {

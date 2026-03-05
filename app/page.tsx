@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { motion, AnimatePresence, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight,
   ChevronRight,
@@ -113,18 +113,61 @@ const HeroSection = () => {
 
   const currentItem = HERO_ITEMS[currentIndex];
 
+  // const textVariants = {
+  //   hidden: (dir: number) => ({ opacity: 0, x: dir === 1 ? 100 : -100 }),
+  //   visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
+  //   exit: (dir: number) => ({ opacity: 0, x: dir === 1 ? -100 : 100, transition: { duration: 0.4 } })
+  // };
   const textVariants = {
-    hidden: (dir: number) => ({ opacity: 0, x: dir === 1 ? 100 : -100 }),
-    visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
-    exit: (dir: number) => ({ opacity: 0, x: dir === 1 ? -100 : 100, transition: { duration: 0.4 } })
+    hidden: (dir: number) => ({
+      opacity: 0,
+      x: dir === 1 ? 100 : -100
+    }),
+    visible: {
+      opacity: 1,
+      x: 0,
+      transition: {
+        duration: 0.6,
+        ease: "easeOut" as const  // Add 'as const' here
+      }
+    },
+    exit: (dir: number) => ({
+      opacity: 0,
+      x: dir === 1 ? -100 : 100,
+      transition: { duration: 0.4 }
+    })
   };
-
+  // const imageVariants = {
+  //   hidden: (dir: number) => ({ opacity: 0, x: dir === 1 ? 200 : -200, rotate: dir === 1 ? 15 : -15, scale: 0.8 }),
+  //   visible: { opacity: 1, x: 0, rotate: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 20 } },
+  //   exit: (dir: number) => ({ opacity: 0, x: dir === 1 ? -200 : 200, rotate: dir === 1 ? -15 : 15, scale: 0.8, transition: { duration: 0.5 } })
+  // };
   const imageVariants = {
-    hidden: (dir: number) => ({ opacity: 0, x: dir === 1 ? 200 : -200, rotate: dir === 1 ? 15 : -15, scale: 0.8 }),
-    visible: { opacity: 1, x: 0, rotate: 0, scale: 1, transition: { type: "spring", stiffness: 100, damping: 20 } },
-    exit: (dir: number) => ({ opacity: 0, x: dir === 1 ? -200 : 200, rotate: dir === 1 ? -15 : 15, scale: 0.8, transition: { duration: 0.5 } })
+    hidden: (dir: number) => ({
+      opacity: 0,
+      x: dir === 1 ? 200 : -200,
+      rotate: dir === 1 ? 15 : -15,
+      scale: 0.8
+    }),
+    visible: {
+      opacity: 1,
+      x: 0,
+      rotate: 0,
+      scale: 1,
+      transition: {
+        type: "spring" as const,
+        stiffness: 100,
+        damping: 20
+      }
+    },
+    exit: (dir: number) => ({
+      opacity: 0,
+      x: dir === 1 ? -200 : 200,
+      rotate: dir === 1 ? -15 : 15,
+      scale: 0.8,
+      transition: { duration: 0.5 }
+    })
   };
-
   return (
     <section className="relative w-full bg-[#050505] text-white overflow-hidden pt-50 pb-12 md:pt-0 md:pb-0 md:min-h-screen flex items-center ">
       <div className={`absolute top-0 right-0 w-[600px] h-[600px] rounded-full blur-[150px] transition-colors duration-1000 pointer-events-none ${currentItem.bgGlow}`} />
@@ -271,7 +314,8 @@ export default function Home() {
         console.log("Raw product data from Supabase:", data);
 
         // Map the data and apply sale pricing logic
-        const mappedProducts = data.map((item: any) => {
+        // Map the data and apply sale pricing logic
+        const mappedProducts: Product[] = data.map((item: any) => {
           // Find the variant marked as primary, or fallback to the first available variant
           const primaryVariant = item.product_variants?.find((v: any) => v.is_primary === true);
           const defaultVariantId = primaryVariant?.id || item.product_variants?.[0]?.id || null;
@@ -279,6 +323,14 @@ export default function Home() {
           const variantPrice = primaryVariant?.price || item.base_price;
           const salePrice = primaryVariant?.sale_price || null;
           const isOnSale = primaryVariant?.is_on_sale || false;
+
+          // Safely extract colors as string[]
+          const colorsArray: string[] = item.product_variants?.length
+            ? [...new Set(item.product_variants
+              .map((v: any) => v.color)
+              .filter((color: string | null) => color !== null && color !== undefined))]
+              .map(String) // Ensure they're strings
+            : ["#000"];
 
           return {
             id: item.id.toString(),
@@ -289,9 +341,7 @@ export default function Home() {
             salePrice: salePrice,
             isOnSale: isOnSale,
             image: item.product_images?.[0]?.image_url || "/watch-1.png",
-            colors: item.product_variants?.length
-              ? [...new Set(item.product_variants.map((v: any) => v.color).filter(Boolean))]
-              : ["#000"],
+            colors: colorsArray,
             defaultVariantId: defaultVariantId,
             isNew: false,
             isSale: isOnSale,
