@@ -230,7 +230,7 @@ const DesktopCTA = () => (
 export default function AboutPage() {
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* Hero */}
       <MobileHero />
@@ -248,7 +248,7 @@ export default function AboutPage() {
       <MobileCTA />
       <DesktopCTA />
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

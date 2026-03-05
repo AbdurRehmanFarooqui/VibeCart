@@ -4,11 +4,9 @@ import { useState, use, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronUp, Clock, Droplet, Play, X, ArrowLeft, ArrowRight, Truck, RefreshCcw, Star, ShieldCheck, ShoppingBag } from "lucide-react";
+import { ChevronUp, Clock, Droplet, Play, X, ArrowLeft, ArrowRight, Diamond, PackageCheck, Truck, RefreshCcw, Star, ShieldCheck, ShoppingBag, Banknote } from "lucide-react";
 import { Facebook, Instagram, Twitter } from "lucide-react";
 
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import ProductCard from "@/components/ProductCard";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
@@ -277,7 +275,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
 
     return (
         <main className="min-h-screen bg-[#050505] text-white relative overflow-hidden flex flex-col">
-            <Navbar />
+            {/* <Navbar /> */}
 
             {/* BACKGROUND AMBIANCE */}
             <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-yellow-900/10 via-[#050505] to-[#050505] pointer-events-none z-0" />
@@ -519,6 +517,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                         </button>
                     </div>
 
+
                     <AnimatePresence mode="wait">
                         <motion.div
                             key={getCurrentImage()}
@@ -557,25 +556,105 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     </div>
                 )}
             </div>
+            <motion.div
+                key="drawer"
+                initial={{ y: "100%" }}
+                animate={{ y: 0 }}
+                exit={{ y: "100%" }}
+                transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+                className=" bg-[#050505]/98 backdrop-blur-3xl text-white flex flex-col border-t border-white/10"
+            >
+                <div className="w-full max-w-5xl mx-auto px-6 py-32 space-y-24">
 
+                    {/* 1. HEADER & INTRO */}
+                    <div className="text-center space-y-8">
+                        <h2 className="text-5xl md:text-8xl font-serif font-black uppercase tracking-tighter text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-700">
+                            The Vibe
+                        </h2>
+                        <div className="w-24 h-1 bg-gradient-to-r from-[#BF953F] to-[#B38728] mx-auto rounded-full" />
+                        <p className="text-gray-400 max-w-3xl mx-auto text-lg md:text-xl leading-relaxed font-light italic">
+                            "{product.description}"
+                        </p>
+                    </div>
+
+                    {/* 2. THE THREE PILLARS (Generalized for all Accessories) */}
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+
+                        {/* Quality/Style Pillar */}
+                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-[#BF953F]/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Diamond className="w-8 h-8 text-[#BF953F]" />
+                            </div>
+                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Curated Style</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Hand-selected pieces designed to elevate your daily look, from timeless watches to signature scents.
+                            </p>
+                        </div>
+
+                        {/* Confidence Pillar */}
+                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-emerald-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <PackageCheck className="w-8 h-8 text-emerald-400" />
+                            </div>
+                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Quality Inspected</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Every item undergoes a rigorous check before dispatch to ensure it arrives in perfect condition.
+                            </p>
+                        </div>
+
+                        {/* Service Pillar */}
+                        <div className="bg-white/[0.03] border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/[0.05] transition-all duration-500 group">
+                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                <Truck className="w-8 h-8 text-blue-400" />
+                            </div>
+                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Doorstep Delivery</h4>
+                            <p className="text-sm text-gray-400 leading-relaxed">
+                                Fast, secure shipping with Cash on Delivery options available across the country.
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+
+            </motion.div>
             {/* ========================================================= */}
             {/* 1. THE VIBE PROMISE (Trust Signals) */}
             {/* ========================================================= */}
             <section className="relative z-10 bg-[#080808] border-t border-white/5 py-20">
                 <div className="max-w-7xl mx-auto px-6">
-                    <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-6">
                         {[
-                            { icon: ShieldCheck, title: "Authenticated", sub: "Double-Verified by Experts" },
-                            { icon: Truck, title: "Express Delivery", sub: "Insured Global Shipping" },
-                            { icon: RefreshCcw, title: "Easy Returns", sub: "7-Day No Questions Asked" },
-                            { icon: Clock, title: "Concierge", sub: "24/7 VIP Support Access" }
+                            // { icon: ShieldCheck, title: "Authenticated", sub: "Double-Verified by Experts" },
+                            // { icon: Truck, title: "Express Delivery", sub: "Insured Global Shipping" },
+                            // { icon: RefreshCcw, title: "Easy Returns", sub: "7-Day No Questions Asked" },
+                            // { icon: Clock, title: "Concierge", sub: "24/7 VIP Support Access" }
+                            {
+                                icon: ShieldCheck,
+                                title: "Quality Assured",
+                                sub: "Inspected Before Dispatch"
+                            },
+                            {
+                                icon: Banknote, // Use Banknote for COD focus
+                                title: "Pay on Delivery",
+                                sub: "Cash on Delivery Available"
+                            },
+                            {
+                                icon: RefreshCcw,
+                                title: "Secure Exchange",
+                                sub: "7-Day Wrong/Damage Policy"
+                            },
+                            {
+                                icon: Clock,
+                                title: "Support",
+                                sub: "Quick Response Assistance"
+                            }
                         ].map((item, i) => (
-                            <div key={i} className="p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-yellow-500/30 hover:bg-white/[0.04] transition-all duration-300 group flex flex-col items-center text-center gap-4 cursor-default">
-                                <div className="p-4 rounded-full bg-white/5 group-hover:bg-yellow-500/20 transition-colors duration-500">
+                            <div key={i} className="p-2 py-4 md:p-8 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-yellow-500/30 hover:bg-white/[0.04] transition-all duration-300 group flex flex-col items-center text-center gap-2 md:gap-4 cursor-default">
+                                <div className="p-3 md:p-4 rounded-full bg-white/5 group-hover:bg-yellow-500/20 transition-colors duration-500">
                                     <item.icon className="w-6 h-6 text-gray-400 group-hover:text-yellow-500 transition-colors" />
                                 </div>
                                 <div>
-                                    <h4 className="font-serif font-bold text-white text-lg tracking-tight">{item.title}</h4>
+                                    <h4 className="font-serif font-bold text-white md:text-lg tracking-tight">{item.title}</h4>
                                     <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-2 group-hover:text-gray-400 transition-colors">{item.sub}</p>
                                 </div>
                             </div>
@@ -630,12 +709,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* ========================================================= */}
             <section className="relative z-10 py-20 bg-[#050505] overflow-hidden">
                 <div className="absolute top-1/2 -translate-y-1/2 left-0 w-full overflow-hidden opacity-[0.03] pointer-events-none">
-                    <div className="whitespace-nowrap text-[20vw] font-black italic text-white animate-marquee">
+                    <div className="whitespace-nowrap max-w-min mx-auto text-[5vw] px-6 font-black italic text-white animate-marquee">
                         LIFESTYLE • LUXURY • VIBE • CART •
                     </div>
                 </div>
 
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
+                {/* <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
                         <div className="relative h-[600px] w-full group overflow-hidden rounded-2xl border border-white/10">
                             <Image
@@ -673,7 +752,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             </div>
                         </div>
                     </div>
-                </div>
+                </div>*/}
             </section>
 
             {/* ========================================================= */}
@@ -749,12 +828,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 </div>
             </section>
 
-            <Footer />
+            {/* <Footer /> */}
 
             {/* ========================================================= */}
             {/* DRAWER TOGGLE BUTTON */}
             {/* ========================================================= */}
-            <div className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4 transition-all duration-500 ${isDrawerOpen ? "translate-y-0" : ""}`}>
+            {/* <div className={`fixed bottom-10 left-1/2 -translate-x-1/2 z-50 flex flex-col items-center gap-4 transition-all duration-500 ${isDrawerOpen ? "translate-y-0" : ""}`}>
                 <AnimatePresence>
                     {!isDrawerOpen && (
                         <motion.span
@@ -774,7 +853,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 >
                     <ChevronUp className="w-6 h-6" />
                 </button>
-            </div>
+            </div> */}
 
             {/* ========================================================= */}
             {/* DRAWER CONTENT OVERLAY */}

@@ -190,7 +190,7 @@ function SaleContent() {
 export default function SalePage() {
   return (
     <main className="min-h-screen bg-[#050505] text-white overflow-x-hidden">
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* HERO SECTION */}
       <section className="relative w-full h-[45vh] md:h-[50vh] flex flex-col items-center justify-center overflow-hidden border-b border-white/10 pt-16 md:pt-0">
@@ -218,7 +218,7 @@ export default function SalePage() {
         <SaleContent />
       </Suspense>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }

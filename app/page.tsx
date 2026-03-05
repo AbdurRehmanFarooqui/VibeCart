@@ -329,7 +329,7 @@ export default function Home() {
     <main className="min-h-screen relative bg-[#050505] text-white overflow-x-hidden selection:bg-blue-500/30">
 
       {/* 1. NAVBAR */}
-      <Navbar />
+      {/* <Navbar /> */}
 
       {/* 2. HERO SECTION */}
       <HeroSection />
@@ -417,7 +417,7 @@ export default function Home() {
 
       {/* 7. NEWSLETTER */}
       <PremiumNewsletter />
-      <Footer />
+      {/* <Footer /> */}
 
     </main>
   );

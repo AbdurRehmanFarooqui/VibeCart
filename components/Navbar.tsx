@@ -120,7 +120,7 @@ export default function Navbar() {
   const blueGlow = "drop-shadow-[0_0_10px_rgba(59,130,246,0.8)]";
 
   return (
-    <nav className="relative flex justify-between items-center px-4 md:px-8 py-6 z-40 w-full max-w-7xl mx-auto">
+    <nav className="relative flex justify-between items-center px-4 md:px-8 py-6 z-40 w-full max-w-7xl mx-auto  bg-[#050505]">
       
       {/* MOBILE MENU */}
       <div className="md:hidden">

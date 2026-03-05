@@ -25,31 +25,13 @@ interface ProductWithType extends Product {
 
 
 
-const WATCH_BRANDS = ["ROLEX STYLE", "PATEK STYLE", "NAVIFORCE", "POEDAGAR", "CURREN", "SVESTON", "SKMEI", "HUBLOT STYLE", "VibeCart"];
-const PERFUME_BRANDS = ["LATTAFA", "ARMAF", "PENDORA", "J.", "BONANZA", "RASASI", "AJMAL", "DUNHILL IMPRESSIONS"];
+// const WATCH_BRANDS = ["ROLEX STYLE", "PATEK STYLE", "NAVIFORCE", "POEDAGAR", "CURREN", "SVESTON", "SKMEI", "HUBLOT STYLE", "VibeCart"];
+// const PERFUME_BRANDS = ["LATTAFA", "ARMAF", "PENDORA", "J.", "BONANZA", "RASASI", "AJMAL", "DUNHILL IMPRESSIONS"];
 
 const WATCH_COLLECTIONS = ["The Executive", "Sport & Speed", "Mechanical", "Tactical", "French Signatures"];
 const PERFUME_COLLECTIONS = ["French Signatures", "Arabic Oud", "Night Mode", "Pakistani Edit", "Oud"];
 
 // EXPANDED DATA TO PREVENT EMPTY FILTER RESULTS
-const ALL_PRODUCTS: ProductWithType[] = [
-  // WATCHES
-  { id: "1", type: "watch", name: "Royal Oak Series", brand: "ROLEX STYLE", category: "The Executive", price: 3500, image: "/watch-1.png", colors: ["#000"], isNew: true },
-  { id: "3", type: "watch", name: "Nautilus Steel", brand: "PATEK STYLE", category: "The Executive", price: 4200, image: "/watch-2.png", colors: ["#000"] },
-  { id: "4", type: "watch", name: "Hublot Big Bang", brand: "HUBLOT STYLE", category: "Sport & Speed", price: 2900, image: "/watch-1.png", colors: ["#000"], isNew: true },
-  { id: "6", type: "watch", name: "Daytona Panda", brand: "ROLEX STYLE", category: "Mechanical", price: 4500, image: "/watch-2.png", colors: ["#fff"], isNew: true },
-  { id: "8", type: "watch", name: "G-Shock Mudmaster", brand: "SKMEI", category: "Tactical", price: 1200, image: "/watch-1.png", colors: ["#000"] },
-  { id: "10", type: "watch", name: "Naviforce Beast", brand: "NAVIFORCE", category: "Sport & Speed", price: 2200, image: "/watch-1.png", colors: ["#000"] },
-  { id: "11", type: "watch", name: "Curren Chrono", brand: "CURREN", category: "The Executive", price: 1800, image: "/watch-2.png", colors: ["#000"] },
-
-  // PERFUMES
-  { id: "2", type: "perfume", name: "Sauvage Elixir", brand: "PENDORA", category: "French Signatures", price: 1800, image: "/perfume-1.png", colors: ["#000"], isSale: true },
-  { id: "5", type: "perfume", name: "Creed Aventus", brand: "ARMAF", category: "French Signatures", price: 2200, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "7", type: "perfume", name: "Bleu de Chanel", brand: "LATTAFA", category: "Night Mode", price: 1900, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "9", type: "perfume", name: "Oud Mood", brand: "LATTAFA", category: "Arabic Oud", price: 2500, image: "/perfume-1.png", colors: ["#000"] },
-  { id: "12", type: "perfume", name: "J. Core", brand: "J.", category: "Pakistani Edit", price: 3000, image: "/perfume-1.png", colors: ["#000"] },
-];
-
 const WATCH_SLIDES = [
   { id: 1, type: "video", src: "/watch-promo.mp4", fallback: "/watch-hero.png", title: "THE GOLD STANDARD", subtitle: "Automatic Movement • Sapphire Glass", link: "#" },
   { id: 2, type: "image", src: "/watch-2.png", title: "SILVER PHANTOM", subtitle: "Chronograph • Waterproof", link: "#" },
@@ -283,8 +265,11 @@ interface FilterProps {
 }
 
 function ProductFilters({ searchQuery, setSearchQuery, selectedBrands, setSelectedBrands, selectedCategories, setSelectedCategories, context }: FilterProps) {
-  const brandsToShow = context === "watch" ? WATCH_BRANDS : context === "perfume" ? PERFUME_BRANDS : [...WATCH_BRANDS, ...PERFUME_BRANDS];
+
+  
+  // const brandsToShow = context === "watch" ? WATCH_BRANDS : context === "perfume" ? PERFUME_BRANDS : [...WATCH_BRANDS, ...PERFUME_BRANDS];
   const collectionsToShow = context === "watch" ? WATCH_COLLECTIONS : context === "perfume" ? PERFUME_COLLECTIONS : [...WATCH_COLLECTIONS, ...PERFUME_COLLECTIONS];
+
 
   const toggleFilter = (item: string, list: string[], setList: (val: string[]) => void) => {
     if (list.includes(item)) setList(list.filter((i) => i !== item));
@@ -297,7 +282,7 @@ function ProductFilters({ searchQuery, setSearchQuery, selectedBrands, setSelect
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
         <Input placeholder="Search..." value={searchQuery} onChange={(e) => setSearchQuery(e.target.value)} className="bg-white/5 border-white/10 pl-10 text-white focus:border-yellow-500 transition-colors rounded-full" />
       </div>
-      <Separator className="bg-white/10" />
+      {/* <Separator className="bg-white/10" />
       <div className="space-y-4">
         <h3 className="font-serif font-bold text-sm tracking-widest text-yellow-500 uppercase">Brands</h3>
         <div className="space-y-3 max-h-[250px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-white/20">
@@ -306,9 +291,9 @@ function ProductFilters({ searchQuery, setSearchQuery, selectedBrands, setSelect
               <Checkbox id={`brand-${brand}`} checked={selectedBrands.includes(brand)} onCheckedChange={() => toggleFilter(brand, selectedBrands, setSelectedBrands)} className="border-white/30 data-[state=checked]:bg-yellow-600 data-[state=checked]:text-black w-5 h-5 rounded-full" />
               <label htmlFor={`brand-${brand}`} className="text-sm font-medium cursor-pointer text-gray-400 hover:text-white transition-colors">{brand}</label>
             </div>
-          ))}
+          ))} 
         </div>
-      </div>
+      </div> */}
       <Separator className="bg-white/10" />
       <div className="space-y-4">
         <h3 className="font-serif font-bold text-sm tracking-widest text-blue-500 uppercase">Collections</h3>
@@ -374,7 +359,7 @@ export default function ProductPage() {
 
   return (
     <main className="min-h-screen bg-[#050505] text-white relative">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <AnimatePresence mode="wait">
         {viewState === "INTRO" && (
@@ -400,7 +385,7 @@ export default function ProductPage() {
         )}
       </AnimatePresence>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
@@ -519,7 +504,7 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
     const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesBrand = selectedBrands.length === 0 || selectedBrands.includes(product.brand);
     const matchesCategory = selectedCategories.length === 0 || selectedCategories.includes(product.collection);
-    console.log(product.collection, "matches category?", matchesCategory); // Debug log to check category matching
+ // Debug log to check category matching
     return matchesSearch && matchesBrand && matchesCategory;
   });
 

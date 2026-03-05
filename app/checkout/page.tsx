@@ -230,7 +230,7 @@ export default function CheckoutPage() {
   if (isSuccess) {
     return (
       <main className="min-h-screen bg-[#050505] text-white flex flex-col">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="flex-1 flex items-center justify-center p-6">
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
@@ -262,7 +262,7 @@ export default function CheckoutPage() {
             </Link>
           </motion.div>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     );
   }
@@ -271,14 +271,14 @@ export default function CheckoutPage() {
   if (cart.length === 0) {
     return (
       <main className="min-h-screen bg-[#050505] text-white flex flex-col">
-        <Navbar />
+        {/* <Navbar /> */}
         <div className="flex-1 flex flex-col items-center justify-center gap-4">
           <h2 className="text-2xl font-bold">Your vault is empty</h2>
           <Link href="/product">
             <Button className="bg-[#BF953F] hover:bg-[#B38728] text-black font-bold tracking-widest rounded-full">Browse Collection</Button>
           </Link>
         </div>
-        <Footer />
+        {/* <Footer /> */}
       </main>
     );
   }
@@ -286,7 +286,7 @@ export default function CheckoutPage() {
   // --- MAIN CHECKOUT FORM ---
   return (
     <main className="min-h-screen bg-[#050505] text-white">
-      <Navbar />
+      {/* <Navbar /> */}
 
       <div className="max-w-7xl mx-auto px-6 py-12">
         <h1 className="text-3xl md:text-5xl font-serif font-black uppercase tracking-tighter mb-8 text-transparent bg-clip-text bg-gradient-to-r from-white to-gray-500">
@@ -508,7 +508,7 @@ export default function CheckoutPage() {
         </div>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </main>
   );
 }
