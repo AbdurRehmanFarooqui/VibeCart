@@ -291,6 +291,7 @@ export default function Home() {
           `)
           .eq("is_active", true)
           .eq("product_images.is_primary", true)
+          .order("created_at", { ascending: true })
           .limit(12);
 
         if (error) throw error;
