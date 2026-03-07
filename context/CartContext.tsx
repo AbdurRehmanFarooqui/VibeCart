@@ -18,6 +18,8 @@ interface CartContextType {
   removeFromCart: (cartId: string | number) => void;
   clearCart: () => void;
   toggleCart: () => void;
+  increaseQuantity: (cartId: string | number) => void;
+  decreaseQuantity: (cartId: string | number) => void;
   isCartOpen: boolean;
   cartTotal: number;
   cartCount: number;
@@ -82,6 +84,48 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsCartOpen(true);
   };
 
+const increaseQuantity = ( cartId: string | number ) => {
+    // Validate that variantId exists - it must come from the database only
+    if (!cartId) {
+      throw new Error(`Invalid variant ID ${cartId}.`);
+    }
+
+    setCart((prev) => {
+      // The variantId IS the unique identifier for the cart row
+      const existing = prev.find((item) => item.cartId === cartId);
+
+      if (existing) {
+        return prev.map((item) =>
+          item.cartId === cartId
+            ? { ...item, quantity: item.quantity + 1 }
+            : item
+        );
+      }
+      return prev;
+    });
+  };
+
+const decreaseQuantity = ( cartId: string | number ) => {
+    // Validate that variantId exists - it must come from the database only
+    if (!cartId) {
+      throw new Error(`Invalid variant ID ${cartId}.`);
+    }
+
+    setCart((prev) => {
+      // The variantId IS the unique identifier for the cart row
+      const existing = prev.find((item) => item.cartId === cartId);
+
+      if (existing) {
+        return prev.map((item) =>
+          item.cartId === cartId
+            ? { ...item, quantity: item.quantity - 1 }
+            : item
+        );
+      }
+      return prev;
+    });
+  };
+
   const removeFromCart = (cartId: string | number) => {
     setCart((prev) => prev.filter((item) => item.cartId !== cartId));
   };
@@ -93,7 +137,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const cartCount = cart.reduce((count, item) => count + item.quantity, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, toggleCart, isCartOpen, cartTotal, cartCount }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, toggleCart, increaseQuantity, decreaseQuantity, isCartOpen, cartTotal, cartCount }}>
       {children}
     </CartContext.Provider>
   );

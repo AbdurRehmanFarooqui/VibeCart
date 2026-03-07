@@ -97,8 +97,8 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
     const [currentImageIndex, setCurrentImageIndex] = useState(0); // Index of image within the variant's images
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
     const [isVideoOpen, setIsVideoOpen] = useState(false);
-
-    const { addToCart } = useCart();
+    const [cartItem, setCartItem] = useState<any>(null); // Track if current variant is in cart
+    const { addToCart, cart } = useCart();
 
     // --- FETCH DATA FROM SUPABASE ---
     useEffect(() => {
@@ -240,6 +240,10 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
         if (id) fetchProductData();
     }, [id]);
 
+    useEffect(() => {
+        setCartItem(cart.find((item) => item.variantId === product?.colors[activeColorIndex].variantId))
+        console.log("Cart Item for current variant:", cartItem);
+    }, [cart, activeColorIndex, product]);
 
     // --- INTERACTION LOGIC ---
     const getCurrentImages = () => {
@@ -451,13 +455,14 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                     },
                                     selectedVariant.variantId // <--- PASS THE VARIANT ID
                                 );
+
                             } catch (error: any) {
                                 alert(error.message || "Failed to add item to cart. Please try again.");
                             }
                         }}
                         className="w-full h-14 bg-linear-to-r from-[#BF953F] to-[#B38728] text-black font-black tracking-widest text-lg rounded-full"
                     >
-                        ADD TO VAULT
+                        {cartItem?.cartId == product.colors[activeColorIndex].variantId ? "UPDATE VAULT" : "ADD TO VAULT"}
                     </Button>
                 </div>
             </div>
@@ -510,7 +515,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                                 }}
                                 className="h-14 px-10 rounded-full bg-linear-to-r from-[#BF953F] to-[#B38728] hover:from-[#FCF6BA] hover:to-[#BF953F] text-black font-black font-serif tracking-widest text-lg shadow-[0_0_30px_rgba(234,179,8,0.2)] hover:shadow-[0_0_40px_rgba(252,246,186,0.4)] hover:scale-105 transition-all duration-300"
                             >
-                                ADD TO VAULT <ShoppingBag className="ml-3 w-5 h-5" />
+                                {cartItem?.cartId == product.colors[activeColorIndex].variantId ? "UPDATE VAULT" : "ADD TO VAULT"} <ShoppingBag className="ml-3 w-5 h-5" />
                             </Button>
                         </div>
                     </div>
