@@ -37,8 +37,8 @@ const WATCH_SLIDES = [
 ];
 
 const PERFUME_SLIDES = [
-  { id: 1, type: "image", src: "/perfume-hero.png", title: "Imperial Apex", subtitle: "Long Lasting • French Oil", link: "/product/1" },
-  { id: 2, type: "video", src: "/perfume-promo.mp4", fallback: "/perfume-1.png", title: "OCEAN BREEZE", subtitle: "Citrus Notes • Summer Ready", link: "/product/2" },
+  { id: 14, type: "image", src: "/1.png", title: "Imperial Apex", subtitle: "Fruity Fresh • Smoky Power", link: "/product/14" },
+  { id: 17, type: "image", src: "/2.png", fallback: "/2.png", title: "WILD INSTINCT", subtitle: "Fresh Spice • Bold Energy", link: "/product/17" },
 ];
 
 // ==========================================

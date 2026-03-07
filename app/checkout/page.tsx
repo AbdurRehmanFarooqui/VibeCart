@@ -7,8 +7,6 @@ import { useRouter } from "next/navigation";
 import { useCart } from "@/context/CartContext";
 import { motion, AnimatePresence } from "framer-motion";
 import { Loader2, CheckCircle, ShieldCheck, MapPin, Phone, Banknote, Mail } from "lucide-react";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -473,8 +471,8 @@ export default function CheckoutPage() {
                   <span className="text-white">Rs. {cartTotal.toLocaleString()}</span>
                 </div>
                 <div className="flex justify-between text-gray-400">
-                  <span>Delivery (Nationwide)</span>
-                  <span className="text-green-400 font-bold uppercase tracking-widest text-xs">Free</span>
+                  <span>Delivery</span>
+                  <span className="font-bold uppercase tracking-widest text-xs">Rs 200</span>
                 </div>
               </div>
 
@@ -482,7 +480,7 @@ export default function CheckoutPage() {
 
               <div className="flex justify-between items-center">
                 <span className="text-gray-400 uppercase tracking-widest text-sm">Total</span>
-                <span className="text-3xl font-serif font-black text-white">Rs. {cartTotal.toLocaleString()}</span>
+                <span className="text-3xl font-serif font-black text-white">Rs. {(cartTotal + 200).toLocaleString()}</span>
               </div>
 
               {/* THE SUBMIT BUTTON - LINKED TO THE FORM ID */}

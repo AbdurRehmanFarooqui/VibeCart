@@ -8,38 +8,27 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const SPOTLIGHT_ITEMS = [
     {
-        id: 1,
-        tag: "Limited Edition Drop",
-        title: "MIDNIGHT",
-        highlight: "GOLD",
+        id: 14,
+        tag: "Vibe Signature",
+        title: "IMPERIAL ",
+        highlight: "APEX",
         highlightColor: "from-yellow-300 to-yellow-600",
-        desc: "Designed for the nightlife. Watches that catch every light in the room and fragrances that last until the sun comes up.",
-        image: "/watch-2.png",
-        link: "/shop/midnight",
+        desc: "A bold fruity-woody scent with smoky depth made for leaders and strong presence.",
+        image: "/1.png",
+        link: "/product/14",
         shadowClass: "drop-shadow-[0_20px_60px_rgba(234,179,8,0.5)]"
     },
     {
-        id: 2,
+        id: 17,
         tag: "Summer Essentials",
-        title: "OCEAN",
-        highlight: "NOIR",
+        title: "WILD",
+        highlight: "INSTINCT",
         highlightColor: "from-blue-400 to-blue-700",
         desc: "Fresh, aquatic scents paired with silver-tone timepieces. Perfect for the Karachi heat.",
-        image: "/perfume-1.png",
-        link: "/shop/summer",
+        image: "/2.png",
+        link: "/product/17",
         shadowClass: "drop-shadow-[0_20px_60px_rgba(59,130,246,0.5)]"
     },
-    {
-        id: 3,
-        tag: "Executive Series",
-        title: "URBAN",
-        highlight: "ONYX",
-        highlightColor: "from-gray-200 to-white",
-        desc: "Understated dominance. Matte black finishes and woody notes for the modern professional.",
-        image: "/watch-1.png",
-        link: "/shop/urban",
-        shadowClass: "drop-shadow-[0_20px_60px_rgba(255,255,255,0.3)]"
-    }
 ];
 
 const SpotlightSection = () => {
