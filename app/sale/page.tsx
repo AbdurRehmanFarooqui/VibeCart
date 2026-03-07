@@ -82,6 +82,7 @@ function SaleContent() {
           `)
           .eq("is_active", true)
           .eq("product_images.is_primary", true)
+          .order("created_at", { ascending: true })
           .limit(12);
 
         if (error) throw error;
@@ -115,7 +116,7 @@ function SaleContent() {
             isNew: false,
             isSale: isOnSale,
           };
-        }).filter(Boolean) as Product[]; 
+        }).filter(Boolean) as Product[];
 
         setFeaturedProducts(mappedProducts);
       } catch (error) {
@@ -163,10 +164,10 @@ function SaleContent() {
       </div> */}
 
       {isLoading && (
-          <div className="flex justify-center items-center h-[40vh]">
-            <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
-          </div>
-        )}
+        <div className="flex justify-center items-center h-[40vh]">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-yellow-500"></div>
+        </div>
+      )}
 
       {/* --- PRODUCT GRID --- */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-8">

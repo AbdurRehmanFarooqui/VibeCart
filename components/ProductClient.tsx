@@ -431,7 +431,8 @@ function ProductContent({ context, toggleContext }: { context: "watch" | "perfum
             collection_products ( collections ( title, type ) ),
             categories ( name )
           `)
-          .eq("is_active", true);
+          .eq("is_active", true)
+          .order("created_at", { ascending: true });
 
         if (error) throw error;
 
