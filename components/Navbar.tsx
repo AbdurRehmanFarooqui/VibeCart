@@ -82,10 +82,15 @@ const NAV_ITEMS = [
     ]
   },
   {
-    title: "About",
-    href: "/about",
+    title: "Contact",
+    href: "/support/contact",
     hasSubmenu: false
   }
+  // {
+  //   title: "About",
+  //   href: "/about",
+  //   hasSubmenu: false
+  // }
 ];
 
 const getHref = (menuTitle: string, sectionTitle: string, itemName: string) => {
