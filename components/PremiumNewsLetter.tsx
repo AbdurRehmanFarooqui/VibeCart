@@ -102,19 +102,19 @@ const PremiumNewsletter = () => {
                   <span className="hidden md:block text-sm font-medium">Facebook</span>
                 </Link>
 
-                <Link href="https://instagram.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-pink-500 transition">
+                <Link href="https://www.instagram.com/vibecartpk" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-pink-500 transition">
                   <div className="p-3 bg-white/5 rounded-full group-hover:bg-pink-500/20 transition">
                     <Instagram className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <span className="hidden md:block text-sm font-medium">Instagram</span>
                 </Link>
 
-                <Link href="https://twitter.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-white transition">
+                {/* <Link href="https://twitter.com" target="_blank" className="group flex items-center gap-2 text-gray-400 hover:text-white transition">
                   <div className="p-3 bg-white/5 rounded-full group-hover:bg-white/20 transition">
                     <Twitter className="w-4 h-4 md:w-5 md:h-5" />
                   </div>
                   <span className="hidden md:block text-sm font-medium">X / Twitter</span>
-                </Link>
+                </Link> */}
               </div>
             </div>
 

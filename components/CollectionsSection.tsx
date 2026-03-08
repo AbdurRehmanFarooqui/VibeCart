@@ -17,7 +17,7 @@ export interface Collection {
 }
 
 const WATCH_BRANDS = ["ROLEX STYLE", "PATEK STYLE", "NAVIFORCE", "POEDAGAR", "CURREN", "SVESTON", "SKMEI", "HUBLOT STYLE"];
-const PERFUME_BRANDS = ["LATTAFA", "ARMAF", "PENDORA", "J.", "BONANZA", "RASASI", "AJMAL", "DUNHILL IMPRESSIONS"];
+const PERFUME_BRANDS = ["IMPERIAL APEX", "AZURE PULSE", "WILD INSTINCT", "MIDNIGHT TEMPTATION", "CRIMSON HEAT"];
 
 // --- SUB-COMPONENT: BRAND TICKER ---
 const BrandTicker = ({ brands, color = "text-white" }: { brands: string[], color?: string }) => (
@@ -139,13 +139,14 @@ export default function CollectionsSection() {
 
           {/* 2. PERFUME SECTION */}
           <div className="space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-end gap-4 border-b border-white/10 pb-6">
+            <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-4 border-b border-white/10 pb-6">
                <div>
                   <span className="text-blue-500 font-bold tracking-widest text-xs uppercase">Scent & Aura</span>
                   <h2 className="text-4xl md:text-5xl font-black italic mt-2">FRAGRANCE LAB</h2>
+                  <span className="text-gray-600 font-bold tracking-widest text-xs uppercase">Collections</span>
                </div>
-               <p className="text-gray-400 text-sm max-w-xs text-right">
-                  Long-lasting impressions. Choose your vibe from our curated scent families.
+               <p className="text-gray-400 text-sm max-w-xs text-center md:text-right">
+                  Long-lasting Scents. Choose your vibe from our curated scent families.
                </p>
             </div>
 

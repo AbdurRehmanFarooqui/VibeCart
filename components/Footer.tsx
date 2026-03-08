@@ -62,7 +62,7 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-serif font-bold mb-6 tracking-wide">COLLECTIONS</h4>
             <ul className="space-y-4 text-sm text-gray-500 font-medium">
-              <li><Link href="/product?context=watch" className="hover:text-yellow-500 transition-colors">Luxury Watches</Link></li>
+              {/* <li><Link href="/product?context=watch" className="hover:text-yellow-500 transition-colors">Luxury Watches</Link></li> */}
               <li><Link href="/product?context=perfume" className="hover:text-yellow-500 transition-colors">Signature Scents</Link></li>
               <li><Link href="/product" className="hover:text-yellow-500 transition-colors">New Arrivals</Link></li>
               <li><Link href="/product" className="hover:text-yellow-500 transition-colors">Best Sellers</Link></li>
@@ -111,9 +111,9 @@ export default function Footer() {
         <div className="text-center md:text-left flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 font-bold tracking-[0.2em] uppercase">
           <p>&copy; {new Date().getFullYear()} VIBE CART. EST. KARACHI.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <Link href="#" className="hover:text-yellow-500 transition-colors"><Instagram className="w-4 h-4" /></Link>
-            <Link href="#" className="hover:text-yellow-500 transition-colors"><Facebook className="w-4 h-4" /></Link>
-            <Link href="#" className="hover:text-yellow-500 transition-colors"><Twitter className="w-4 h-4" /></Link>
+            <Link href="https://www.instagram.com/vibecartpk" target="_blank" className="hover:text-yellow-500 transition-colors"><Instagram className="w-4 h-4" /></Link>
+            <Link href="https://www.facebook.com/vibecart.official.pk" target="_blank" className="hover:text-yellow-500 transition-colors"><Facebook className="w-4 h-4" /></Link>
+            {/* <Link href="#" className="hover:text-yellow-500 transition-colors"><Twitter className="w-4 h-4" /></Link> */}
           </div>
         </div>
       </div>
