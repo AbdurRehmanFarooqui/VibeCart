@@ -8,7 +8,7 @@ import WelcomePopup from "@/components/WelcomePopup";
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import SaleBar from "@/components/SaleBar";
-
+import WhatsAppFAB from "@/components/WhatsAppFAB";
 <meta name="apple-mobile-web-app-title" content="Vibe Cart" />
 const inter = Inter({ subsets: ["latin"] });
 
@@ -27,6 +27,7 @@ export default function RootLayout({
       <body className={`${inter.className} bg-[#050505] text-white min-h-screen`}>
 
         <WelcomePopup />
+        <WhatsAppFAB/>
         <SaleBar />
         <CartProvider>
           <Navbar />
