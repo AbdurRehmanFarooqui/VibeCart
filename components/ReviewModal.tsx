@@ -8,7 +8,7 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
   const [rating, setRating] = useState(0);
   const [hover, setHover] = useState(0);
   const [loading, setLoading] = useState(false);
-  
+
   // Form Fields
   const [formData, setFormData] = useState({
     name: "",
@@ -24,7 +24,7 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const files = Array.from(e.target.files);
-      
+
       if (selectedFiles.length + files.length > 3) {
         alert("Maximum 3 images allowed for luxury curation.");
         return;
@@ -59,7 +59,7 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     if (rating === 0) return alert("Please select a rating.");
-    
+
     setLoading(true);
 
     try {
@@ -101,13 +101,13 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
   return (
     <AnimatePresence>
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
           onClick={onClose}
-          className="absolute inset-0 bg-black/95 backdrop-blur-xl" 
+          className="absolute inset-0 bg-black/95 backdrop-blur-xl"
         />
-        
-        <motion.div 
+
+        <motion.div
           initial={{ scale: 0.9, opacity: 0, y: 20 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
@@ -145,7 +145,7 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
                 {previews.map((src, i) => (
                   <div key={i} className="relative w-20 h-20 rounded-2xl overflow-hidden border border-white/20 group">
                     <img src={src} className="w-full h-full object-cover" alt="Preview" />
-                    <button 
+                    <button
                       type="button"
                       onClick={() => removeImage(i)}
                       className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center"
@@ -158,58 +158,58 @@ export default function ReviewModal({ isOpen, onClose, productId }: { isOpen: bo
             )}
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <input 
+              <input
                 required
-                type="text" 
-                placeholder="Full Name" 
+                type="text"
+                placeholder="Full Name"
                 value={formData.name}
-                onChange={(e) => setFormData({...formData, name: e.target.value})}
-                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white" 
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white"
               />
-              <input 
+              <input
                 required
-                type="email" 
-                placeholder="Email Address" 
-                value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
-                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white" 
-              />
-              <input 
-                type="tel" 
-                placeholder="Phone (Optional)" 
+                type="tel"
+                placeholder="Phone"
                 value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white col-span-full" 
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white "
+              />
+              <input
+                type="email"
+                placeholder="Email Address"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                className="bg-white/5 border border-white/10 rounded-2xl p-4 text-sm focus:outline-none focus:border-[#BF953F] transition-all text-white col-span-full"
               />
             </div>
 
-            <textarea 
+            <textarea
               required
-              placeholder="Tell us about your experience..." 
+              placeholder="Tell us about your experience..."
               rows={4}
               value={formData.message}
-              onChange={(e) => setFormData({...formData, message: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               className="w-full bg-white/5 border border-white/10 rounded-3xl p-6 text-sm focus:outline-none focus:border-[#BF953F] transition-all resize-none text-white"
             />
 
             <div className="flex flex-col md:flex-row items-center justify-between gap-6">
-               <label className={`flex items-center gap-3 cursor-pointer group ${selectedFiles.length >= 3 ? "opacity-30 pointer-events-none" : ""}`}>
-                  <div className="p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-white/30 transition-all">
-                    <Camera className="w-6 h-6 text-gray-400" />
-                  </div>
-                  <div className="flex flex-col">
-                    <span className="text-xs font-bold uppercase tracking-widest text-gray-200">Upload Image</span>
-                    <span className="text-[10px] text-gray-500 uppercase">{selectedFiles.length}/3 selected</span>
-                  </div>
-                  <input type="file" className="hidden" accept="image/*" multiple onChange={handleFileChange} disabled={selectedFiles.length >= 3} />
-               </label>
+              <label className={`flex items-center gap-3 cursor-pointer group ${selectedFiles.length >= 3 ? "opacity-30 pointer-events-none" : ""}`}>
+                <div className="p-4 rounded-2xl bg-white/5 border border-white/10 group-hover:border-white/30 transition-all">
+                  <Camera className="w-6 h-6 text-gray-400" />
+                </div>
+                <div className="flex flex-col">
+                  <span className="text-xs font-bold uppercase tracking-widest text-gray-200">Upload Image</span>
+                  <span className="text-[10px] text-gray-500 uppercase">{selectedFiles.length}/3 selected</span>
+                </div>
+                <input type="file" className="hidden" accept="image/*" multiple onChange={handleFileChange} disabled={selectedFiles.length >= 3} />
+              </label>
 
-               <button 
+              <button
                 disabled={loading}
                 className="w-full md:w-auto h-16 px-12 rounded-full bg-gradient-to-r from-[#BF953F] to-[#B38728] text-black font-black uppercase tracking-widest text-sm hover:shadow-[0_0_30px_rgba(191,149,63,0.3)] transition-all flex items-center justify-center gap-2 disabled:opacity-50"
-               >
-                  {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit Review <Send className="w-4 h-4" /></>}
-               </button>
+              >
+                {loading ? <Loader2 className="w-5 h-5 animate-spin" /> : <>Submit Review <Send className="w-4 h-4" /></>}
+              </button>
             </div>
           </form>
         </motion.div>
