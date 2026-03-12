@@ -12,6 +12,12 @@ import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
+declare global {
+  interface Window {
+    fbq: any;
+  }
+}
+
 // IMPORT SUPABASE
 import { supabase } from "@/lib/supabase";
 
@@ -208,13 +214,25 @@ export default function CheckoutPage() {
         setIsProcessing(false);
         return;
       }
+      // ... inside handlePlaceOrder, after the API response is successful
+      if (response.ok) {
+        setOrderId(responseData.orderId);
+        setIsSuccess(true);
+        window.scrollTo(0, 0);
+        clearCart();
 
-      // 8. Success! Clear form and show success screen
-      setOrderId(responseData.orderId);
-      setIsSuccess(true);
-      // document.getElementById("success-screen")?.scrollIntoView({ behavior: "smooth" });
-      window.scrollTo(0, 0)
-      clearCart();
+        // --- ADD PIXEL TRACKING HERE ---
+        if (typeof window !== "undefined" && window.fbq) {
+          window.fbq('track', 'Purchase', {
+            value: cartTotal + 200, // Total amount including delivery
+            currency: 'PKR',
+            content_type: 'product',
+            content_ids: cart.map(item => item.variantId),
+            num_items: cart.length
+          });
+        }
+        // -------------------------------
+      }
 
     } catch (error: any) {
       console.error("Checkout failed:", error);
@@ -355,19 +373,19 @@ export default function CheckoutPage() {
                     </select>
                   </div>
                   <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}>
-                  <label className="text-xs font-bold text-gray-500 tracking-wider">STREET ADDRESS *</label>
-                  <Input
-                    value={address}
-                    onChange={(e) => {
-                      setAddress(e.target.value);
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">STREET ADDRESS *</label>
+                    <Input
+                      value={address}
+                      onChange={(e) => {
+                        setAddress(e.target.value);
 
-                    }}
-                    // onFocus={() => setShowSuggestions(true)}
-                    placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"}
-                    className="bg-white/5 border-white/10 text-white h-12"
-                    required
-                    disabled={!city}
-                  />
+                      }}
+                      // onFocus={() => setShowSuggestions(true)}
+                      placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"}
+                      className="bg-white/5 border-white/10 text-white h-12"
+                      required
+                      disabled={!city}
+                    />
                   </div>
 
                   {/* Address with Auto-Suggest */}
