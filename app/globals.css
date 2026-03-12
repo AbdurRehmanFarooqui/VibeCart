@@ -130,3 +130,8 @@
     @apply bg-background text-foreground; 
   } 
 }
+/* Add to your globals.css */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+}

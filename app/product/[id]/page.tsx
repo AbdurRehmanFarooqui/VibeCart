@@ -8,6 +8,8 @@ import { ChevronUp, Clock, Droplet, Play, X, ArrowLeft, ArrowRight, Diamond, Pac
 import { Facebook, Instagram, Twitter } from "lucide-react";
 
 import ProductCard from "@/components/ProductCard";
+import LifeStyleImageSection from "@/components/LifeStyleImageSection";
+import ReviewsSection from "@/components/ReviewsSection";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 
@@ -35,6 +37,8 @@ interface ProductData {
     brand: string | null;
     description: string | null;
     base_price: number;
+    avg_rating: number | null;
+    number_of_reviews: number | null;
     collection_products: Array<{
         collections: Array<{
             title: string
@@ -54,7 +58,11 @@ interface ProductData {
         sale_price: number | null;
         is_on_sale: boolean | null
     }> | null;
+    lifestyle_images: Array<{
+        url: string; // Changed from image_url to url to match your query
+    }> | null;
 }
+
 interface MappedProduct {
     id: string;
     brand: string;
@@ -63,10 +71,20 @@ interface MappedProduct {
     price: number;
     description: string;
     videoSrc: string;
+    avg_rating?: number;
+    number_of_reviews?: number;
     colors: MappedColor[];
     variants: string[];
+    lifestyle_images: string[];
 }
-
+const images = [
+    "/1.png",
+    "/2.png",
+    "/3.png",
+    "/4.png",
+    "/5.png",
+    "/6.png",
+]
 // --- COMPONENT: TITLE ---
 const FormatName = ({ name }: { name: string }) => {
     const parts = name.split(" ");
@@ -115,9 +133,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             brand,
             description,
             base_price,
+            avg_rating,
+            number_of_reviews,
             collection_products ( collections ( title ) ),
             product_images ( id, variant_id, image_url, is_primary ),
-            product_variants ( id, color, size, price, sale_price, is_on_sale )
+            product_variants ( id, color, size, price, sale_price, is_on_sale ),
+            lifestyle_images ( url )
           `)
                     .eq("id", id)
                     .single();
@@ -183,12 +204,15 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     id: productData.id.toString(),
                     brand: productData.brand || "VibeCart",
                     name: productData.title,
+                    avg_rating: productData.avg_rating || 0,
+                    number_of_reviews: productData.number_of_reviews || 0,
                     collection: productData.collection_products?.[0]?.collections?.[0]?.title || "Exclusive",
                     price: productData.base_price,
                     description: productData.description || "The epitome of modern horology and luxury.",
                     videoSrc: "/watch-promo.mp4", // Kept static as DB doesn't have video column yet
                     colors: mappedColors,
                     variants: sizes,
+                    lifestyle_images: productData.lifestyle_images?.map((img) => img.url) || []
                 });
 
                 // 2. Fetch Related Products (Limit 3)
@@ -595,7 +619,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
                 className=" bg-[#050505]/98 backdrop-blur-3xl text-white flex flex-col border-t border-white/10"
             >
-                <div className="w-full max-w-5xl mx-auto px-6 py-32 space-y-24">
+                <div className="w-full max-w-5xl mx-auto px-6 py-18 space-y-14">
 
                     {/* 1. HEADER & INTRO */}
                     <div className="text-center space-y-8">
@@ -609,56 +633,68 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     </div>
 
                     {/* 2. THE THREE PILLARS (Generalized for all Accessories) */}
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
-
-                        {/* Quality/Style Pillar */}
-                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-[#BF953F]/30 hover:bg-white/5 transition-all duration-500 group">
-                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Diamond className="w-8 h-8 text-[#BF953F]" />
+                    <div className="grid max-w-6xl mx-auto grid-cols-1 md:grid-cols-3 gap-1 md:gap-6">
+                        {[
+                            {
+                                icon: Diamond,
+                                title: "Curated Style",
+                                sub: "Hand-selected pieces designed to elevate your daily look, from timeless watches to signature scents.",
+                                color: '[#BF953F]',
+                                bordercolor: 'border-yellow-500/30'
+                            },
+                            {
+                                icon: PackageCheck,
+                                title: "Quality Inspected",
+                                sub: "Every item undergoes a rigorous check before dispatch to ensure it arrives in perfect condition.",
+                                color: 'emerald-400',
+                                bordercolor: 'border-green-500/30'
+                            },
+                            {
+                                icon: Truck,
+                                title: "Doorstep Delivery",
+                                sub: "Fast, secure shipping with Cash on Delivery options available across the country.",
+                                color: 'blue-400',
+                                bordercolor: 'border-blue-500/30'
+                            },
+                        ].map((item, i) => (
+                            <div key={i} className={`bg-white/3 border border-white/10 p-2 md:p-10 rounded-xl md:rounded-3xl text-left md:text-center hover:${item.bordercolor} hover:bg-white/5 transition-all duration-500 group`}>
+                                <div className="flex md:flex-col items-center md:items-center gap-2 md:gap-0 justify-start pb-2 md:pb-0">
+                                    <div className="w-8 h-8 md:w-16 md:h-16 rounded-full bg-white/5 md:mx-auto md:mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
+                                        <item.icon className={`w-5 h-5 md:w-8 md:h-8 text-${item.color}`} />
+                                    </div>
+                                    <h4 className="font-serif font-bold text-xs md:text-2xl md:mb-3 text-white">{item.title}</h4>
+                                </div>
+                                <p className="text-xs md:text-sm text-gray-400 leading-relaxed">
+                                    {item.sub}
+                                </p>
                             </div>
-                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Curated Style</h4>
-                            <p className="text-sm text-gray-400 leading-relaxed">
-                                Hand-selected pieces designed to elevate your daily look, from timeless watches to signature scents.
-                            </p>
-                        </div>
-
-                        {/* Confidence Pillar */}
-                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-emerald-500/30 hover:bg-white/5 transition-all duration-500 group">
-                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <PackageCheck className="w-8 h-8 text-emerald-400" />
-                            </div>
-                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Quality Inspected</h4>
-                            <p className="text-sm text-gray-400 leading-relaxed">
-                                Every item undergoes a rigorous check before dispatch to ensure it arrives in perfect condition.
-                            </p>
-                        </div>
-
-                        {/* Service Pillar */}
-                        <div className="bg-white/3 border border-white/10 p-10 rounded-3xl text-center hover:border-blue-500/30 hover:bg-white/5 transition-all duration-500 group">
-                            <div className="w-16 h-16 rounded-full bg-white/5 mx-auto mb-6 flex items-center justify-center group-hover:scale-110 transition-transform">
-                                <Truck className="w-8 h-8 text-blue-400" />
-                            </div>
-                            <h4 className="font-serif font-bold text-2xl mb-3 text-white">Doorstep Delivery</h4>
-                            <p className="text-sm text-gray-400 leading-relaxed">
-                                Fast, secure shipping with Cash on Delivery options available across the country.
-                            </p>
-                        </div>
-
+                        ))}
                     </div>
                 </div>
 
             </motion.div>
+
+            {/* LifeStyle Images Sections */}
+            {/* In your ProductDetailPage */}
+            {product?.lifestyle_images && product.lifestyle_images.length > 0 && (
+                <LifeStyleImageSection
+                    images={product.lifestyle_images}
+                    productTitle={product.name || ""}
+                />
+            )}
+
+            {/* Reviews Sections */}
+            <ReviewsSection productId={product.id} avgRating={product.avg_rating || 0} totalReviews={product.number_of_reviews || 0} />
+
+
+
             {/* ========================================================= */}
             {/* 1. THE VIBE PROMISE (Trust Signals) */}
             {/* ========================================================= */}
-            <section className="relative z-10 bg-[#080808] border-t border-white/5 py-20">
+            <section className="relative z-10 bg-[#080808] border-t border-white/5 py-18">
                 <div className="max-w-7xl mx-auto px-6">
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-1 md:gap-6">
                         {[
-                            // { icon: ShieldCheck, title: "Authenticated", sub: "Double-Verified by Experts" },
-                            // { icon: Truck, title: "Express Delivery", sub: "Insured Global Shipping" },
-                            // { icon: RefreshCcw, title: "Easy Returns", sub: "7-Day No Questions Asked" },
-                            // { icon: Clock, title: "Concierge", sub: "24/7 VIP Support Access" }
                             {
                                 icon: ShieldCheck,
                                 title: "Quality Assured",
@@ -681,12 +717,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             }
                         ].map((item, i) => (
                             <div key={i} className="p-2 py-4 md:p-8 rounded-2xl bg-white/0.02 border border-white/5 hover:border-yellow-500/30 hover:bg-white/0.04 transition-all duration-300 group flex flex-col items-center text-center gap-2 md:gap-4 cursor-default">
-                                <div className="p-3 md:p-4 rounded-full bg-white/5 group-hover:bg-yellow-500/20 transition-colors duration-500">
-                                    <item.icon className="w-6 h-6 text-gray-400 group-hover:text-yellow-500 transition-colors" />
+                                <div className="p-2 md:p-4 rounded-full bg-white/5 group-hover:bg-yellow-500/20 transition-colors duration-500">
+                                    <item.icon className="w-5 md:w-6 h-6 md:h-6 text-gray-400 group-hover:text-yellow-500 transition-colors" />
                                 </div>
                                 <div>
-                                    <h4 className="font-serif font-bold text-white md:text-lg tracking-tight">{item.title}</h4>
-                                    <p className="text-[10px] text-gray-500 uppercase tracking-widest mt-2 group-hover:text-gray-400 transition-colors">{item.sub}</p>
+                                    <h4 className="font-serif font-bold text-white text-sm md:text-lg tracking-tight">{item.title}</h4>
+                                    <p className="text-[10px] text-gray-500 md:uppercase tracking-widest mt-2 group-hover:text-gray-400 transition-colors">{item.sub}</p>
                                 </div>
                             </div>
                         ))}
@@ -697,7 +733,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             {/* ========================================================= */}
             {/* 2. RELATED PRODUCTS (Curated Grid) */}
             {/* ========================================================= */}
-            <section className="relative z-10 py-24 bg-[#050505] border-t border-white/5">
+            <section className="relative z-10 py-18 bg-[#050505] border-t border-white/5">
                 <div className="max-w-7xl mx-auto px-6">
 
                     <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
@@ -720,7 +756,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     </div>
 
                     {/* THE DYNAMIC GRID */}
-                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-8">
+                    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-1 md:gap-8">
                         {relatedProducts.map((prod) => (
                             <ProductCard key={prod.id} product={prod} />
                         ))}

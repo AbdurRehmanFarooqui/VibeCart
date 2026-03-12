@@ -113,7 +113,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 {/* IMAGE AREA */}
                 <div className="flex-1 relative flex items-center justify-center pb-4 pt-2 md:pb-4 md:pt-0">
                     <div className={`absolute w-40 h-40 bg-[#BF953F] rounded-full blur-[80px] mix-blend-screen transition-all duration-700 ease-in-out ${isHovered ? "opacity-40 scale-150" : "opacity-0 scale-50"}`} />
-                    <div className={`absolute w-40 h-40 bg-[#ffffff] rounded-full blur-[60px] mix-blend-screen transition-all duration-700 ease-in-out opacity-100 scale-80`} />
+                    <div className={`absolute w-40 h-40 bg-[#ffffff] rounded-full blur-[80px] md:blur-[60px] mix-blend-screen transition-all duration-700 ease-in-out opacity-100 scale-46 md:scale-80`} />
 
                     <div className={`relative w-full h-full transition-transform duration-700 cubic-bezier(0.34, 1.56, 0.64, 1) ${isHovered ? "scale-130 -translate-y-4 rotate-3" : "scale-110"}`}>
                         <Image
