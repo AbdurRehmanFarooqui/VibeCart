@@ -9,6 +9,7 @@ import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import SaleBar from "@/components/SaleBar";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
+import FacebookPixel from "@/components/FacebookPixel";
 <meta name="apple-mobile-web-app-title" content="Vibe Cart" />
 const inter = Inter({ subsets: ["latin"] });
 
@@ -38,6 +39,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </CartProvider>
+        <FacebookPixel />
       </body>
     </html>
   );
