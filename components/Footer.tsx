@@ -72,19 +72,19 @@ export default function Footer() {
             <h4 className="text-white font-serif font-bold mb-6 tracking-wide">SUPPORT</h4>
             <ul className="space-y-4 text-sm text-gray-500 font-medium">
               <li className="">
-                <Link href="/support/track"><li className="hover:text-yellow-500 transition-colors">Track Order</li></Link>
+                <Link href="/support/track" className="hover:text-yellow-500 transition-colors">Track Order</Link>
               </li>
               <li className="">
-                <Link href="/support/shipping"><li className="hover:text-yellow-500 transition-colors">Shipping Policy</li></Link>
+                <Link href="/support/shipping" className="hover:text-yellow-500 transition-colors">Shipping Policy</Link>
               </li>
               <li className="">
-                <Link href="/support/returns"><li className="hover:text-yellow-500 transition-colors">Returns & Exchanges</li></Link>
+                <Link href="/support/returns" className="hover:text-yellow-500 transition-colors">Returns & Exchanges</Link>
               </li>
               <li className="">
-                <Link href="/support/contact"><li className="hover:text-yellow-500 transition-colors">Contact Us</li></Link>
+                <Link href="/support/contact" className="hover:text-yellow-500 transition-colors">Contact Us</Link>
               </li>
               <li className="">
-                <Link href="/support/faq"><li className="hover:text-yellow-500 transition-colors">FAQs</li></Link>
+                <Link href="/support/faq" className="hover:text-yellow-500 transition-colors">FAQs</Link>
               </li>
             </ul>
           </div>

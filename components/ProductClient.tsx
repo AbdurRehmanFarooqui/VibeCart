@@ -37,8 +37,8 @@ const WATCH_SLIDES = [
 ];
 
 const PERFUME_SLIDES = [
-  { id: 14, type: "image", src: "/perfume-14.png", title: "Imperial Apex", subtitle: "Fruity Fresh • Smoky Power", link: "/product/14" },
-  { id: 17, type: "image", src: "/perfume-17.png", fallback: "/perfume-17.png", title: "WILD INSTINCT", subtitle: "Fresh Spice • Bold Energy", link: "/product/17" },
+  { id: 14, type: "image", src: "/imperial-apex.jpg", title: "Imperial Apex", subtitle: "Fruity Fresh • Smoky Power", link: "/product/14" },
+  { id: 17, type: "image", src: "/wild-instinct.jpg", fallback: "/2.png", title: "WILD INSTINCT", subtitle: "Fresh Spice • Bold Energy", link: "/product/17" },
 ];
 
 // ==========================================
@@ -220,18 +220,18 @@ const CategoryHero = ({ context }: { context: "watch" | "perfume" }) => {
           key={`text-${current}`} // Re-animate on slide change
           className={`bg-black/40 backdrop-blur-sm p-8 rounded-2xl border border-white/10 transition-all duration-300 ${isHovered ? "scale-105 border-yellow-500/50" : "scale-100"}`}
         >
-          <h2 className="text-4xl md:text-6xl font-serif font-bold text-white mb-2 tracking-tight">{slides[current].title}</h2>
+          <h2 className="text-3xl md:text-6xl font-serif font-bold text-white mb-2 tracking-tight">{slides[current].title}</h2>
 
-          <div className={`overflow-hidden transition-all duration-500 ${isHovered ? "max-h-[200px] opacity-100 mt-4" : "max-h-0 opacity-0"}`}>
-            <p className="text-yellow-400 font-bold tracking-widest text-sm mb-6 uppercase">{slides[current].subtitle}</p>
+          <div className={`overflow-hidden transition-all duration-500 max-h-30 mt-4 ${isHovered ? "md:max-h-[200px] md:opacity-100 md:mt-4" : "md:max-h-0 md:opacity-0"}`}>
+            <p className="text-yellow-400 font-bold tracking-widest text-xs md:text-sm mb-3 md:mb-6 uppercase">{slides[current].subtitle}</p>
             <Link href={slides[current].link}>
-              <Button className="bg-white text-black hover:bg-yellow-500 hover:text-black font-bold rounded-full px-8 py-6">
-                SHOP NOW <ArrowUpRight className="ml-2 w-4 h-4" />
+              <Button className="bg-white text-black hover:bg-yellow-500 hover:text-black font-bold rounded-full md:px-8 py-2 md:py-6">
+                SHOP NOW <ArrowUpRight className="ml-1 md:ml-2 w-4 h-4" />
               </Button>
             </Link>
           </div>
 
-          <div className={`transition-opacity duration-300 mt-2 ${isHovered ? "opacity-0" : "opacity-60"}`}>
+          <div className={`transition-opacity duration-300 h-0 md:h-auto md:mt-2 opacity-0 ${isHovered ? "md:opacity-0" : "md:opacity-60"}`}>
             <p className="text-xs text-white uppercase tracking-widest flex items-center justify-center gap-2">
               {slides[current].type === "video" ? <Pause className="w-3 h-3" /> : <Star className="w-3 h-3" />}
               Hover for Details
