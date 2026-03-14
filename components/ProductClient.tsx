@@ -37,8 +37,8 @@ const WATCH_SLIDES = [
 ];
 
 const PERFUME_SLIDES = [
-  { id: 14, type: "image", src: "/1.png", title: "Imperial Apex", subtitle: "Fruity Fresh • Smoky Power", link: "/product/14" },
-  { id: 17, type: "image", src: "/2.png", fallback: "/2.png", title: "WILD INSTINCT", subtitle: "Fresh Spice • Bold Energy", link: "/product/17" },
+  { id: 14, type: "image", src: "/perfume-14.png", title: "Imperial Apex", subtitle: "Fruity Fresh • Smoky Power", link: "/product/14" },
+  { id: 17, type: "image", src: "/perfume-17.png", fallback: "/perfume-17.png", title: "WILD INSTINCT", subtitle: "Fresh Spice • Bold Energy", link: "/product/17" },
 ];
 
 // ==========================================

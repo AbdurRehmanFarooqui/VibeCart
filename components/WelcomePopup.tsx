@@ -11,7 +11,7 @@ export default function WelcomePopup() {
 
   useEffect(() => {
     // Check if they have already entered before on ANY page
-    const hasEntered = localStorage.getItem("vibe_vault_entered");
+    const hasEntered = sessionStorage.getItem("vibe_vault_entered");
     if (!hasEntered) {
       setTimeout(() => setIsOpen(true), 800);
     }
@@ -20,9 +20,9 @@ export default function WelcomePopup() {
   const handleEnter = () => {
     if (!selectedCity) return; 
     
-    // Save to localStorage for checkout auto-fill
-    localStorage.setItem("vibe_vault_entered", "true");
-    localStorage.setItem("vibe_user_city", selectedCity);
+    // Save to sessionStorage for checkout auto-fill
+    sessionStorage.setItem("vibe_vault_entered", "true");
+    sessionStorage.setItem("vibe_user_city", selectedCity);
     
     setIsOpen(false);
   };

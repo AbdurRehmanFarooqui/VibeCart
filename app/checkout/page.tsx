@@ -23,11 +23,19 @@ import { supabase } from "@/lib/supabase";
 
 // --- MOCK AREA DATA FOR AUTO-SUGGEST ---
 const CITY_AREAS: Record<string, string[]> = {
-  Karachi: ["DHA Phase 1-8", "Clifton", "Bahria Town", "Gulshan-e-Iqbal", "Gulistan-e-Jouhar", "North Nazimabad", "PECHS", "Malir", "Tariq Road", "Korangi", "Saddar"],
+  Karachi: ["DHA Phase 1-8", "Clifton", "Bahria Town", "Gulshan-e-Iqbal", "Gulistan-e-Jouhar", "North Nazimabad", "PECHS", "Malir", "Tariq Road", "Korangi", "Saddar", "Federal B Area", "Bahadurabad", "Nazimabad", "Landhi", "Shah Faisal Town", "Jamshed Town", "Lyari", "Orangi Town", "SITE Area", "Gadap Town", "Bin Qasim", "Surjani Town", "New Karachi", "Kiamari", "Gulsahn-e-Hadeed", "Shah Latif Town", "Airport", "Clifton", "Gulshan-e-Maymar", "Gulshan-e-Sheraz"],
 
   Lahore: ["DHA Phase 1-8", "Gulberg", "Johar Town", "Bahria Town", "Model Town", "Wapda Town", "Cantonment", "Iqbal Town", "Askari"],
 
   Islamabad: ["F-6", "F-7", "F-8", "F-11", "E-7", "G-11", "G-13", "DHA Phase 1-5", "Bahria Town", "Blue Area", "I-8"],
+  
+  Gujranwala: [],
+  Hyderabad: [],
+  Faisalabad: [],
+  Multan: [],
+  Peshawar: [],
+  Quetta: [],
+  Rawalpindi: []
 };
 
 export default function CheckoutPage() {
@@ -55,7 +63,7 @@ export default function CheckoutPage() {
 
   // Auto-fill City from Local Storage (if you have a welcome popup)
   useEffect(() => {
-    const savedCity = localStorage.getItem("vibe_user_city");
+    const savedCity = sessionStorage.getItem("vibe_user_city");
     if (savedCity && Object.keys(CITY_AREAS).includes(savedCity)) {
       setCity(savedCity);
     }
@@ -368,7 +376,9 @@ export default function CheckoutPage() {
                     >
                       <option value="" disabled>Select City</option>
                       {Object.keys(CITY_AREAS).map(c => (
-                        <option key={c} value={c}>{c}</option>
+                        <option key={c} value={c} disabled={c !== "Karachi"}>
+                          {c !== "Karachi" ? `${c} (Coming Soon)` : c}
+                        </option>
                       ))}
                     </select>
                   </div>

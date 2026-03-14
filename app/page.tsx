@@ -396,8 +396,10 @@ export default function Home() {
           <>
             {/* MOBILE VIEW */}
             <div className="md:hidden flex overflow-x-auto gap-4 snap-x snap-mandatory pb-6 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+              {/* Gradient fade on right edge */}
+              <div className="absolute right-0 h-92 top-36 w-8 bg-gradient-to-l from-black to-transparent pointer-events-none z-10"></div>
               {featuredProducts.map((product) => (
-                <div key={product.id} className="min-w-[calc(50vw-20px)] flex-1 shrink-0 snap-start">
+                <div key={product.id} className="min-w-[calc(50vw-14px)] flex-1 shrink-0 snap-start">
                   <ProductCard product={product} />
                 </div>
               ))}
@@ -448,6 +450,16 @@ export default function Home() {
       <div className="relative z-10 bg-[#050505]">
         <CollectionsSection />
       </div>
+
+      <div className="my-16 md:my-32 px-4 max-w-7xl mx-auto">
+        <h2 className="text-3xl md:text-5xl font-black italic tracking-tighter pb-8">Featured Products</h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2">
+          {featuredProducts.map((product) => (
+              <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      </div>
+
 
       {/* 7. NEWSLETTER */}
       <PremiumNewsletter />

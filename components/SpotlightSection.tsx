@@ -53,7 +53,7 @@ const SpotlightSection = () => {
     const current = SPOTLIGHT_ITEMS[index];
 
     return (
-        <section className="py-16 md:py-32 px-4 md:px-6 max-w-7xl mx-auto relative overflow-hidden">
+        <section className="my-16 md:my-32 px-4 md:px-6 max-w-7xl mx-auto relative overflow-hidden">
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] md:w-[600px] h-[300px] md:h-[600px] blur-[80px] md:blur-[120px] rounded-full pointer-events-none" />
 
             {/* ========================================= */}
