@@ -342,11 +342,11 @@ export default function CheckoutPage() {
                   {/* Name Fields */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">FIRST NAME *</label>
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base" required />
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10  md:text-base" required />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">LAST NAME *</label>
-                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base" required />
+                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10  md:text-base" required />
                   </div>
 
                   {/* Email & Phone */}
@@ -354,14 +354,14 @@ export default function CheckoutPage() {
                     <label className="text-xs font-bold text-gray-500 tracking-wider">EMAIL ADDRESS *</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-10 text-sm md:text-base" required />
+                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-10  md:text-base" required />
                     </div>
                   </div>
                   <div className="space-y-2 md:col-span-1">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-10 text-sm md:text-base" required />
+                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-10  md:text-base" required />
                     </div>
                   </div>
 
@@ -372,7 +372,7 @@ export default function CheckoutPage() {
                       value={city}
                       onChange={(e) => { setCity(e.target.value); setAddress(""); }}
                       required
-                      className="w-full h-10 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none text-sm md:text-base"
+                      className="w-full h-10 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none  md:text-base"
                     >
                       <option value="" disabled>Select City</option>
                       {Object.keys(CITY_AREAS).map(c => (
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
                       }}
                       // onFocus={() => setShowSuggestions(true)}
                       placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"}
-                      className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base"
+                      className="bg-white/5 border-white/10 text-white h-10  md:text-base"
                       required
                       disabled={!city}
                     />
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
                       }}
                       onFocus={() => setShowSuggestions(true)}
                       placeholder={city ? `e.g. ${CITY_AREAS[city][0]}` : "Select a city first"}
-                      className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base"
+                      className="bg-white/5 border-white/10 text-white h-10  md:text-base"
                       required
                       disabled={!city}
                     />
