@@ -12,6 +12,7 @@ import WhatsAppFAB from "@/components/WhatsAppFAB";
 import FacebookPixel from "@/components/FacebookPixel";
 import OfferBar from "@/components/OfferBar";
 <meta name="apple-mobile-web-app-title" content="Vibe Cart" />
+import { SpeedInsights } from "@vercel/speed-insights/next"
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -27,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth bg-black ">
       <body className={`${inter.className} bg-[#050505] text-white min-h-screen`}>
-
+        <SpeedInsights />
         {/* <WelcomePopup /> */}
-        <WhatsAppFAB/>
+        <WhatsAppFAB />
         <OfferBar highlightText="Free Delivery" text="on All Orders! Limited Time Offer!" />
         <SaleBar />
         <CartProvider>
