@@ -14,7 +14,7 @@ const SPOTLIGHT_ITEMS = [
         highlight: "APEX",
         highlightColor: "from-yellow-300 to-yellow-600",
         desc: "A bold fruity-woody scent with smoky depth made for leaders and strong presence.",
-        image: "/1.png",
+        image: "/1.webp",
         link: "/product/14",
         shadowClass: "drop-shadow-[0_20px_60px_rgba(234,179,8,0.5)]"
     },
@@ -25,7 +25,7 @@ const SPOTLIGHT_ITEMS = [
         highlight: "INSTINCT",
         highlightColor: "from-blue-400 to-blue-700",
         desc: "Fresh, aquatic scents paired with silver-tone timepieces. Perfect for the Karachi heat.",
-        image: "/2.png",
+        image: "/2.webp",
         link: "/product/17",
         shadowClass: "drop-shadow-[0_20px_60px_rgba(59,130,246,0.5)]"
     },
