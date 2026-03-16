@@ -30,7 +30,7 @@
 
 export default function SaleBar({ highlightText, text }: { highlightText?: string, text?: string }) {
     const content = (
-        <div className="flex-shrink-0 flex items-center px-4">
+        <div className="flex-shrink-0 flex items-center px-4 md:px-8">
             {highlightText && (
                 <span className="text-yellow-500 pr-2">{highlightText}</span>
             )}
@@ -41,6 +41,21 @@ export default function SaleBar({ highlightText, text }: { highlightText?: strin
     return (
         <div className="w-full bg-black text-white py-2 text-xs md:text-sm font-bold tracking-widest uppercase sticky top-0 z-50 overflow-hidden">
             <div className="flex w-max animate-marquee whitespace-nowrap">
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
+                {content}
                 {content}
                 {content}
                 {content}
