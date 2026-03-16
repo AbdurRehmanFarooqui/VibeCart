@@ -135,3 +135,14 @@
   .no-scrollbar::-webkit-scrollbar { display: none; }
   .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 }
+
+
+@theme {
+  --animate-marquee: marquee 200s linear infinite;
+
+  @keyframes marquee {
+    /* Start at 0, move to -100% of the element's own width */
+    from { transform: translateX(200); }
+    to { transform: translateX(-100%); }
+  }
+}

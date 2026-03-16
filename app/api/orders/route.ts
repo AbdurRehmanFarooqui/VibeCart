@@ -196,7 +196,7 @@ export async function POST(request: NextRequest) {
         city: orderData.city.trim(),
         // postal_code: orderData.postalCode.trim(),
         shipping_address: { street: orderData.address.trim() },
-        total_amount: calculatedTotal + 200, // Use database-calculated total
+        total_amount: calculatedTotal + 0, // Use database-calculated total
         status: 'pending'
       })
       .select('id')

@@ -232,7 +232,7 @@ export default function CheckoutPage() {
         // --- ADD PIXEL TRACKING HERE ---
         if (typeof window !== "undefined" && window.fbq) {
           window.fbq('track', 'Purchase', {
-            value: cartTotal + 200, // Total amount including delivery
+            value: cartTotal, // Total amount
             currency: 'PKR',
             content_type: 'product',
             content_ids: cart.map(item => item.variantId),
@@ -325,11 +325,11 @@ export default function CheckoutPage() {
             {/* 1. SHIPPING INFO */}
             <Card id="shipping-info" className="bg-[#0a0a0a] border-white/10 text-white rounded-2xl overflow-hidden shadow-xl">
               <CardHeader className="bg-white/[0.02] border-b border-white/5">
-                <CardTitle className="flex items-center gap-2 text-lg uppercase tracking-widest text-yellow-500 font-bold">
+                <CardTitle className="flex items-center gap-2 text-base md:text-lg uppercase tracking-widest text-yellow-500 font-bold">
                   <MapPin className="w-5 h-5" /> Shipping Information
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-6">
+              <CardContent className="px-4">
                 <form id="checkout-form" onSubmit={handlePlaceOrder} className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
                   {/* Error Message Display */}
@@ -342,11 +342,11 @@ export default function CheckoutPage() {
                   {/* Name Fields */}
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">FIRST NAME *</label>
-                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
+                    <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base" required />
                   </div>
                   <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">LAST NAME *</label>
-                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-12" required />
+                    <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base" required />
                   </div>
 
                   {/* Email & Phone */}
@@ -354,14 +354,14 @@ export default function CheckoutPage() {
                     <label className="text-xs font-bold text-gray-500 tracking-wider">EMAIL ADDRESS *</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
+                      <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-10 text-sm md:text-base" required />
                     </div>
                   </div>
                   <div className="space-y-2 md:col-span-1">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
-                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-12" required />
+                      <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-10 text-sm md:text-base" required />
                     </div>
                   </div>
 
@@ -372,7 +372,7 @@ export default function CheckoutPage() {
                       value={city}
                       onChange={(e) => { setCity(e.target.value); setAddress(""); }}
                       required
-                      className="w-full h-12 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none"
+                      className="w-full h-10 bg-[#111] border border-white/10 text-white rounded-md px-4 focus:outline-none focus:border-yellow-500 transition-colors cursor-pointer appearance-none text-sm md:text-base"
                     >
                       <option value="" disabled>Select City</option>
                       {Object.keys(CITY_AREAS).map(c => (
@@ -392,7 +392,7 @@ export default function CheckoutPage() {
                       }}
                       // onFocus={() => setShowSuggestions(true)}
                       placeholder={city ? `e.g. House 1, Street 2, ${CITY_AREAS[city][0]}` : "Select a city first"}
-                      className="bg-white/5 border-white/10 text-white h-12"
+                      className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base"
                       required
                       disabled={!city}
                     />
@@ -410,7 +410,7 @@ export default function CheckoutPage() {
                       }}
                       onFocus={() => setShowSuggestions(true)}
                       placeholder={city ? `e.g. ${CITY_AREAS[city][0]}` : "Select a city first"}
-                      className="bg-white/5 border-white/10 text-white h-12"
+                      className="bg-white/5 border-white/10 text-white h-10 text-sm md:text-base"
                       required
                       disabled={!city}
                     />
@@ -450,18 +450,32 @@ export default function CheckoutPage() {
                   <ShieldCheck className="w-5 h-5" /> Payment Method
                 </CardTitle>
               </CardHeader>
-              <CardContent className="pt-6">
-                <div className="p-4 border-2 border-yellow-500 bg-yellow-500/10 rounded-xl flex items-center justify-between">
-                  <div className="flex items-center gap-4">
-                    <div className="w-12 h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500">
-                      <Banknote className="w-6 h-6" />
+              <CardContent className="px-4 pt-2 md:pt-6">
+                <div className="p-3 md:p-4 border-2 border-yellow-500 bg-yellow-500/10 rounded-xl flex items-center justify-between">
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="w-6 h-6 md:w-12 md:h-12 rounded-full bg-yellow-500/20 flex items-center justify-center text-yellow-500 shrink-0">
+                      <Banknote className="w-4 h-4 md:w-6 md:h-6" />
                     </div>
-                    <div>
-                      <h4 className="font-bold text-white text-lg">Cash on Delivery (COD)</h4>
-                      <p className="text-sm text-gray-400">Pay securely upon receiving your package.</p>
+                    <div className="">
+                      <h4 className="font-bold text-white text-sm md:text-lg">Cash on Delivery (COD)</h4>
+                      <p className="text-xs md:text-sm text-gray-400">Pay securely upon receiving your package.</p>
                     </div>
                   </div>
-                  <div className="w-6 h-6 rounded-full border-4 border-yellow-500 bg-black" />
+                  <div className="w-3 h-3 md:w-6 md:h-6 rounded-full border-2 md:border-4 shrink-0 border-yellow-500 bg-black" />
+                </div>
+              </CardContent>
+              <CardContent className="px-4 pt-0">
+                <div className="p-3 md:p-4 border-2 border-gray-900 bg-gray-700/10 rounded-xl flex items-center justify-between">
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="w-6 h-6 md:w-12 md:h-12 rounded-full bg-gray-700/20 flex items-center justify-center text-gray-700 shrink-0">
+                      <Banknote className="w-4 h-4 md:w-6 md:h-6" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-gray-500 text-sm md:text-lg">Card (Coming Soon)</h4>
+                      <p className="text-xs md:text-sm text-gray-600">Secure online payment options will be available soon.</p>
+                    </div>
+                  </div>
+                  <div className="w-3 h-3 md:w-6 md:h-6 rounded-full border-2 md:border-4 shrink-0 border-black bg-black" />
                 </div>
               </CardContent>
             </Card>
@@ -500,7 +514,7 @@ export default function CheckoutPage() {
                 </div>
                 <div className="flex justify-between text-gray-400">
                   <span>Delivery</span>
-                  <span className="font-bold uppercase tracking-widest text-xs">Rs 200</span>
+                  <span className="font-bold uppercase tracking-widest text-xs text-yellow-500">Free Delivery</span>
                 </div>
               </div>
 
@@ -508,7 +522,7 @@ export default function CheckoutPage() {
 
               <div className="flex justify-between items-center">
                 <span className="text-gray-400 uppercase tracking-widest text-sm">Total</span>
-                <span className="text-3xl font-serif font-black text-white">Rs. {(cartTotal + 200).toLocaleString()}</span>
+                <span className="text-xl md:text-3xl font-serif font-black text-white">Rs. {(cartTotal + 0).toLocaleString()}</span>
               </div>
 
               {/* THE SUBMIT BUTTON - LINKED TO THE FORM ID */}

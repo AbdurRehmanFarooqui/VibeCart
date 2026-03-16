@@ -10,6 +10,7 @@ import Navbar from '@/components/Navbar';
 import SaleBar from "@/components/SaleBar";
 import WhatsAppFAB from "@/components/WhatsAppFAB";
 import FacebookPixel from "@/components/FacebookPixel";
+import OfferBar from "@/components/OfferBar";
 <meta name="apple-mobile-web-app-title" content="Vibe Cart" />
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,11 +25,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth ">
+    <html lang="en" className="scroll-smooth bg-black ">
       <body className={`${inter.className} bg-[#050505] text-white min-h-screen`}>
 
-        <WelcomePopup />
+        {/* <WelcomePopup /> */}
         <WhatsAppFAB/>
+        <OfferBar highlightText="Free Delivery" text="on All Orders! Limited Time Offer!" />
         <SaleBar />
         <CartProvider>
           <Navbar />
