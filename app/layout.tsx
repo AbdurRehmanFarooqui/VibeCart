@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import SmoothScroll from "@/components/SmoothScroll";
+// import SmoothScroll from "@/components/SmoothScroll";
 import { CartProvider } from "@/context/CartContext";
-import { Suspense } from "react";
-import WelcomePopup from "@/components/WelcomePopup";
+// import { Suspense } from "react";
+// import WelcomePopup from "@/components/WelcomePopup";
 import Footer from '@/components/Footer';
 import Navbar from '@/components/Navbar';
 import SaleBar from "@/components/SaleBar";
@@ -30,19 +30,20 @@ export default function RootLayout({
       <body className={`${inter.className} bg-[#050505] text-white min-h-screen`}>
         <SpeedInsights />
         {/* <WelcomePopup /> */}
-        <WhatsAppFAB />
+
         <OfferBar highlightText="Free Delivery" text="on All Orders! Limited Time Offer!" />
         <SaleBar />
         <CartProvider>
           <Navbar />
           {/* 2. Wrap SmoothScroll in Suspense to fix the build error */}
-          <Suspense fallback={null}>
-            <SmoothScroll />
-          </Suspense>
+          {/* <Suspense fallback={null}> */}
+          {/* <SmoothScroll /> */}
+          {/* </Suspense> */}
           {children}
           <Footer />
         </CartProvider>
         <FacebookPixel />
+        <WhatsAppFAB />
       </body>
     </html>
   );

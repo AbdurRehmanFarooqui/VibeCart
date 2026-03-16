@@ -29,7 +29,7 @@ const HERO_ITEMS = [
     subtitle: "EID SALE",
     description: "A bold fruity-woody scent with smoky depth made for leaders and strong presence.",
     price: "Rs. 1,580",
-    image: "/1.png",
+    image: "/1.webp",
     accent: "from-yellow-500 to-yellow-900",
     bgGlow: "bg-yellow-500/20"
   },
@@ -39,7 +39,7 @@ const HERO_ITEMS = [
     subtitle: "EID SALE",
     description: "A sharp spicy-fresh fragrance with powerful projection and bold masculine energy.",
     price: "Rs. 1,880",
-    image: "/2.png",
+    image: "/2.webp",
     accent: "from-gray-500 to-gray-900",
     bgGlow: "bg-white/20"
   },
@@ -49,7 +49,7 @@ const HERO_ITEMS = [
     subtitle: "EID SALE",
     description: "A warm sweet fragrance with spicy depth and a seductive masculine finish.",
     price: "Rs. 1,580",
-    image: "/3.png",
+    image: "/3.webp",
     accent: "from-orange-600 to-red-900",
     bgGlow: "bg-red-500/20"
   }
@@ -164,7 +164,7 @@ const HeroSection = () => {
         <div className="relative w-full h-[350px] flex items-center justify-center">
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div key={currentIndex} custom={direction} variants={imageVariants} initial="hidden" animate="visible" exit="exit" className="absolute w-[300px] h-[300px]">
-              <Image src={currentItem.image} alt={currentItem.title} fill className="object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)]" priority sizes="100vw" />
+              <Image src={currentItem.image} alt={currentItem.title} fill quality={70} className="object-contain drop-shadow-[0_20px_50px_rgba(255,255,255,0.1)]" priority sizes="100vw" />
             </motion.div>
           </AnimatePresence>
 
