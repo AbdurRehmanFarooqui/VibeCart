@@ -40,7 +40,7 @@ export default function SaleBar({ highlightText, text }: { highlightText?: strin
 
     return (
         <div className="w-full bg-black text-white py-2 text-xs md:text-sm font-bold tracking-widest uppercase sticky top-0 z-50 overflow-hidden">
-            <div className="flex w-max animate-marquee whitespace-nowrap md:w-full md:justify-center md:animate-none">
+            <div className="flex w-max animate-marquee whitespace-nowrap">
                 {content}
                 {content}
                 {content}
@@ -61,9 +61,9 @@ export default function SaleBar({ highlightText, text }: { highlightText?: strin
                    The second 'content' block will naturally stay hidden or 
                    be ignored because of the md:justify-center.
                 */}
-                <div className="md:hidden">
+                {/* <div className="md:hidden">
                     {content}
-                </div>
+                </div> */}
             </div>
         </div>
     )
