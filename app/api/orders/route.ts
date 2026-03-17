@@ -19,7 +19,7 @@ interface OrderItem {
 }
 
 interface OrderRequest {
-  firstName: string;
+  fullName: string;
   lastName: string;
   email: string;
   phone: string;
@@ -34,16 +34,16 @@ interface OrderRequest {
 // --- VALIDATION HELPER ---
 function validateOrderData(data: OrderRequest): string | null {
   // Validate customer info
-  if (!data.firstName?.trim()) return "First name is required";
-  if (data.firstName.trim().length < 2) return "First name must be at least 2 characters";
+  if (!data.fullName?.trim()) return "First name is required";
+  if (data.fullName.trim().length < 2) return "First name must be at least 2 characters";
 
-  if (!data.lastName?.trim()) return "Last name is required";
-  if (data.lastName.trim().length < 2) return "Last name must be at least 2 characters";
+  // if (!data.lastName?.trim()) return "Last name is required";
+  // if (data.lastName.trim().length < 2) return "Last name must be at least 2 characters";
 
   // Validate email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!data.email?.trim()) return "Email is required";
-  if (!emailRegex.test(data.email)) return "Invalid email format";
+  // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  // if (!data.email?.trim()) return "Email is required";
+  // if (!emailRegex.test(data.email)) return "Invalid email format";
 
   // Validate phone
   const phoneRegex = /^(\+92|0)[0-9]{10}$/;
@@ -190,8 +190,8 @@ export async function POST(request: NextRequest) {
       .from('orders')
       .insert({
         user_id: orderData.userId || null,
-        customer_name: `${orderData.firstName.trim()} ${orderData.lastName.trim()}`,
-        customer_email: orderData.email.trim(),
+        customer_name: `${orderData.fullName.trim()}`,
+        // customer_email: orderData.email.trim(),
         customer_phone: orderData.phone.trim(),
         city: orderData.city.trim(),
         // postal_code: orderData.postalCode.trim(),

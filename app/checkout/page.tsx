@@ -118,13 +118,13 @@ export default function CheckoutPage() {
     if (firstName.trim().length < 2) return "First name must be at least 2 characters";
 
     // Validate last name
-    if (!lastName.trim()) return "Last name is required";
-    if (lastName.trim().length < 2) return "Last name must be at least 2 characters";
+    // if (!lastName.trim()) return "Last name is required";
+    // if (lastName.trim().length < 2) return "Last name must be at least 2 characters";
 
     // Validate email
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!email.trim()) return "Email is required";
-    if (!emailRegex.test(email)) return "Please enter a valid email address";
+    // const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // if (!email.trim()) return "Email is required";
+    // if (!emailRegex.test(email)) return "Please enter a valid email address";
 
     // Validate phone
     const phoneRegex = /^(\+92|0)[0-9]{10}$/; // Pakistani phone format
@@ -212,9 +212,9 @@ export default function CheckoutPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          firstName: firstName.trim(),
-          lastName: lastName.trim(),
-          email: email.trim(),
+          fullName: firstName.trim(),
+          // lastName: lastName.trim(),
+          // email: email.trim(),
           phone: phone.trim(),
           city: city,
           address: fullAddress,
@@ -352,22 +352,22 @@ export default function CheckoutPage() {
 
                   {/* Name Fields */}
                   <div className="space-y-2">
-                    <label className="text-xs font-bold text-gray-500 tracking-wider">FIRST NAME *</label>
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">FULL NAME *</label>
                     <Input value={firstName} onChange={(e) => setFirstName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10  md:text-base" required />
                   </div>
-                  <div className="space-y-2">
+                  {/* <div className="space-y-2">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">LAST NAME *</label>
                     <Input value={lastName} onChange={(e) => setLastName(e.target.value)} className="bg-white/5 border-white/10 text-white h-10  md:text-base" required />
-                  </div>
+                  </div> */}
 
                   {/* Email & Phone */}
-                  <div className="space-y-2 md:col-span-1">
+                  {/* <div className="space-y-2 md:col-span-1">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">EMAIL ADDRESS *</label>
                     <div className="relative">
                       <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <Input type="email" value={email} onChange={(e) => setEmail(e.target.value)} className="bg-white/5 border-white/10 text-white pl-10 h-10  md:text-base" required />
                     </div>
-                  </div>
+                  </div> */}
                   <div className="space-y-2 md:col-span-1">
                     <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
                     <div className="relative">
@@ -410,9 +410,9 @@ export default function CheckoutPage() {
                   </div>
 
                   {/* Address with Auto-Suggest */}
-                  <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}>
+                  {/* <div className="space-y-2 md:col-span-2 relative" ref={wrapperRef}> */}
 
-                    <label className="text-xs font-bold text-gray-500 tracking-wider">AREA *</label>
+                    {/* <label className="text-xs font-bold text-gray-500 tracking-wider">AREA *</label>
                     <Input
                       value={area}
                       onChange={(e) => {
@@ -424,9 +424,9 @@ export default function CheckoutPage() {
                       className="bg-white/5 border-white/10 text-white h-10  md:text-base"
                       required
                       disabled={!city}
-                    />
+                    /> */}
                     {/* Suggestions Dropdown */}
-                    <AnimatePresence>
+                    {/* <AnimatePresence>
                       {showSuggestions && filteredAreas.length > 0 && (
                         <motion.div
                           initial={{ opacity: 0, y: -10 }}
@@ -444,9 +444,9 @@ export default function CheckoutPage() {
                             </div>
                           ))}
                         </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
+                      )} 
+                    </AnimatePresence>*/}
+                  {/* </div> */}
 
 
 
