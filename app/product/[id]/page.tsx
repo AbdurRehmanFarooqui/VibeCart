@@ -37,6 +37,7 @@ interface ProductData {
     brand: string | null;
     description: string | null;
     base_price: number;
+    sub_heading: string | null;
     avg_rating: number | null;
     number_of_reviews: number | null;
     collection_products: Array<{
@@ -70,6 +71,7 @@ interface MappedProduct {
     collection: string;
     price: number;
     description: string;
+    sub_heading: string | null;
     videoSrc: string;
     avg_rating?: number;
     number_of_reviews?: number;
@@ -133,6 +135,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             brand,
             description,
             base_price,
+            sub_heading,
             avg_rating,
             number_of_reviews,
             collection_products ( collections ( title ) ),
@@ -204,6 +207,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     id: productData.id.toString(),
                     brand: productData.brand || "VibeCart",
                     name: productData.title,
+                    sub_heading: productData.sub_heading || null,
                     avg_rating: productData.avg_rating || 0,
                     number_of_reviews: productData.number_of_reviews || 0,
                     collection: productData.collection_products?.[0]?.collections?.[0]?.title || "Exclusive",
@@ -219,7 +223,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                 const { data: relatedData, error: relatedError } = await supabase
                     .from("products")
                     .select(`
-            id, title, brand, base_price,
+            id, title, brand, base_price, sub_heading,
             product_images ( image_url, is_primary ),
             product_variants ( id, color, is_on_sale, price, sale_price, is_primary ),
             collection_products ( collections ( title, type ) )
@@ -243,6 +247,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                             name: item.title,
                             brand: item.brand || "VibeCart",
                             category: item.collection_products?.[0]?.collections?.title || "Luxury",
+                            sub_heading: item.sub_heading || null,
                             price: variantPrice,
                             salePrice: salePrice,
                             isOnSale: isOnSale,
@@ -281,7 +286,7 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             });
         }
     }, [product]);
-    
+
     // --- INTERACTION LOGIC ---
     const getCurrentImages = () => {
         if (!product || !product.colors[activeColorIndex]) return ["/watch-1.png"];
@@ -456,6 +461,9 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
                     <div className="flex-col justify-between items-start ">
 
                         <div className="text-center"><FormatName name={product.name} /></div>
+                        {product.sub_heading && (
+                            <div className="text-center text-cyan-500 tracking-[0.2em] text-xs uppercase mt-2">{product.sub_heading}</div>
+                        )}
 
                         <div className=" space-y-1 pt-4">
                             <div className="flex justify-center items-center gap-2">
@@ -510,9 +518,12 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             <div className="hidden md:flex flex-1 relative w-full h-full flex-row max-w-7xl mx-auto px-6 py-12 items-center z-10 mt-16">
 
                 {/* LEFT COLUMN */}
-                <div className="flex-1 flex flex-col justify-center space-y-6 relative z-20 pointer-events-auto max-w-[45%]">
+                <div className="flex-1 flex flex-col justify-center space-y-4 relative z-20 pointer-events-auto max-w-[45%]">
                     <div className="text-yellow-500 font-bold tracking-[0.4em] text-lg uppercase mb-2">{product.brand}</div>
                     <FormatName name={product.name} />
+                    {product.sub_heading && (
+                        <div className="text-left text-cyan-500 tracking-[0.2em] text-base uppercase">{product.sub_heading}</div>
+                    )}
                     <div className="space-y-6 relative z-30 pt-4">
                         <div className="space-y-1">
                             <div className="flex items-center gap-2">

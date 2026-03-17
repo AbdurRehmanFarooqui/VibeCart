@@ -62,6 +62,7 @@ export interface Product {
   brand: string;
   category: string;
   price: number;
+  sub_heading?: string | null;
   originalPrice?: number;
   discount?: number;
   image: string;
@@ -285,6 +286,7 @@ export default function Home() {
             title,
             brand,
             base_price,
+            sub_heading,
             categories ( name ),
             product_images ( image_url ),
             product_variants ( id, color, is_primary, price, sale_price, is_on_sale ) 
@@ -322,6 +324,7 @@ export default function Home() {
             brand: item.brand || "VibeCart",
             category: item.categories?.name || "Classic",
             price: variantPrice,
+            sub_heading: item.sub_heading || "",
             salePrice: salePrice,
             isOnSale: isOnSale,
             image: item.product_images?.[0]?.image_url || "/watch-1.png",

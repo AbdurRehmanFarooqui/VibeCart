@@ -22,6 +22,7 @@ export interface Product {
   name: string;
   brand: string;
   category: string;
+  sub_heading?: string | null;
   price: number;
   originalPrice?: number;
   discount?: number;
@@ -74,6 +75,7 @@ function SaleContent() {
             title,
             brand,
             base_price,
+            sub_heading,
             categories ( name ),
             product_images ( image_url ),
             product_variants ( id, color, is_primary, price, sale_price, is_on_sale ) 
@@ -103,6 +105,7 @@ function SaleContent() {
             name: item.title,
             brand: item.brand || "VibeCart",
             category: item.categories?.name || "Classic",
+            sub_heading: item.sub_heading || "",
             price: variantPrice,
             salePrice: salePrice,
             isOnSale: isOnSale,

@@ -13,6 +13,7 @@ export interface Product {
     brand: string;
     category: string;
     price: number;
+    sub_heading?: string | null;
     originalPrice?: number;
     discount?: number;
     image: string;
@@ -127,12 +128,15 @@ export default function ProductCard({ product }: { product: Product }) {
                 </div>
 
                 {/* BOTTOM ROW */}
-                <div className="mt-auto space-y-3 md:space-y-5 mb-1">
+                <div className="mt-auto space-y-2 md:space-y-3 mb-1">
                     <div>
                         <p className="text-[#BF953F] text-[9px] md:text-[10px] font-bold tracking-[0.3em] uppercase mb-1 md:mb-2 opacity-90">{product.brand}</p>
                         <h3 className="text-white font-serif text-xl md:text-2xl leading-none tracking-tight group-hover:text-[#F3E5AB] transition-colors max-w-content line-clamp-1 drop-shadow-sm">
                             {product.name}
                         </h3>
+                        {product.sub_heading && (
+                            <p className="text-left text-cyan-500 tracking-[0.1em] font-bold text-[9px] md:text-[10px] uppercase mt-2">{product.sub_heading}</p>
+                        )}
                     </div>
 
                     <div className="w-full h-[1px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-70" />
