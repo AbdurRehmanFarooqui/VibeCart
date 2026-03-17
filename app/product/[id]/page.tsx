@@ -326,7 +326,18 @@ export default function ProductDetailPage({ params }: { params: Promise<{ id: st
             </main>
         );
     }
-
+    useEffect(() => {
+        if (typeof window !== "undefined" && window.fbq) {
+            window.fbq('track', 'ViewContent', {
+                content_name: product.name,
+                content_category: 'Perfume', // or product.category
+                content_ids: [product.id],
+                content_type: 'product',
+                value: product.price,
+                currency: 'PKR'
+            });
+        }
+    }, [product]);
     return (
         <main className="min-h-screen bg-[#050505] text-white relative overflow-hidden flex flex-col">
             {/* <Navbar /> */}

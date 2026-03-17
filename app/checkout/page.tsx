@@ -28,7 +28,7 @@ const CITY_AREAS: Record<string, string[]> = {
   Lahore: ["DHA Phase 1-8", "Gulberg", "Johar Town", "Bahria Town", "Model Town", "Wapda Town", "Cantonment", "Iqbal Town", "Askari"],
 
   Islamabad: ["F-6", "F-7", "F-8", "F-11", "E-7", "G-11", "G-13", "DHA Phase 1-5", "Bahria Town", "Blue Area", "I-8"],
-  
+
   Gujranwala: [],
   Hyderabad: [],
   Faisalabad: [],
@@ -61,6 +61,17 @@ export default function CheckoutPage() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const wrapperRef = useRef<HTMLDivElement>(null);
 
+  useEffect(() => {
+    if (typeof window !== "undefined" && window.fbq && cart.length > 0) {
+      window.fbq('track', 'InitiateCheckout', {
+        content_ids: cart.map(item => item.variantId),
+        content_type: 'product',
+        value: cartTotal,
+        currency: 'PKR',
+        num_items: cart.length
+      });
+    }
+  }, []);
   // Auto-fill City from Local Storage (if you have a welcome popup)
   useEffect(() => {
     const savedCity = sessionStorage.getItem("vibe_user_city");

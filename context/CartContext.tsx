@@ -68,7 +68,15 @@ export function CartProvider({ children }: { children: ReactNode }) {
             : item
         );
       }
-
+      if (typeof window !== "undefined" && window.fbq) {
+        window.fbq('track', 'AddToCart', {
+          content_name: product.name,
+          content_ids: [product.id],
+          content_type: 'product',
+          value: product.price,
+          currency: 'PKR'
+        });
+      }
       // Add new item using variantId
       return [
         ...prev,
@@ -84,7 +92,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
     setIsCartOpen(true);
   };
 
-const increaseQuantity = ( cartId: string | number ) => {
+  const increaseQuantity = (cartId: string | number) => {
     // Validate that variantId exists - it must come from the database only
     if (!cartId) {
       throw new Error(`Invalid variant ID ${cartId}.`);
@@ -105,7 +113,7 @@ const increaseQuantity = ( cartId: string | number ) => {
     });
   };
 
-const decreaseQuantity = ( cartId: string | number ) => {
+  const decreaseQuantity = (cartId: string | number) => {
     // Validate that variantId exists - it must come from the database only
     if (!cartId) {
       throw new Error(`Invalid variant ID ${cartId}.`);
