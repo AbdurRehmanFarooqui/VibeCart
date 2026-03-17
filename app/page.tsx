@@ -34,6 +34,16 @@ const HERO_ITEMS = [
     bgGlow: "bg-yellow-500/20"
   },
   {
+    id: 19,
+    title: "Tester Pack",
+    subtitle: "EID SALE",
+    description: "Featuring miniatures of our best-selling fragrances. Perfect for discovering your signature scent or gifting to a loved one.",
+    price: "Rs. 999",
+    image: "/4.webp",
+    accent: "from-orange-600 to-blue-900",
+    bgGlow: "bg-blue-500/20"
+  },
+  {
     id: 17,
     title: "WILD INSTINCT",
     subtitle: "EID SALE",
@@ -52,7 +62,7 @@ const HERO_ITEMS = [
     image: "/3.webp",
     accent: "from-orange-600 to-red-900",
     bgGlow: "bg-red-500/20"
-  }
+  },
 ];
 
 

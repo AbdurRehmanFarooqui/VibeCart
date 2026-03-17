@@ -287,7 +287,8 @@ export default function CheckoutPage() {
             <div className="bg-white/5 p-4 rounded-lg text-sm text-gray-300 space-y-3">
               <div>
                 {/* <p className="text-white font-semibold mb-1">Order #12345</p> */}
-                <p>Check your email at <span className="text-blue-400 font-semibold">{email}</span> for order details and tracking information.</p>
+                {/* <p>Check your email at <span className="text-blue-400 font-semibold">{email}</span> for order details and tracking information.</p> */}
+                <p>We will contact you on Whatsapp (<span className="text-blue-400 font-semibold">{phone}</span>) for order confirmation and updates.</p>
               </div>
             </div>
             <Link href="/product">
@@ -369,7 +370,7 @@ export default function CheckoutPage() {
                     </div>
                   </div> */}
                   <div className="space-y-2 md:col-span-1">
-                    <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER *</label>
+                    <label className="text-xs font-bold text-gray-500 tracking-wider">PHONE NUMBER (Whatsapp Preferred)*</label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-500" />
                       <Input type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="03XX-XXXXXXX" className="bg-white/5 border-white/10 text-white pl-10 h-10  md:text-base" required />
